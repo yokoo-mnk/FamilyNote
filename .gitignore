@@ -1,2 +1,10 @@
 __pycache__
 db.sqlite3
+.env
+config.json
+settings.py
+*.log
+session_data
+tokens
+user_data.json
+profile_pictures
