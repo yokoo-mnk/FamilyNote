@@ -1,0 +1,49 @@
+header {
+    background-color: #add9f6;
+    color: gray;
+    padding: 0.5px 20px;
+    text-align: left;
+}
+
+main {
+    display: flex;
+    justify-content: center; /* 横方向中央揃え */
+    align-items: center; /* 縦方向中央揃え */
+    height: 100vh; /* ページ全体の高さ */
+}
+
+form {
+    text-align: center; /* フォーム内の要素を左寄せ */
+    width: 100%;
+    max-width: 500px; /* フォームの最大幅 */
+}
+
+form div {
+    display: flex; /* ラベルとインプットを横並びにする */
+    align-items: center; /* 縦方向中央揃え */
+    margin-bottom: 15px; /* 各行の間隔 */
+}
+
+form label {
+    width: 150px; /* ラベルの幅 */
+    margin-right: 10px; /* ラベルと入力フィールドの間隔 */
+    text-align: left; /* ラベルのテキストを右寄せ */
+}
+
+form input {
+    flex-grow: 1; /* 入力フィールドが余分なスペースを埋める */
+    padding: 8px;
+    font-size: 1rem;
+}
+
+form button {
+    padding: 8px 15px; /* 上下8px、左右15pxの余白 */
+    font-size: 0.9rem; /* フォントサイズを小さく */
+    width: auto; /* ボタンの幅を自動に設定（横幅いっぱいにしない） */
+    max-width: 200px; /* 最大幅を設定してサイズを小さく */
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px; /* 角を丸くする */
+}
