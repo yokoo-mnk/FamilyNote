@@ -5,15 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FamilyNote</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
 </head>
 <body>
     <header>
-        <title>FamilyNote</title>
+        <h2>～FamilyNote～</h2>
         <nav>
-            <ul>
-                <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
-            </ul>
+            <a href="{% url 'accounts:login' %}">ログイン</a>
         </nav>
     </header>
+    <main>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+    </main>
 </body>
 </html>
