@@ -14,8 +14,10 @@ from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-os.path.join(BASE_DIR, 'templates'),
-os.path.join(BASE_DIR, 'templates/accounts'),
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates'),
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates/accounts'),
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates/tasks'),
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'FamilyNoteProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates', 'templates/accounts'],
+        'DIRS': [BASE_DIR, 'templates', 'templates/accounts', 'templates/tasks'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

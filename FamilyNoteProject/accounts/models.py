@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, email, password=None, **extra_fields):
+    def create_user(self, username, email, password, **extra_fields):
         if not email:
             raise ValueError('メールアドレスを入力してください')
         if not password:
@@ -20,10 +20,10 @@ class UserManager(BaseUserManager):
         user.save()
         return user
     
-    def create_superuser(self, username, email, password=None, **extra_fields):
+    def create_superuser(self, username, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        return self.create_user(username, email, password=None, **extra_fields)
+        return self.create_user(username, email, password, **extra_fields)
     
     
 class User(AbstractBaseUser, PermissionsMixin):
