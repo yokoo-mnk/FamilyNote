@@ -16,6 +16,9 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">ログイン</button>
+            <nav>
+                <a href="{% url 'accounts:regist' %}">新規アカウント登録</a>
+            </nav>
         </form>
     </main>
 </body>
