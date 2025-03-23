@@ -13,9 +13,9 @@ class Task(models.Model):
     
     category = models.CharField(
         max_length=20, choices=CATEGORY_CHOICES, blank=True, null=True)
-    title = models.CharField(max_length=100)
     due_date = models.DateField()
     time = models.TimeField(null=True, blank=True)
+    title = models.CharField(max_length=100)
     memo = models.CharField(max_length=300, blank=True, null=True)
     image = models.ImageField(upload_to='task_images/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
