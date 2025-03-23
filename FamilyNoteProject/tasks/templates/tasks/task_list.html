@@ -1,4 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<h1>ホーム画面です</h1>
+<h3>Note～家の記録～</h3>
+<table>
+    <thead>
+      <tr>
+        <th>タイトル</th>
+        <th>期限</th>
+        <th>カテゴリ</th>
+        <th>メモ</th>
+        <th>画像</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.category }}</td>
+            <td>{{ task.memo }}</td>
+            <td>
+              {% if task.image %}
+                <img src="{{ task.image.url }}" alt="Task image" width="100">
+              {% else %}
+                画像なし
+              {% endif %}
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5">タスクがありません。</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  
+    <!-- ページネーション -->
+    <div>
+      {% if tasks.has_previous %}
+        <a href="?page=1">&laquo; 最初</a>
+        <a href="?page={{ tasks.previous_page_number }}">前へ</a>
+      {% endif %}
+      <span>ページ {{ tasks.number }} / {{ tasks.paginator.num_pages }}</span>
+      {% if tasks.has_next %}
+        <a href="?page={{ tasks.next_page_number }}">次へ</a>
+        <a href="?page={{ tasks.paginator.num_pages }}">最後 &raquo;</a>
+      {% endif %}
+    </div>
 {% endblock %}
