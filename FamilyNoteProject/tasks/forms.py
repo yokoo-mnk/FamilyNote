@@ -7,7 +7,7 @@ class TaskForm(forms.ModelForm):
         widget=forms.DateInput(attrs={'type': 'date'})
     )
     
-    time = forms.TimeField(
+    start_time = forms.TimeField(
         label='時間（任意）',
         widget=forms.TimeInput(attrs={'type': 'time'})
     )
@@ -20,12 +20,12 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = [ 
-            'category', 'due_date', 'time', 'title', 'memo', 'image'
+            'category', 'due_date', 'start_time', 'title', 'memo', 'image'
         ]
         labels = {
             'category': 'カテゴリ（必須）',
             'due_date': '日付（必須）',
-            'time': '時間（任意）',
+            'start_time': '時間（任意）',
             'title': 'タイトル（必須）',
             'memo': 'メモ（必須）',
             'image': '写真',

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 class Task(models.Model):
     CATEGORY_CHOICES = [
@@ -11,10 +12,11 @@ class Task(models.Model):
         ('other', 'その他'),
     ]
     
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     category = models.CharField(
         max_length=20, choices=CATEGORY_CHOICES, blank=True, null=True)
     due_date = models.DateField()
-    time = models.TimeField(null=True, blank=True)
+    start_time = models.TimeField(null=True, blank=True)
     title = models.CharField(max_length=100)
     memo = models.CharField(max_length=300, blank=True, null=True)
     image = models.ImageField(upload_to='task_images/', blank=True, null=True)

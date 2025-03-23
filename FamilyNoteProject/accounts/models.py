@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100, unique=True, null=False, blank=False)
-    email = models.EmailField(max_length=255, unique=True)
+    email = models.EmailField(max_length=300, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
     
     is_active = models.BooleanField(default=True)
