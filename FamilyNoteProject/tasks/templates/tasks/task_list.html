@@ -5,26 +5,32 @@
 <table>
     <thead>
       <tr>
-        <th>タイトル</th>
-        <th>期限</th>
         <th>カテゴリ</th>
+        <th>日付</th>
+        <th>時間</th>
+        <th>タイトル</th>
         <th>メモ</th>
         <th>画像</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
         {% for task in tasks %}
           <tr>
+            <td>{{ task.get_category_display }}</td>
+            <td>{{ task.formatted_due_date }}</td>
+            <td>{{ task.time }}</td>
             <td>{{ task.title }}</td>
-            <td>{{ task.due_date }}</td>
-            <td>{{ task.category }}</td>
             <td>{{ task.memo }}</td>
             <td>
               {% if task.image %}
                 <img src="{{ task.image.url }}" alt="Task image" width="100">
               {% else %}
-                画像なし
+                -
               {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'tasks:task_edit' task.pk %}">編集</a>  <!-- 追加: 編集ボタン -->
             </td>
           </tr>
         {% empty %}
