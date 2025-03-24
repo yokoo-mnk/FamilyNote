@@ -18,7 +18,10 @@
             <a class="navbar-brand" href="{% url 'tasks:task_list' %}">おたより一覧</a>
             <a class="navbar-brand" href="{% url 'tasks:task_list' %}">おたより登録</a>
             <a class="navbar-brand" href="{% url 'accounts:regist' %}">マイページ</a>
-            <a class="navbar-brand" href="{% url 'accounts:logout' %}">ログアウト</a>
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">ログアウト</button>
+            </form>
         </nav>
     </header>
     <h5>今日もお疲れさまです。</h5>
