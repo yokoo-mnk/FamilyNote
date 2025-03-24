@@ -8,6 +8,8 @@ from django.views.generic.edit import (
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
 from .models import User
 from .forms import RegistForm, LoginForm, UserUpdateForm
 
@@ -42,3 +44,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_object(self, queryset=None):
         return self.request.user
+    
+
+class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    form_class = PasswordChangeForm
+    template_name = "password_change.html"
+    success_url = reverse_lazy("accounts:mypage")
