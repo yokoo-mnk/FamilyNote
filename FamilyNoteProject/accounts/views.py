@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
 from django.views.generic import(
-    CreateView, FormView, View
+    FormView, View
+)
+from django.views.generic.edit import (
+    CreateView, UpdateView
 )
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
-from .forms import RegistForm, LoginForm
+from .models import User
+from .forms import RegistForm, LoginForm, UserUpdateForm
 
 class RegistUserView(CreateView):
     template_name = 'regist.html'
@@ -28,3 +33,12 @@ class LogoutView(View):
     def post(self, request, *args, **kwargs):
         logout(request)
         return redirect('accounts:login')
+    
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    template_name = 'user_update.html'
+    success_url = reverse_lazy('accounts:mypage')
+    
+    def get_object(self, queryset=None):
+        return self.request.user

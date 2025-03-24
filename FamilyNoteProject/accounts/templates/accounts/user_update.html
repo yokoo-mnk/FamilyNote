@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h3>～アカウント情報を変更してください～</h3>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">変更</button>
+</form>
+<a href="{% url 'accounts:password_change' %}">パスワード変更</a>
+{% endblock %}
