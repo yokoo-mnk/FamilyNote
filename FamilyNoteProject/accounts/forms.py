@@ -1,5 +1,5 @@
 from django import forms
-from .models import User
+from .models import User, Child
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
@@ -59,3 +59,9 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("username", "nickname", "email")
+        
+        
+class ChildForm(forms.ModelForm):
+    class Meta:
+        model = Child
+        fields = ['name', 'birthdate']

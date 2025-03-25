@@ -4,7 +4,7 @@ from .views import (
     UserUpdateView, PasswordChangeView,
     MyPageView, invite_family, generate_invite_url,
 )
-
+from . import views
 app_name = 'accounts'
 urlpatterns = [
     path('regist/', RegistUserView.as_view(template_name='accounts/regist.html'), name='regist'),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('mypage/', MyPageView.as_view(template_name='accounts/mypage.html'), name='mypage'),
     path('invite_family/', invite_family, name='invite_family'),
     path('generate_invite_url/', generate_invite_url, name='generate_invite_url'),
+    path('remove_family_member/<int:family_id>/<int:user_id>/', views.remove_family_member, name='remove_family_member'),
 ]
 
 
