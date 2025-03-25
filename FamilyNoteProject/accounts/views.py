@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views.generic import(
-    FormView, View
+    TemplateView, FormView, View
 )
 from django.views.generic.edit import (
     CreateView, UpdateView
 )
 from django.urls import reverse_lazy
+import uuid
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import PasswordChangeView
@@ -50,3 +53,16 @@ class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     form_class = PasswordChangeForm
     template_name = "password_change.html"
     success_url = reverse_lazy("accounts:mypage")
+    
+ 
+class MyPageView(LoginRequiredMixin, TemplateView):
+    template_name = "mypage.html"
+    
+@login_required
+def invite_family(request):
+    return render(request, "accounts/invite_family.html")
+
+@login_required
+def generate_invite_url(request):
+    invite_url = f"https://example.com/invite/{uuid.uuid4()}/"
+    return JsonResponse({"invite_url": invite_url})

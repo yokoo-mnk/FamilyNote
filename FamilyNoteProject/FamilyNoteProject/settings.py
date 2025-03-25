@@ -139,3 +139,6 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/tasks/task_list/'#ホーム画面作ったら変更
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+SESSION_COOKIE_AGE = 1209600
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False

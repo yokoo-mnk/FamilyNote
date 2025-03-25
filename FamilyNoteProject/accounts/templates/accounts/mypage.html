@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h3>マイページ</h3>
+<p>ユーザー名: {{ user.username }}</p>
+<p>ニックネーム: {{ user.nickname }}</p>
+
+<a href="{% url 'accounts:user_edit' user.pk %}">アカウント情報変更</a>
+<a href="{% url 'accounts:user_edit' user.pk %}">画像登録・編集</a>
+<a href="{% url 'accounts:user_edit' user.pk %}">画像削除</a>
+<a href="{% url 'accounts:invite_family' %}">家族を追加する</a>
+<a href="{% url 'accounts:user_edit' user.pk %}">こどもを追加する</a>
+{% endblock %}

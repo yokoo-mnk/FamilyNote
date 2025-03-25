@@ -12,7 +12,7 @@ class Task(models.Model):
         ('other', 'その他'),
     ]
     
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     category = models.CharField(
         max_length=20, choices=CATEGORY_CHOICES, blank=True, null=True)
     due_date = models.DateField()

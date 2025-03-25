@@ -4,6 +4,7 @@ from django.contrib.auth.models import(
 )
 from django.urls import reverse_lazy
 from django.utils import timezone
+import uuid
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password, **extra_fields):
@@ -31,6 +32,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     nickname = models.CharField(max_length=100, unique=True, null=False, blank=False)
     email = models.EmailField(max_length=300, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    
+    invite_url = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
