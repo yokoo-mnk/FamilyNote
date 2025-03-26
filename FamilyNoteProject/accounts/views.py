@@ -18,7 +18,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
 from .models import User, Family
 from .forms import (
-    RegistForm, LoginForm, UserUpdateForm, ChildForm,
+    RegistForm, UserUpdateForm, ChildForm,
     UserProfileForm
 )
 
@@ -58,6 +58,11 @@ class LoginView(FormView):
             return super().form_valid(form)
         else:
             return self.form_invalid(form)
+        
+    def get_form_class(self):
+        form_class = super().get_form_class()
+        form_class.base_fields['username'].label = "メールアドレス"
+        return form_class
     
 class LogoutView(View):
     def post(self, request, *args, **kwargs):
