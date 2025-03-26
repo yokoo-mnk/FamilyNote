@@ -33,6 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     nickname = models.CharField(max_length=100, unique=True, null=False, blank=False)
     email = models.EmailField(max_length=300, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
+    profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -43,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     
     def get_absolute_url(self):
-        return reverse_lazy('accounts:home')
+        return reverse_lazy('accounts:home')#ホーム画面作成したらここ変更する
     
     
 class Family(models.Model):

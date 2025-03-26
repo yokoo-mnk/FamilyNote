@@ -65,3 +65,9 @@ class ChildForm(forms.ModelForm):
     class Meta:
         model = Child
         fields = ['name', 'birthdate']
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['profile_image']

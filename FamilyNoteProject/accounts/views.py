@@ -11,11 +11,16 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import (
+    authenticate, login, logout, get_user_model
+)
 from django.contrib.auth.views import PasswordChangeView
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
 from .models import User, Family
-from .forms import RegistForm, LoginForm, UserUpdateForm, ChildForm
+from .forms import (
+    RegistForm, LoginForm, UserUpdateForm, ChildForm,
+    UserProfileForm
+)
 
 
 class RegistUserView(CreateView):
@@ -41,16 +46,18 @@ class RegistUserView(CreateView):
        
 class LoginView(FormView):
     template_name = 'login.html'
-    form_class = LoginForm
+    form_class = AuthenticationForm
     success_url = reverse_lazy('tasks:task_list')#ホーム画面作ったらここに入れる（今は適当にtask一覧へ遷移）
     
     def form_valid(self, form):
-        email = form.cleaned_data['email']
+        email = form.cleaned_data['username']
         password = form.cleaned_data['password']
-        user = authenticate(email=email, password=password)
-        if user:
+        user = authenticate(self.request, email=email, password=password)
+        if user is not None:
             login(self.request, user)
-        return super().form_valid(form)
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
     
 class LogoutView(View):
     def post(self, request, *args, **kwargs):
@@ -122,3 +129,16 @@ def add_child(request):
         form = ChildForm()
     
     return render(request, 'add_child.html', {'form': form})
+
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('accounts:mypage')
+    else:
+        form = UserProfileForm(instance=request.user)
+
+    return render(request, 'update_profile.html', {'form': form})

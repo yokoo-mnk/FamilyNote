@@ -16,6 +16,7 @@ urlpatterns = [
     path('invite_family/', invite_family, name='invite_family'),
     path('generate_invite_url/', generate_invite_url, name='generate_invite_url'),
     path('remove_family_member/<int:family_id>/<int:user_id>/', views.remove_family_member, name='remove_family_member'),
+    path('add_child/', views.add_child, name='add_child'),
 ]
 
 

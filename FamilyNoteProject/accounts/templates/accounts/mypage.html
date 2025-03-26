@@ -2,6 +2,12 @@
 {% load static %}
 {% block content %}
 <h3>マイページ</h3>
+<h4>プロフィール画像</h4>
+  {% if user.profile_image %}
+    <img src="{{ user.profile_image.url }}" alt="プロフィール画像">
+  {% else %}
+    <p>プロフィール画像が設定されていません。</p>
+  {% endif %}
 <p>ユーザー名: {{ user.username }}</p>
 <p>ニックネーム: {{ user.nickname }}</p>
 
@@ -24,6 +30,18 @@
   {% empty %}
     <p>まだ家族が登録されていません。</p>
   {% endfor %}
-<a href="{% url 'accounts:invite_family' %}">家族を追加する</a>
-<a href="{% url 'accounts:user_edit' user.pk %}">こどもを追加する</a>
+
+  <a href="{% url 'accounts:invite_family' %}">家族を追加する</a>
+
+<h3>こども情報</h3>
+  {% if user.children.exists %}
+    <ul>
+      {% for child in user.children.all %}
+        <li>{{ child.name }} ({{ child.birthdate }})</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>こども情報はまだ登録されていません。</p>
+  {% endif %}
+  <a href="{% url 'accounts:add_child' id='openModalBtn' %}">こどもを追加する</a>
 {% endblock %}
