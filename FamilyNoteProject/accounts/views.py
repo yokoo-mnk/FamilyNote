@@ -6,7 +6,7 @@ from django.views.generic.edit import (
     CreateView, UpdateView
 )
 from django.urls import reverse_lazy
-import uuid
+from django.utils.timezone import now, timedelta
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -16,11 +16,12 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
-from .models import User, Family
+from .models import User, Family, Invitation
 from .forms import (
     RegistForm, UserUpdateForm, ChildForm,
     UserProfileForm
 )
+from .decorators import family_required
 
 
 class RegistUserView(CreateView):
@@ -107,16 +108,51 @@ class MyPageView(LoginRequiredMixin, TemplateView):
         context["families"] = families
         return context
     
+
+@login_required
+def create_invite(request):
+    family = request.user.family
+    if not family:
+        return JsonResponse({"error": "You are not part of a family"}, status=400)
     
-@login_required
-def invite_family(request):
-    return render(request, "accounts/invite_family.html")
+    invite = Invitation.objects.create(
+        family=family,
+        inviter=request.user,
+        expires_at=now() + timedelta(days=1),
+    )
+    return JsonResponse({"invite_url": request.build_absolute_uri(invite.get_invite_url())})
+
+@family_required
+def invitation_url(request):
+    family = request.user.family
+    invite = Invitation.objects.create(
+        family=family,
+        inviter=request.user,
+        expires_at=now() + timedelta(days=1),
+    )
+    invitation_link = request.build_absolute_uri(f"/invite/{invite.invite_id}/")
+
+    return render(request, 'invite_family.html', {'invitation_link': invitation_link})
 
 
-@login_required
-def generate_invite_url(request):
-    invite_url = f"https://example.com/invite/{uuid.uuid4()}/"
-    return JsonResponse({"invite_url": invite_url})
+def accept_invite(request, invite_id):
+    invite = get_object_or_404(Invitation, invite_id=invite_id, is_used=False)
+    
+    if invite.expires_at < now():
+        return render(request, "invitation_expired.html")
+    
+    if request.user.is_authenticated:
+        request.user.family = invite.family
+        request.user.save()
+        invite.is_used = True
+        invite.save()
+        return redirect("family_home")
+    
+    return render(request, "register.html", {"invite": invite})
+
+@family_required
+def family_home(request):
+    return render(request, 'family_home.html')
 
 
 @login_required

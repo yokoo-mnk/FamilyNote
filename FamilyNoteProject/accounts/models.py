@@ -26,8 +26,34 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(username, email, password, **extra_fields)
+
     
+User = get_user_model()
+
+class Family(models.Model):
+    family_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    inviter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_families')
+    created_at = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return f"Family {self.family_id} - Invited by {self.inviter.username}"  
+
+
+class Invitation(models.Model):
+    invite_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    family = models.ForeignKey("Family", on_delete=models.CASCADE, related_name="invitations")
+    inviter = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_invitations")
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    is_used = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f"Invitation to {self.family} by {self.inviter.username}"
+    
+    def get_invite_url(self):
+        return f"/invite/{self.invite_id}/"
+    
+
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
@@ -47,16 +73,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     def get_absolute_url(self):
         return reverse_lazy('accounts:home')#ホーム画面作成したらここ変更する
-    
-User = get_user_model()
-
-class Family(models.Model):
-    family_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    inviter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_families')
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f"Family {self.family_id} - Invited by {self.inviter.username}"
     
     
 class Child(models.Model):

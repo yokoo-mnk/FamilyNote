@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% block title %}家族招待URL - FamilyNote{% endblock %}
 {% block content %}
 <h3>～家族招待URLを発行してください～</h3>
 <p>
@@ -8,27 +8,7 @@
     アカウントを登録してもらいましょう<br>
     ※発行されたURLは一度利用すると失効します。
 </p>
-
-<button id="generate_url_btn">家族招待URLを生成</button>
-
-<p id="invite_url" style="display: none; margin_top: 10px;">
-    あなたの招待URL: <strong id='url_text'></strong>
+<p>
+    <a href="{{ invitation_link }}" target="_blank">{{ invitation_link }}</a>
 </p>
-
-<script>
-    document.getElementById("generate_url_btn").addEventListener("click", function() {
-        fetch("{% url 'accounts:generate_invite_url' %}", {
-            method: "GET",
-            headers: {
-                "X_Requested_With": "XMLHttpRequest"
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("url_text").textContent = data.invite_url;
-            document.getElementById("invite_url").style.display = "block";
-        })
-        .catch(error => console.error("Error:", error));
-    });    
-</script>
 {% endblock %}
