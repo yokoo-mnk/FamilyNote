@@ -30,13 +30,15 @@ class UserManager(BaseUserManager):
     
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100)
-    nickname = models.CharField(max_length=100, unique=True, null=False, blank=False)
+    nickname = models.CharField(max_length=100)
     email = models.EmailField(max_length=300, unique=True)
     date_joined = models.DateTimeField(default=timezone.now)
     profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    
+    family = models.ForeignKey(Family, on_delete=models.SET_NULL, null=True, blank=True, related_name="members")
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -46,17 +48,17 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_absolute_url(self):
         return reverse_lazy('accounts:home')#ホーム画面作成したらここ変更する
     
-    
+User = get_user_model()
+
 class Family(models.Model):
-    name = models.CharField(max_length=100)
-    invite_url = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    members = models.ManyToManyField(User, related_name="families")
+    family_id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    inviter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_families')
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.name
-
-
+        return f"Family {self.family_id} - Invited by {self.inviter.username}"
+    
+    
 class Child(models.Model):
     name = models.CharField(max_length=100)
     birthdate = models.DateField()

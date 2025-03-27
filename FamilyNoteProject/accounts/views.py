@@ -88,8 +88,12 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
 class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     form_class = PasswordChangeForm
-    template_name = "password_change.html"
+    template_name = "accounts/password_change.html"
     success_url = reverse_lazy("accounts:mypage")
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'パスワードが正常に更新されました。')
+        return super().form_valid(form)
     
  
 class MyPageView(LoginRequiredMixin, TemplateView):
