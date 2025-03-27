@@ -19,7 +19,7 @@ class RegistForm(forms.ModelForm):
     nickname = forms.CharField(
         label='ニックネーム',
         max_length=30,
-        help_text='アプリ内で使用する名前となります。 例：ママ、パパ、おばあちゃん、じいじ など',
+        help_text='アプリ内で使用する名前となります。 <br>例：ママ、パパ、おばあちゃん、じいじ など',
     )
     
     class Meta:

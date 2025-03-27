@@ -136,12 +136,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = '/tasks/task_list/'#ホーム画面作ったら変更
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/tasks/task_list/'
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 SESSION_COOKIE_AGE = 1209600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+CACHE_MIDDLEWARE_SECONDS = 0
+SESSION_COOKIE_SECURE = False#ローカル開発環境のみ
+CSRF_COOKIE_SECURE = False#ローカル開発環境のみ
 
 AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailBackend',

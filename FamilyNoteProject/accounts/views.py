@@ -28,6 +28,9 @@ class RegistUserView(CreateView):
     form_class = RegistForm
     success_url = reverse_lazy('tasks:task_list')#ホーム画面作ったらここに入れる（今は適当にtask一覧へ遷移）
     
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+    
     def form_valid(self, form):
         response = super().form_valid(form)
         user = self.object

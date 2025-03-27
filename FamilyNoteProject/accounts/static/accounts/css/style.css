@@ -7,24 +7,42 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
     height: 100vh;
 }
 
 /* ヘッダーのスタイル */
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #add9f6;
     color: gray;
     width: 100%;
     padding: 20px 30px;
-    text-align: left;
+    position: fixed;
+    top: 0;
+    left: 0;
     box-sizing: border-box;
 }
 header h1 {
     margin: 0;
-    text-align: left;
+    font-size: 1.8em;
+}
+header .login-link {
+    font-size: 1em;
+    color: gray;
+    text-decoration: none;
+    margin-left: auto;
 }
 
+/* メインのスタイル */
+main {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 80px;
+    text-align: center;
+}
 
 /* タイトルのスタイル */
 h1 {
@@ -41,14 +59,22 @@ form {
     border-radius: 8px;
     padding: 20px 30px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
     width: 100%;
     max-width: 400px;
     margin-top: 30px;
-    box-sizing: border-box;
+    margin-bottom: 30px;
+    margin: 0 auto;
 }
 form p {
     margin-bottom: 15px;
 }
+form label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
 form input {
     width: 100%;
     padding: 10px;
@@ -69,9 +95,21 @@ form button {
 button:hover {
     background-color: #0056b3;
 }
+.helptext {
+    color: gray;
+    font-size: 12px;
+    display: block;
+    text-align: left;
+}
+form .errorlist li {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 
 /* リンクのスタイル */
-a {
+.regist-link {
     display: block;
     text-align: center;
     margin-top: 10px;
@@ -82,8 +120,6 @@ a {
 a:hover {
     text-decoration: underline;
 }
-
-
 
 .modal {
     display: none;
