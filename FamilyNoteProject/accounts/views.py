@@ -75,11 +75,15 @@ class LogoutView(View):
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
-    template_name = 'user_update.html'
-    success_url = reverse_lazy('accounts:mypage')
+    template_name = 'accounts/user_update.html'
+    success_url = reverse_lazy('accounts:user_update')
     
-    def get_object(self, queryset=None):
+    def get_object(self):
         return self.request.user
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'アカウント情報が正常に更新されました。')
+        return super().form_valid(form)
     
 
 class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
@@ -94,7 +98,7 @@ class MyPageView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        families = user.families.all()
+        families = user.families.all() if hasattr(user, 'families') else []
         
         context["families"] = families
         return context

@@ -53,7 +53,10 @@ class RegistForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("username", "nickname", "email")
+        fields = ["username", "nickname", "email"]
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         
         
 class ChildForm(forms.ModelForm):

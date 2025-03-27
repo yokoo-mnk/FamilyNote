@@ -137,7 +137,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/tasks/task_list/'
+LOGIN_REDIRECT_URL = '/accounts/mypage/'
 
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
