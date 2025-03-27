@@ -1,30 +1,41 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>FamilyNote</title>
-    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <title>ホーム - FamilyNote</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
-        <h2>～FamilyNote～</h2>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{% url 'tasks:task_list' %}">ホーム</a>
-            <a class="navbar-brand" href="{% url 'tasks:task_list' %}">タスク一覧</a>
-            <a class="navbar-brand" href="{% url 'tasks:task_create' %}">タスク登録</a>
-            <a class="navbar-brand" href="{% url 'tasks:task_list' %}">おたより一覧</a>
-            <a class="navbar-brand" href="{% url 'tasks:task_list' %}">おたより登録</a>
-            <a class="navbar-brand" href="{% url 'accounts:mypage' %}">マイページ</a>
-            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        <h1>～FamilyNote～</h1>
+        <nav class="custom-navbar">
+            <a href="{% url 'tasks:task_list' %}">ホーム</a>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Note ▼</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'tasks:task_list' %}">Note一覧</a>
+                    <a href="{% url 'tasks:task_create' %}">Note登録</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">おたより ▼</a>
+                <div class="dropdown-content">      
+                    <a href="{% url 'tasks:task_list' %}">おたより一覧</a>
+                    <a href="{% url 'tasks:task_list' %}">おたより登録</a>
+                </div>
+            </li>
+            <a href="{% url 'accounts:mypage' %}">マイページ</a>
+            <form action="{% url 'logout' %}" method="post" class="logout-form">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-danger">ログアウト</button>
+                <button type="submit" class="logout-btn">ログアウト</button>
             </form>
         </nav>
     </header>
-    <h5>今日もお疲れさまです。</h5>
+    <main>
+        <h5>今日もお疲れさまです。</h5>
+    </main>
     {% block content %} 
     {% endblock %}
 </body>
