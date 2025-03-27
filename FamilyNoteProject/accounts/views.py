@@ -96,18 +96,6 @@ class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
         messages.success(self.request, 'パスワードが正常に更新されました。')
         return super().form_valid(form)
     
- 
-class MyPageView(LoginRequiredMixin, TemplateView):
-    template_name = "mypage.html"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        families = user.families.all() if hasattr(user, 'families') else []
-        
-        context["families"] = families
-        return context
-    
 
 @login_required
 def create_invite(request):
@@ -123,7 +111,7 @@ def create_invite(request):
     return JsonResponse({"invite_url": request.build_absolute_uri(invite.get_invite_url())})
 
 @family_required
-def invitation_url(request):
+def invite_family(request):
     family = request.user.family
     invite = Invitation.objects.create(
         family=family,
@@ -132,7 +120,7 @@ def invitation_url(request):
     )
     invitation_link = request.build_absolute_uri(f"/invite/{invite.invite_id}/")
 
-    return render(request, 'invite_family.html', {'invitation_link': invitation_link})
+    return render(request, 'accounts:invite_family.html', {'invitation_link': invitation_link})
 
 
 def accept_invite(request, invite_id):
@@ -146,13 +134,16 @@ def accept_invite(request, invite_id):
         request.user.save()
         invite.is_used = True
         invite.save()
-        return redirect("family_home")
+        return redirect("accounts:mypage")
     
     return render(request, "register.html", {"invite": invite})
 
 @family_required
-def family_home(request):
-    return render(request, 'family_home.html')
+def my_page(request):
+    username = request.user.username
+    nickname = request.user.nickname
+    
+    return render(request, 'accounts:my_page.html', {'username': username, 'nickname': nickname})
 
 
 @login_required

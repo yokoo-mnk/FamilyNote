@@ -1,7 +1,8 @@
 from django import forms
-from .models import User, Child
+from .models import User, Family, Child
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+import uuid
 
 class RegistForm(forms.ModelForm):
     password1 = forms.CharField(
@@ -21,7 +22,11 @@ class RegistForm(forms.ModelForm):
         max_length=30,
         help_text='アプリ内で使用する名前となります。 <br>例：ママ、パパ、おばあちゃん、じいじ など',
     )
-    
+    family_name = forms.CharField(
+        label='家族名',
+        max_length=100,
+        help_text='新しい家族を作成します。例：山田家、佐藤家など',
+    )
     class Meta:
         model = User
         fields = ['username', 'nickname', 'email']
@@ -46,7 +51,13 @@ class RegistForm(forms.ModelForm):
         user = super().save(commit=False)
         validate_password(self.cleaned_data['password1'], user)
         user.set_password(self.cleaned_data['password1'])
-        user.save()
+        
+        if commit:
+            user.save()
+            family_name = self.cleaned_data['family_name']
+            family = Family.objects.create(family_name=family_name, inviter=user)
+            user.family = family
+            user.save()
         return user
 
 
