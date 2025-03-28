@@ -30,7 +30,6 @@ class CustomUserCreationForm(UserCreationForm):
     )
     email = forms.EmailField(label="メールアドレス")
     full_name = forms.CharField(label="名前", max_length=50)
-    # nickname = forms.CharField(label="ニックネーム", max_length=30)
     
     class Meta:
         model = CustomUser
