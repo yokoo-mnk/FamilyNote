@@ -4,4 +4,4 @@ from django.contrib.auth.admin import UserAdmin
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    pass
+    ordering = ['email']

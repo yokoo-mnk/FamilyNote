@@ -95,6 +95,13 @@ form button {
 button:hover {
     background-color: #0056b3;
 }
+/* エラーメッセージのスタイル */
+ul.helptext li {
+    color: gray;
+    font-size: 12px;
+    display: block;
+    text-align: left;
+}
 .helptext {
     color: gray;
     font-size: 12px;

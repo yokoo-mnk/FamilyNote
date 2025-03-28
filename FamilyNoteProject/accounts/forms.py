@@ -3,9 +3,34 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
+    password1 = forms.CharField(
+        label="パスワード",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        help_text="8文字以上のパスワードを入力してください。",
+        error_messages={
+            'required': 'パスワードは必須項目です。',
+            'min_length': 'パスワードは最低8文字以上必要です。',
+        },
+    )
+    password2 = forms.CharField(
+        label="パスワード確認",
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        strip=False,
+        help_text="確認のため、もう一度同じパスワードを入力してください。",
+        error_messages={
+            'required': 'パスワード確認は必須項目です。',
+            'password_mismatch': 'パスワードが一致しません。',
+        },
+    )
+    nickname = forms.CharField(
+        label='ニックネーム（続柄）',
+        max_length=30,
+        help_text='アプリ内で使用する名前となります。 <br>例：ママ、パパ、おばあちゃん、じいじ など',
+    )
     email = forms.EmailField(label="メールアドレス")
     full_name = forms.CharField(label="名前", max_length=50)
-    nickname = forms.CharField(label="ニックネーム", max_length=30)
+    # nickname = forms.CharField(label="ニックネーム", max_length=30)
     
     class Meta:
         model = CustomUser
