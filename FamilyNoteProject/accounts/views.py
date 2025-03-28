@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib.auth import login
 from .forms import CustomUserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -19,7 +20,8 @@ def register(request):
 class CustomLoginView(LoginView):
     authentication_form = CustomLoginForm
     template_name = "accounts/login.html"
-
+    success_url = reverse_lazy('tasks:home')
+    
 class CustomLogoutView(LogoutView):
     next_page = "login"
 
