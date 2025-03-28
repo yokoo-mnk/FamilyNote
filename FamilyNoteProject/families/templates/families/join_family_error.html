@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block title %}エラー - FamilyNote{% endblock %}
+{% block content %}
+<h2>すでに別の家族グループに所属しています。</h2>
+<p>家族を変更するには、管理者に連絡してください。</p>
+<a href="{% url 'mypage' %}">マイページへ戻る</a>
+{% endblock %}

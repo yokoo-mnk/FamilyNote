@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Family
 from accounts.models import CustomUser
 
@@ -17,14 +17,27 @@ def create_family(request):
 
 @login_required
 def invite_family(request):
-    if not request.user.family:
-        return redirect("create_family")
-    return render(request, "families/invite_family.html", {"invite_code": request.user.family.invite_code})
+    family = request.user.family
+    if not family:
+        return redirect("mypage")
+    
+    invite_url = family.get_invite_url()
+    return render(request, "families/invite_family.html", {"invite_url": invite_url})
 
 
-@login_required
+def user_is_authenticated(user):
+    return user.is_authenticated
+
+@user_passes_test(user_is_authenticated, login_url='/accounts/login/')
 def join_family(request, invite_code):
     family = get_object_or_404(Family, invite_code=invite_code)
-    request.user.family = family
-    request.user.save()
-    return redirect("mypage")
+    
+    if request.user.family:
+        return render(request, "families/join_family_error.html")
+    
+    if request.method == "POST":
+        request.user.family = family
+        request.user.save()
+        return redirect("mypage")
+    
+    return render(request, "families/join_family.html", {"family": family})
