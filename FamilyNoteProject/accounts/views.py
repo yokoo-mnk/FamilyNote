@@ -12,7 +12,6 @@ def register(request):
             user = form.save()
             login(request, user)
             return redirect("tasks:home")
-    
     else:
         form = CustomUserCreationForm()
     return render(request, "accounts/register.html", {"form": form})
@@ -25,7 +24,8 @@ class CustomLoginView(LoginView):
 class CustomLogoutView(LogoutView):
     next_page = "accounts:login"
 
-
+def mypage(request):
+    return render(request, "accounts/mypage.html")
 
 
 
