@@ -26,11 +26,15 @@
                     <a href="{% url 'tasks:task_list' %}">おたより登録</a>
                 </div>
             </li>
-            <a href="{% url 'accounts:my_page' %}">マイページ</a>
-            <form action="{% url 'logout' %}" method="post" class="logout-form">
-                {% csrf_token %}
-                <button type="submit" class="logout-btn">ログアウト</button>
-            </form>
+            {% comment %} <a href="{% url 'accounts:my_page' %}">マイページ</a> {% endcomment %}
+            {% if user.is_authenticated %}
+                <form action="{% url 'accounts:logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">ログアウト</button>
+                </form>
+            {% else %}
+                <p>ログインしてください。</p>
+            {% endif %}
         </nav>
     </header>
     <main>

@@ -11,7 +11,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("profile")
+            return redirect("tasks:home")
     
     else:
         form = CustomUserCreationForm()
@@ -23,7 +23,7 @@ class CustomLoginView(LoginView):
     success_url = reverse_lazy('tasks:home')
     
 class CustomLogoutView(LogoutView):
-    next_page = "login"
+    next_page = "accounts:login"
 
 
 

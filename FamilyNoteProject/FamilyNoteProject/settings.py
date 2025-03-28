@@ -148,8 +148,3 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 CACHE_MIDDLEWARE_SECONDS = 0
 SESSION_COOKIE_SECURE = False#ローカル開発環境のみ
 CSRF_COOKIE_SECURE = False#ローカル開発環境のみ
-
-AUTHENTICATION_BACKENDS = [
-    'accounts.backends.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]

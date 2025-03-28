@@ -95,12 +95,21 @@ form button {
 button:hover {
     background-color: #0056b3;
 }
+
 /* エラーメッセージのスタイル */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+li {
+    text-align: left;
+    margin-bottom: 5px;
+}
 ul.helptext li {
     color: gray;
     font-size: 12px;
     display: block;
-    text-align: left;
+    
 }
 .helptext {
     color: gray;
