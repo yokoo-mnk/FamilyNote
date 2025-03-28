@@ -13,13 +13,11 @@
     </header>
     <main>
         <h1>ログインページ</h1>
-        <form method="POST" action="{% url 'accounts:login' %}">
+        <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">ログイン</button>
-            <nav>
-                <a class='regist-link' href="{% url 'accounts:regist' %}">新規アカウント登録</a>
-            </nav>
+            <a href="{% url 'accounts:register' %}">新規アカウント登録</a>
         </form>
     </main>
 </body>

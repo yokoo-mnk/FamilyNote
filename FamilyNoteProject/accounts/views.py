@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .forms import CustomUserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
+from .forms import CustomLoginForm
 
 def register(request):
     if request.method == "POST":
@@ -16,6 +17,7 @@ def register(request):
     return render(request, "accounts/register.html", {"form": form})
 
 class CustomLoginView(LoginView):
+    authentication_form = CustomLoginForm
     template_name = "accounts/login.html"
 
 class CustomLogoutView(LogoutView):

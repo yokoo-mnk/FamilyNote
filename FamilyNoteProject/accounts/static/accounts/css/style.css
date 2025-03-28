@@ -116,7 +116,7 @@ form .errorlist li {
 
 
 /* リンクのスタイル */
-.regist-link {
+a {
     display: block;
     text-align: center;
     margin-top: 10px;

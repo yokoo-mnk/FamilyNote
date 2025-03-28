@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
@@ -35,8 +35,10 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ["full_name", "nickname", "email", "password1", "password2"]
 
-
-
+class CustomLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label='メールアドレス',
+    )
 
 
 
