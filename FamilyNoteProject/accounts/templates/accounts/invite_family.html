@@ -8,7 +8,21 @@
     アカウントを登録してもらいましょう<br>
     ※発行されたURLは一度利用すると失効します。
 </p>
-<p>
-    <a href="{{ invitation_link }}" target="_blank">{{ invitation_link }}</a>
-</p>
+<button id="generate-invite-btn">招待URLを発行</button>
+<p id="invite-url"></p>
+
+<script>
+    document.getElementById("generate-invite-btn").addEventListener("click", function() {
+        fetch("{% url 'accounts:generate_invite' %}")
+        .then(response => response.json())
+    .then(data => {
+        if (data.invite_url) {
+            document.getElementById("invite-url").textContent = "招待URL: " + data.invite_url;
+        } else {
+            alert("エラー: " + data.error);
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+</script>
 {% endblock %}

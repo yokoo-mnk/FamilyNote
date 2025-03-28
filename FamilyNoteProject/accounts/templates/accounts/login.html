@@ -13,7 +13,7 @@
     </header>
     <main>
         <h1>ログインページ</h1>
-        <form method="POST">
+        <form method="POST" action="{% url 'accounts:login' %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">ログイン</button>

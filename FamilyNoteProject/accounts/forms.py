@@ -26,6 +26,7 @@ class RegistForm(forms.ModelForm):
         label='家族名',
         max_length=100,
         help_text='新しい家族を作成します。例：山田家、佐藤家など',
+        required=True,
     )
     class Meta:
         model = User
@@ -49,15 +50,18 @@ class RegistForm(forms.ModelForm):
     
     def save(self, commit=False):
         user = super().save(commit=False)
-        validate_password(self.cleaned_data['password1'], user)
         user.set_password(self.cleaned_data['password1'])
+        
+        user.save()
+        
+        family_name = self.cleaned_data['family_name']
+        family = Family.objects.create(family_name=family_name, inviter=user)
+        
+        user.family = family
         
         if commit:
             user.save()
-            family_name = self.cleaned_data['family_name']
-            family = Family.objects.create(family_name=family_name, inviter=user)
-            user.family = family
-            user.save()
+        
         return user
 
 

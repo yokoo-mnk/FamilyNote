@@ -15,23 +15,12 @@
 <a href="{% url 'accounts:user_edit' user.pk %}">画像登録・編集</a>
 <a href="{% url 'accounts:user_edit' user.pk %}">画像削除</a>
 
-<h4>家族情報</h4>
-  {% for family in families %}
-    <div>
-      <ul>
-        {% for member in family.members.all %}
-          <li>{{ member.username }}（{{ member.nickname }}）</li>
-            {% if member != user %}
-              <a href="{% url 'accounts:remove_family_member' family.id member.id %}" onclick="return confirm('本当に削除しますか？')">削除</a>
-            {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-  {% empty %}
-    <p>まだ家族が登録されていません。</p>
-  {% endfor %}
+<h4>あなたの家族</h4>
+<p>家族名: {{ family.family_name }}</p>
+<p>家族ID: {{ family.family_id }}</p>
+<p>招待者: {{ family.inviter.username }}</p>
 
-  <a href="{% url 'accounts:invite_family' %}">家族を追加する</a>
+<a href="{% url 'accounts:invite_family' %}">家族を追加する</a>
 
 <h3>こども情報</h3>
   {% if user.children.exists %}

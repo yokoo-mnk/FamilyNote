@@ -26,7 +26,7 @@
                     <a href="{% url 'tasks:task_list' %}">おたより登録</a>
                 </div>
             </li>
-            <a href="{% url 'accounts:mypage' %}">マイページ</a>
+            <a href="{% url 'accounts:my_page' %}">マイページ</a>
             <form action="{% url 'logout' %}" method="post" class="logout-form">
                 {% csrf_token %}
                 <button type="submit" class="logout-btn">ログアウト</button>

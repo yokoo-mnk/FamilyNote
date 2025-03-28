@@ -1,55 +1,42 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import(
-    TemplateView, FormView, View
+    FormView, View, DetailView,
 )
 from django.views.generic.edit import (
-    CreateView, UpdateView
+    CreateView, UpdateView,
 )
 from django.urls import reverse_lazy
-from django.utils.timezone import now, timedelta
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import (
-    authenticate, login, logout, get_user_model
-)
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.forms import AuthenticationForm,PasswordChangeForm
-from .models import User, Family, Invitation
+from .models import (
+    User, Family, FamilyInvitation,
+)
 from .forms import (
     RegistForm, UserUpdateForm, ChildForm,
     UserProfileForm
 )
-from .decorators import family_required
 
 
-class RegistUserView(CreateView):
+class RegistUserView(CreateView):#URL関係なしの一般的なアカウント登録
     template_name = 'regist.html'
     form_class = RegistForm
     success_url = reverse_lazy('tasks:task_list')#ホーム画面作ったらここに入れる（今は適当にtask一覧へ遷移）
     
-    def form_invalid(self, form):
-        return super().form_invalid(form)
-    
     def form_valid(self, form):
         response = super().form_valid(form)
         user = self.object
-        invite_url = self.request.GET.get("invite")
         
-        if invite_url:
-            try:
-                family = Family.objects.get(invite_code=invite_url)
-                family.members.add(user)
-            except Family.DoesNotExist:
-                pass 
-            
         login(self.request, user)
         return response
     
        
 class LoginView(FormView):
-    template_name = 'login.html'
+    template_name = 'accounts/login.html'
     form_class = AuthenticationForm
     success_url = reverse_lazy('tasks:task_list')#ホーム画面作ったらここに入れる（今は適当にtask一覧へ遷移）
     
@@ -57,6 +44,7 @@ class LoginView(FormView):
         email = form.cleaned_data['username']
         password = form.cleaned_data['password']
         user = authenticate(self.request, email=email, password=password)
+        
         if user is not None:
             login(self.request, user)
             return super().form_valid(form)
@@ -73,7 +61,7 @@ class LogoutView(View):
         logout(request)
         return redirect('accounts:login')
     
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):#アカウント情報変更
     model = User
     form_class = UserUpdateForm
     template_name = 'accounts/user_update.html'
@@ -87,7 +75,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
     
 
-class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):#パスワード変更
     form_class = PasswordChangeForm
     template_name = "accounts/password_change.html"
     success_url = reverse_lazy("accounts:mypage")
@@ -98,53 +86,61 @@ class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     
 
 @login_required
-def create_invite(request):
-    family = request.user.family
-    if not family:
-        return JsonResponse({"error": "You are not part of a family"}, status=400)
+def invite_family_view(request):#URL表示
+    return render(request, 'accounts/invite_family.html')
+
+
+@login_required
+def generate_invite(request):#URL発行
+    user = request.user
     
-    invite = Invitation.objects.create(
-        family=family,
-        inviter=request.user,
-        expires_at=now() + timedelta(days=1),
-    )
-    return JsonResponse({"invite_url": request.build_absolute_uri(invite.get_invite_url())})
-
-@family_required
-def invite_family(request):
-    family = request.user.family
-    invite = Invitation.objects.create(
-        family=family,
-        inviter=request.user,
-        expires_at=now() + timedelta(days=1),
-    )
-    invitation_link = request.build_absolute_uri(f"/invite/{invite.invite_id}/")
-
-    return render(request, 'accounts:invite_family.html', {'invitation_link': invitation_link})
-
-
-def accept_invite(request, invite_id):
-    invite = get_object_or_404(Invitation, invite_id=invite_id, is_used=False)
+    if not user.family:
+        return JsonResponse({'error': '家族に所属していません'}, status=400)
     
-    if invite.expires_at < now():
-        return render(request, "invitation_expired.html")
+    family = user.family
     
-    if request.user.is_authenticated:
-        request.user.family = invite.family
-        request.user.save()
-        invite.is_used = True
-        invite.save()
-        return redirect("accounts:mypage")
+    invitation = family.invitations.filter(is_used=False).first()
+    if not invitation:
+        invitation = FamilyInvitation.objects.create(family=family, inviter=user)
     
-    return render(request, "register.html", {"invite": invite})
+    invite_url = request.build_absolute_uri(f"/accounts/join/{invitation.invite_code}/")
 
-@family_required
-def my_page(request):
-    username = request.user.username
-    nickname = request.user.nickname
-    
-    return render(request, 'accounts:my_page.html', {'username': username, 'nickname': nickname})
+    return JsonResponse({'invite_url': invite_url})
 
+
+class JoinFamilyView(CreateView):#URLからアカウント登録
+    template_name = 'accounts/family_regist.html'
+    form_class = RegistForm
+    success_url = reverse_lazy('tasks:task_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.invite_code = kwargs.get('invite_code')
+        self.invitation = get_object_or_404(FamilyInvitation, invite_code=self.invite_code, is_used=False)
+        return super().dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = self.object
+        user.family = self.invitation.family
+        user.save()
+        
+        self.invitation.is_used = True
+        self.invitation.save()
+        
+        login(self.request, user)
+        return response
+    
+
+class MyPageView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'accounts/my_page.html'
+    context_object_name = 'user'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['family'] = self.request.user.family
+        return context
+    
 
 @login_required
 def remove_family_member(request, family_id, user_id):
