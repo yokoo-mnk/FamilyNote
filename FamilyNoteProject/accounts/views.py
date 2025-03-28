@@ -23,9 +23,9 @@ from .forms import (
 
 
 class RegistUserView(CreateView):#URL関係なしの一般的なアカウント登録
-    template_name = 'regist.html'
+    template_name = 'accounts/regist.html'
     form_class = RegistForm
-    success_url = reverse_lazy('tasks:task_list')#ホーム画面作ったらここに入れる（今は適当にtask一覧へ遷移）
+    success_url = reverse_lazy('tasks:home')
     
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -38,7 +38,7 @@ class RegistUserView(CreateView):#URL関係なしの一般的なアカウント�
 class LoginView(FormView):
     template_name = 'accounts/login.html'
     form_class = AuthenticationForm
-    success_url = reverse_lazy('tasks:task_list')#ホーム画面作ったらここに入れる（今は適当にtask一覧へ遷移）
+    success_url = reverse_lazy('tasks:home')
     
     def form_valid(self, form):
         email = form.cleaned_data['username']
@@ -78,7 +78,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):#アカウント情報変�
 class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):#パスワード変更
     form_class = PasswordChangeForm
     template_name = "accounts/password_change.html"
-    success_url = reverse_lazy("accounts:mypage")
+    success_url = reverse_lazy("accounts:my_page")
     
     def form_valid(self, form):
         messages.success(self.request, 'パスワードが正常に更新されました。')
@@ -111,7 +111,7 @@ def generate_invite(request):#URL発行
 class JoinFamilyView(CreateView):#URLからアカウント登録
     template_name = 'accounts/family_regist.html'
     form_class = RegistForm
-    success_url = reverse_lazy('tasks:task_list')
+    success_url = reverse_lazy('tasks:home')
 
     def dispatch(self, request, *args, **kwargs):
         self.invite_code = kwargs.get('invite_code')
@@ -152,7 +152,7 @@ def remove_family_member(request, family_id, user_id):
         messages.success(request, f'{user_to_remove.username} さんを家族から削除しました。')
     else:
         messages.error(request, '指定されたユーザーはこの家族のメンバーではありません。')
-    return redirect('accounts:mypage')    
+    return redirect('accounts:my_page')    
 
 
 @login_required
@@ -163,11 +163,11 @@ def add_child(request):
             child = form.save(commit=False)
             child.user = request.user
             child.save()
-            return redirect('accounts:mypage')
+            return redirect('accounts:my_page')
     else:
         form = ChildForm()
     
-    return render(request, 'add_child.html', {'form': form})
+    return render(request, 'accounts:add_child.html', {'form': form})
 
 
 @login_required
@@ -176,8 +176,8 @@ def update_profile(request):
         form = UserProfileForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('accounts:mypage')
+            return redirect('accounts:my_page')
     else:
         form = UserProfileForm(instance=request.user)
 
-    return render(request, 'update_profile.html', {'form': form})
+    return render(request, 'accounts:update_profile.html', {'form': form})

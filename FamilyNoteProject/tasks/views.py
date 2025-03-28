@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.views.generic.list import ListView
 from django.views.generic.edit import (
     CreateView, UpdateView
@@ -6,6 +7,12 @@ from django.views.generic.edit import (
 from .models import Task
 from .forms import TaskForm
 from django.urls import reverse_lazy
+
+
+@login_required
+def home(request):
+    return render(request, 'tasks/home.html')
+
 
 class TaskListView(ListView):
     model = Task
