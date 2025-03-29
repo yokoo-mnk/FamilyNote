@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'families',
     'tasks',
     'school_letters',
 ]
@@ -136,10 +137,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 MEDIA_URL = '/media/'
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = "/accounts/accounts/login/"
 LOGIN_REDIRECT_URL = '/tasks/home/'
 
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGOUT_REDIRECT_URL = '/accounts/accounts/login/'
 
 
 SESSION_COOKIE_AGE = 1209600

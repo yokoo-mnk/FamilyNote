@@ -8,22 +8,21 @@
   {% else %}
     <p>プロフィール画像が設定されていません。</p>
   {% endif %}
-<p>ユーザー名: {{ user.username }}</p>
+<p>名前: {{ user.full_name }}</p>
 <p>ニックネーム: {{ user.nickname }}</p>
-<p>家族グループ: {{ user.family.name|default:"未所属" }}</p>
+<p>あなたの家族: {{ user.family.name|default:"未所属" }}</p>
 
 {% if user.family %}
-    <p>現在の家族: {{ user.family.name }}</p>
-    <form method="post" action="{% url 'leave_family' %}">
+    <form method="post" action="{% url 'families:leave_family' %}">
         {% csrf_token %}
         <button type="submit">家族を抜ける</button>
     </form>
 {% endif %}
 
 {% if user.family %}
-    <a href="{% url 'invite_family' %}">家族を招待する</a>
+    <a href="{% url 'families:invite_family' %}">家族を招待する</a>
 {% else %}
-    <a href="{% url 'create_family' %}">家族を作成する</a>
+    <a href="{% url 'families:create_family' %}">家族を作成する</a>
 {% endif %}
 
 {% endblock %}

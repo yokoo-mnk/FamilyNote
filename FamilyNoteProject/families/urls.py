@@ -6,7 +6,7 @@ from .views import (
 app_name = 'families'
 
 urlpatterns = [
-    path("create/", create_family, name="create_family"),
+    path("family/create/", create_family, name="create_family"),
     path("invite/", invite_family, name="invite_family"),
     path("join/<uuid:invite_code>/", join_family, name="join_family"),
     path("leave/", leave_family, name="leave_family"),

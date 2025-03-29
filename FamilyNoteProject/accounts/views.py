@@ -11,7 +11,9 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("tasks:home")
+            next_url = request.GET.get('next', 'tasks/home')
+            return redirect(next_url)
+
     else:
         form = CustomUserCreationForm()
     return render(request, "accounts/register.html", {"form": form})
@@ -22,7 +24,7 @@ class CustomLoginView(LoginView):
     success_url = reverse_lazy('tasks:home')
     
 class CustomLogoutView(LogoutView):
-    next_page = "accounts:login"
+    next_page = "accounts/accounts/login"
 
 def mypage(request):
     return render(request, "accounts/mypage.html")

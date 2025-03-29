@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import get_user_model
 from .models import Family
-from accounts.models import CustomUser
+
+User = get_user_model()
 
 
 @login_required
@@ -29,7 +31,7 @@ def user_is_authenticated(user):
     return user.is_authenticated
 
 
-@user_passes_test(user_is_authenticated, login_url='/accounts/login/')
+@user_passes_test(user_is_authenticated, login_url='/accounts/accounts/login/?next={{ request.path }}')
 def join_family(request, invite_code):
     family = get_object_or_404(Family, invite_code=invite_code)
     

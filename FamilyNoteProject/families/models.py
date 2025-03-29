@@ -1,5 +1,4 @@
 from django.db import models
-from accounts.models import CustomUser
 import uuid
 
 class Family(models.Model):
