@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 {% block title %}マイページ - FamilyNote{% endblock %}
 {% block content %}
-<h3>マイページ</h3>
+<h1>マイページ</h1>
 <h4>プロフィール画像</h4>
   {% if user.profile_image %}
-    <img src="{{ user.profile_image.url }}" alt="プロフィール画像">
+  <img src="{{ user.profile_image.url }}" alt="" class="profile-image">
   {% else %}
     <p>プロフィール画像が設定されていません。</p>
   {% endif %}
 <p>名前: {{ user.full_name }}</p>
 <p>ニックネーム: {{ user.nickname }}</p>
 <p>あなたの家族: {{ user.family.name|default:"未所属" }}</p>
-
+<a href="{% url 'accounts:user_edit' pk=user.id %}">プロフィールを編集</a>
+<a href="{% url 'accounts:password_change' %}">🔑 パスワードを変更する</a>
 {% if user.family %}
     <form method="post" action="{% url 'families:leave_family' %}">
         {% csrf_token %}
@@ -24,5 +25,14 @@
 {% else %}
     <a href="{% url 'families:create_family' %}">家族を作成する</a>
 {% endif %}
-
+<h2>家族メンバー一覧</h2>
+{% if members %}
+    <ul>
+        {% for member in family_members %}
+            <li>{{ member.full_name }} ({{ member.nickname }})</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>家族が登録されていません。</p>
+{% endif %}
 {% endblock %}

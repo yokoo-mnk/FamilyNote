@@ -1,9 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.contrib.auth import login
-from .forms import CustomUserCreationForm
-from django.contrib.auth.views import LoginView, LogoutView
-from .forms import CustomLoginForm
+from django.contrib.auth import login, get_user_model
+from django.views.generic import UpdateView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from .forms import CustomUserCreationForm, CustomLoginForm, UserUpdateForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+
+User = get_user_model()
 
 def register(request):
     if request.method == "POST":
@@ -26,11 +32,37 @@ class CustomLoginView(LoginView):
 class CustomLogoutView(LogoutView):
     next_page = "accounts/accounts/login"
 
+@login_required
 def mypage(request):
-    return render(request, "accounts/mypage.html")
+    user = request.user
+    family_members = user.families.all()
 
+    context = {
+        "user": user,
+        "family_members": family_members,
+    }
+    return render(request, "accounts/mypage.html", context)
 
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    template_name = "accounts/user_update.html"
+    
+    def get_object(self):
+        return get_object_or_404(User, pk=self.kwargs['pk'])
+    
+    def get_success_url(self):
+        return reverse_lazy("accounts:mypage")
 
+class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    model = User
+    form_class = PasswordChangeForm
+    template_name = "accounts/password_change.html"
+    success_url = reverse_lazy("accounts:my_page")
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'パスワードが正常に更新されました。')
+        return super().form_valid(form)
 
 
 

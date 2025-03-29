@@ -110,3 +110,10 @@ h5 {
     margin-top: 40px;
     margin-bottom: 20px;
 }
+.profile-image {
+    width: 150px !important;   /* 幅を指定（!importantで強制） */
+    height: 150px !important;  /* 高さを指定（!importantで強制） */
+    border-radius: 50% !important; /* 丸くする */
+    object-fit: cover !important;  /* 画像を歪まずにフィットさせる */
+    border: 2px solid #ccc !important;  /* 任意で枠を追加 */
+}

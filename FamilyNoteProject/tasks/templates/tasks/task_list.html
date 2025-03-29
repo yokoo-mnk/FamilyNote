@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}タスク一覧 - FamilyNote{% endblock %}
+{% block title %}Note一覧 - FamilyNote{% endblock %}
 {% block content %}
 <h3>Note～家の記録～</h3>
 <table>
@@ -32,6 +32,12 @@
             <td>
               <a href="{% url 'tasks:task_edit' task.pk %}">編集</a>  <!-- 追加: 編集ボタン -->
             </td>
+            {% for task in tasks %}
+                <li>
+                    {{ task.title }}  
+                    <a href="{% url 'tasks:task_copy' task.id %}">📄コピー</a>
+                </li>
+            {% endfor %}
           </tr>
         {% empty %}
           <tr>

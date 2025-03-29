@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
@@ -32,7 +34,7 @@ class CustomUserCreationForm(UserCreationForm):
     full_name = forms.CharField(label="名前", max_length=50)
     
     class Meta:
-        model = CustomUser
+        model = User
         fields = ["full_name", "nickname", "email", "password1", "password2"]
 
 class CustomLoginForm(AuthenticationForm):
@@ -40,6 +42,11 @@ class CustomLoginForm(AuthenticationForm):
         label='メールアドレス',
     )
 
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["full_name", "nickname", "email", "profile_image"]
 
 
 

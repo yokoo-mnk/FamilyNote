@@ -30,3 +30,6 @@ class TaskForm(forms.ModelForm):
             'memo': 'メモ（必須）',
             'image': '写真',
         }
+        widgets = {
+            "is_favorite": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+        }

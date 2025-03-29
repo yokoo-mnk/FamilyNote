@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
-    ListView, CreateView, UpdateView, DeleteView
+    ListView, CreateView, UpdateView, DeleteView, View,
 )
 from .models import Task
 from .forms import TaskForm
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
+from django.http import HttpResponseRedirect
 
 
 @login_required
@@ -49,3 +50,17 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "tasks/task_delete.html"
     success_url = reverse_lazy("tasks/task_list")
+    
+class TaskCopyView(LoginRequiredMixin, View):
+    def get(self, request, task_id):
+        task = get_object_or_404(Task, id=task_id)
+        
+        new_task = Task.objects.create(
+            family=task.family,
+            title=f"{task.title} (コピー)",
+            description=task.description,
+            assigned_to=task.assigned_to,
+            due_date=task.due_date
+        )
+
+        return HttpResponseRedirect(reverse("task_list"))

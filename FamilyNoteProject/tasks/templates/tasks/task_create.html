@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
-{% load static %}
+{% block title %}Note登録 - FamilyNote{% endblock %}
 {% block content %}
 <h3>～タスク・ログ・スケジュールを登録してください～</h3>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+    <div class="form-check">
+        {{ form.is_favorite }}
+        <label class="form-check-label" for="{{ form.is_favorite.id_for_label }}">お気に入りに登録</label>
+    </div>
     <button type="submit">登録</button>
 </form>
 {% endblock %}
