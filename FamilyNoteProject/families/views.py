@@ -11,7 +11,7 @@ def create_family(request):
         family = Family.objects.create(name=family_name)
         request.user.family = family
         request.user.save()
-        return redirect("mypage")
+        return redirect("accounts:mypage")
     return render(request, "families/create_family.html")
 
 
@@ -19,7 +19,7 @@ def create_family(request):
 def invite_family(request):
     family = request.user.family
     if not family:
-        return redirect("mypage")
+        return redirect("accounts:mypage")
     
     invite_url = family.get_invite_url()
     return render(request, "families/invite_family.html", {"invite_url": invite_url})
@@ -27,6 +27,7 @@ def invite_family(request):
 
 def user_is_authenticated(user):
     return user.is_authenticated
+
 
 @user_passes_test(user_is_authenticated, login_url='/accounts/login/')
 def join_family(request, invite_code):
@@ -38,6 +39,26 @@ def join_family(request, invite_code):
     if request.method == "POST":
         request.user.family = family
         request.user.save()
-        return redirect("mypage")
+        return redirect("accounts:mypage")
     
     return render(request, "families/join_family.html", {"family": family})
+
+
+@login_required
+def leave_family(request):
+    if request.method == "POST":
+        request.user.family = None
+        request.user.save()
+        return redirect("accounts:mypage")
+    
+    return redirect("accounts:mypage")
+
+
+@login_required
+def confirm_leave_family(request):
+    if request.method == "POST":
+        request.user.family = None
+        request.user.save()
+        return redirect("accounts:mypage")
+
+    return render(request, "families/confirm_leave_family.html")

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>家族を抜けますか？</h2>
+<p>一度抜けると、元の家族には戻れません。</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">抜ける</button>
+</form>
+
+<a href="{% url 'accounts:mypage' %}">キャンセル</a>
+{% endblock %}
