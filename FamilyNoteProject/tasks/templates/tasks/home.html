@@ -1,5 +1,17 @@
 {% extends 'tasks/t_base.html' %}
 {% block title %}ホーム - FamilyNote{% endblock %}
 {% block content %}
-<h1>ホーム画面です</h1>
+<h2>ToDoリスト</h2>
+<form method="post">
+    {% csrf_token %}
+    <ul>
+        {% for task in selected_tasks %}
+            <li>
+                <input type="checkbox" name="remove_tasks" value="{{ task.id }}"> {{ task.title }} - {{ task.formatted_due_date }}
+            </li>
+        {% empty %}
+            <li>ToDoリストにNoteがありません。</li>
+        {% endfor %}
+    </ul>
+    <button type="submit">選択したNoteを<br>リストから削除</button>
 {% endblock %}

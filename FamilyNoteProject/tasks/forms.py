@@ -25,7 +25,8 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = [ 
-            'category', 'due_date', 'start_time', 'title', 'memo', 'image'
+            'category', 'due_date', 'start_time', 'title', 'memo',
+            'image',
         ]
         labels = {
             'category': 'カテゴリ（必須）',
@@ -35,9 +36,7 @@ class TaskForm(forms.ModelForm):
             'memo': 'メモ（任意）',
             'image': '写真（任意）',
         }
-        widgets = {
-            "is_favorite": forms.CheckboxInput(attrs={"class": "form-check-input"}),
-        }
+        
     
     def clean_start_time(self):
         start_time = self.cleaned_data.get('start_time')

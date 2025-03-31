@@ -153,6 +153,16 @@ form input[type="date"] {
 form input[type="time"] {
     width: 30%;
 }
+.form-check {
+    display: flex;
+    align-items: left;
+}
+
+.form-check-input {
+    margin-right: 8px;
+}
+
+
 select {
     width: 30%;
     padding: 10px;
@@ -170,7 +180,9 @@ form button {
     border-radius: 4px;
     border: none;
     cursor: pointer;
+
 }
+
 .logout-btn {
     width: auto; /* 自動幅 */
     background-color: #007bff;
@@ -185,12 +197,19 @@ form button {
 button:hover {
     background-color: #0056b3;
 }
+.no-box-form {
+    display: contents;
+}
 
 /* テーブルのスタイル */
 table {
-    width: 100%;
-    border-collapse: collapse; /* セルの枠線を統合 */
-    margin-bottom: 20px; /* テーブルとページネーションの間に余白 */
+    width: 100% !important;
+    border-collapse: collapse !important; /* セルの枠線を統合 */
+    margin-bottom: 20px !important; /* テーブルとページネーションの間に余白 */
+    border: None !important;
+    padding: 0px !important;
+    box-shadow: None !important;
+    box-sizing: None !important;
 }
 td {
     border: 1px solid #ddd; /* セルの枠線を追加 */

@@ -12,7 +12,15 @@ from django.http import HttpResponseRedirect
 
 @login_required
 def home(request):
-    return render(request, 'tasks/home.html')
+    selected_task_ids = request.session.get('selected_tasks', [])
+    selected_tasks = Task.objects.filter(id__in=selected_task_ids)
+    
+    if request.method == 'POST' and 'remove_task' in request.POST:
+        task_ids_to_remove = request.POST.getlist('remove_task')
+        selected_task_ids = [task_id for task_id in selected_task_ids if task_id not in task_ids_to_remove]
+        request.session['selected_tasks'] = selected_task_ids
+        return redirect('tasks/home')
+    return render(request, 'tasks/home.html', {'selected_tasks': selected_tasks})
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -23,6 +31,14 @@ class TaskListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         return Task.objects.filter(family=self.request.user.family)
+    
+    def post(self, request, *args, **kwargs):
+        task_ids = request.POST.getlist('tasks')
+        
+        selected_tasks = request.session.get('selected_tasks', [])
+        selected_tasks.extend(task_ids)
+        request.session['selected_tasks'] = selected_tasks
+        return HttpResponseRedirect(request.path)
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

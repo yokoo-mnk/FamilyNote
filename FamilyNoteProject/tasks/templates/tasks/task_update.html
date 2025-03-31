@@ -1,7 +1,7 @@
 {% extends 'tasks/t_base.html' %}
 {% block title %}Note編集 - FamilyNote{% endblock %}
 {% block content %}
-<h3>～タスク・ログ・スケジュールを編集してください～</h3>
+<h2>～タスク・ログ・スケジュールを編集してください～</h2>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
