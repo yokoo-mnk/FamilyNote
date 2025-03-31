@@ -1,0 +1,119 @@
+ /* 全体のスタイル */
+ body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+/* ヘッダーのスタイル */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #add9f6;
+    color: gray;
+    width: 100%;
+    padding: 10px 30px; /* 上下の余白を小さくする（20px → 10px） */
+    height: auto; /* 必要なら高さを自動調整 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    flex: 1;
+}
+
+/* ナビゲーションバーのスタイル */
+.custom-navbar {
+    background-color: #add9f6;
+    padding: 10px 30px;
+    margin-left: auto;
+    text-align: center;
+}
+/* ナビゲーションリンクのスタイル */
+.custom-navbar a {
+    color: gray;
+    padding: 0 10px;
+    font-size: 1em;
+    text-decoration: none;
+}
+.custom-navbar a:hover {
+    text-decoration: underline !important;
+}
+a:-webkit-any-link {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* ドロップダウンメニューのスタイル */
+.custom-navbar li {
+    display: inline-block;
+    position: relative;
+}
+.custom-navbar .dropdown .dropbtn {
+    color: gray;
+    padding: 10px 15px;
+    font-size: 1em;
+    text-decoration: none;
+    background-color: #add9f6;
+    border: none;
+    cursor: pointer;
+}
+.custom-navbar .dropdown:hover .dropdown-content {
+    display: block;
+}
+.custom-navbar .dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #add9f6;
+    min-width: 160px;
+    z-index: 1;
+}
+.custom-navbar .dropdown .dropdown-content a {
+    color: gray;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+.custom-navbar .dropdown .dropdown-content a:hover {
+    background-color: #a4c8e0;
+    text-decoration: underline;
+}
+/* ログアウトボタン */
+.logout-form {
+    display: inline;
+}
+.logout-btn {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+.logout-btn:hover {
+    background-color: rgb(5, 5, 106);
+}
+
+main {
+    margin-top: 80px; /* ヘッダーの高さ分だけ下げる */
+    padding: 20px; /* 適度な余白を追加 */
+}
+
+.profile-image {
+    width: 150px !important;   /* 幅を指定（!importantで強制） */
+    height: 150px !important;  /* 高さを指定（!importantで強制） */
+    border-radius: 50% !important; /* 丸くする */
+    object-fit: cover !important;  /* 画像を歪まずにフィットさせる */
+    border: 2px solid #ccc !important;  /* 任意で枠を追加 */
+}

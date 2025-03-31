@@ -1,5 +1,5 @@
  /* 全体のスタイル */
-body {
+ body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     margin: 0;
@@ -102,18 +102,4 @@ a:-webkit-any-link {
 }
 .logout-btn:hover {
     background-color: rgb(5, 5, 106);
-}
-
-h5 {
-    text-align: left;
-    font-size: 1em;
-    margin-top: 40px;
-    margin-bottom: 20px;
-}
-.profile-image {
-    width: 150px !important;   /* 幅を指定（!importantで強制） */
-    height: 150px !important;  /* 高さを指定（!importantで強制） */
-    border-radius: 50% !important; /* 丸くする */
-    object-fit: cover !important;  /* 画像を歪まずにフィットさせる */
-    border: 2px solid #ccc !important;  /* 任意で枠を追加 */
 }
