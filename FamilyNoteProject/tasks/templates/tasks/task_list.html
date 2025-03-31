@@ -1,7 +1,7 @@
 {% extends 'tasks/t_base.html' %}
 {% block title %}Note一覧 - FamilyNote{% endblock %}
 {% block content %}
-<h3>Note～家の記録～</h3>
+<h2>Note～我が家の記録～</h2>
 <table>
     <thead>
       <tr>
@@ -11,7 +11,8 @@
         <th>タイトル</th>
         <th>メモ</th>
         <th>画像</th>
-        <th></th>
+        <th>編集</th>
+        <th>コピー</th>
       </tr>
     </thead>
     <tbody>
@@ -19,9 +20,21 @@
           <tr>
             <td>{{ task.get_category_display }}</td>
             <td>{{ task.formatted_due_date }}</td>
-            <td>{{ task.start_time }}</td>
+            <td>
+              {% if task.start_time %}
+                {{ task.start_time }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
             <td>{{ task.title }}</td>
-            <td>{{ task.memo }}</td>
+            <td>
+              {% if task.memo %}
+                {{ task.memo }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
             <td>
               {% if task.image %}
                 <img src="{{ task.image.url }}" alt="Task image" width="100">
@@ -30,14 +43,11 @@
               {% endif %}
             </td>
             <td>
-              <a href="{% url 'tasks:task_edit' task.pk %}">編集</a>  <!-- 追加: 編集ボタン -->
+              <a href="{% url 'tasks:task_edit' task.pk %}">📝</a>  <!-- 追加: 編集ボタン -->
             </td>
-            {% for task in tasks %}
-                <li>
-                    {{ task.title }}  
-                    <a href="{% url 'tasks:task_copy' task.id %}">📄コピー</a>
-                </li>
-            {% endfor %}
+            <td>
+              <a href="{% url 'tasks:task_copy' task.id %}">📄</a>
+            </td>
           </tr>
         {% empty %}
           <tr>

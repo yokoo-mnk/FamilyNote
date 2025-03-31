@@ -92,7 +92,7 @@ a:-webkit-any-link {
     display: inline;
 }
 .logout-btn {
-    background-color: blue;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 6px 15px;
@@ -105,8 +105,9 @@ a:-webkit-any-link {
     background-color: rgb(5, 5, 106);
 }
 
+/* メインのスタイル */
 main {
-    margin-top: 80px; /* ヘッダーの高さ分だけ下げる */
+    margin-top: 40px; /* ヘッダーの高さ分だけ下げる */
     padding: 20px; /* 適度な余白を追加 */
 }
 

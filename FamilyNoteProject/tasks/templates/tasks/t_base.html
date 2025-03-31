@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ホーム - FamilyNote{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'tasks/css/t_style.css' %}">
-    {% block extra_css %}{% endblock %}
 </head>
 <body>
     <header>
@@ -39,9 +38,9 @@
         </nav>
     </header>
     <main>
-        <h5>今日もお疲れさまです。</h5>
-    </main>
+        <h4>{{ user.nickname }}さん、今日もお疲れさまです。</h4>
     {% block content %} 
     {% endblock %}
+    </main>
 </body>
 </html>
