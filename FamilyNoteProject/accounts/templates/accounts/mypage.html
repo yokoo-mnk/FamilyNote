@@ -1,38 +1,54 @@
 {% extends 'accounts/a_base.html' %}
 {% block title %}マイページ - FamilyNote{% endblock %}
 {% block content %}
-<h1>マイページ</h1>
-<h4>プロフィール画像</h4>
-  {% if user.profile_image %}
-  <img src="{{ user.profile_image.url }}" alt="" class="profile-image">
-  {% else %}
-    <p>プロフィール画像が設定されていません。</p>
-  {% endif %}
-<p>名前: {{ user.full_name }}</p>
-<p>ニックネーム: {{ user.nickname }}</p>
-<p>あなたの家族: {{ user.family.name|default:"未所属" }}</p>
-<a href="{% url 'accounts:user_edit' pk=user.id %}">プロフィールを編集</a>
-<a href="{% url 'accounts:password_change' %}">🔑 パスワードを変更する</a>
-{% if user.family %}
-    <form method="post" action="{% url 'families:leave_family' %}">
-        {% csrf_token %}
-        <button type="submit">家族を抜ける</button>
-    </form>
-{% endif %}
+<h2>マイページ</h2>
+<div class="box-container">
+  <div class="profile-box">
+    <div class="profile-container">
+      {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" alt="" class="profile-image">
+      {% else %}
+        <p>プロフィール画像が設定されていません。</p>
+      {% endif %}
 
-{% if user.family %}
-    <a href="{% url 'families:invite_family' %}">家族を招待する</a>
-{% else %}
-    <a href="{% url 'families:create_family' %}">家族を作成する</a>
-{% endif %}
-<h2>家族メンバー一覧</h2>
-{% if members %}
-    <ul>
-        {% for member in family_members %}
+      <div class="profile-info">
+        <p class="profile">名前: {{ user.full_name }}</p>
+        <p class="profile">ニックネーム: {{ user.nickname }}</p>
+        <p class="profile">あなたの家族: {{ user.family.name|default:"未所属" }}</p>
+      </div>
+    </div>
+    <br>
+    <a href="{% url 'accounts:user_edit' pk=user.id %}">📝 プロフィールを編集</a>
+    <br>
+    <a href="{% url 'accounts:password_change' %}">🔑 パスワードを変更する</a>
+  </div>
+
+  <div class="family-box">
+    <div class="family-container">
+      <h3>{{ user.family.name|default:"あなたの家族" }} メンバー一覧</h3>
+      {% if members %}
+        <ul>
+          {% for member in family_members %}
             <li>{{ member.full_name }} ({{ member.nickname }})</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>家族が登録されていません。</p>
-{% endif %}
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>家族が登録されていません。</p>
+      {% endif %}
+
+      {% if user.family %}
+        <form method="post" action="{% url 'families:leave_family' %}">
+          {% csrf_token %}
+          <button type="submit">家族を抜ける</button>
+        </form>
+      {% endif %}
+
+      {% if user.family %}
+        <a href="{% url 'families:invite_family' %}">家族を招待する</a>
+      {% else %}
+        <a href="{% url 'families:create_family' %}">家族を作成する</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% endblock %}

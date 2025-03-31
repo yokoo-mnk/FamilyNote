@@ -111,10 +111,45 @@ main {
     padding: 20px; /* 適度な余白を追加 */
 }
 
+/* タイトルのスタイル */
+h2 {
+    padding: 0px 30px;
+}
+
+/* プロフィールのスタイル */
+.box-container {
+    display: flex;
+    gap: 20px; /* ボックス間の余白 */
+    align-items: stretch; /* 高さを揃える */
+}
+.profile-box, .family-box {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* 内容に合わせたサイズ */
+    flex: 1;
+}
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 画像とテキストの間隔 */
+}
 .profile-image {
     width: 150px !important;   /* 幅を指定（!importantで強制） */
     height: 150px !important;  /* 高さを指定（!importantで強制） */
     border-radius: 50% !important; /* 丸くする */
     object-fit: cover !important;  /* 画像を歪まずにフィットさせる */
     border: 2px solid #ccc !important;  /* 任意で枠を追加 */
+}
+.profile-info {
+    margin-left: 30px; /* 画像との間隔 */
+    flex: 1;
+}
+.profile {
+    margin: 10px 0;
+    font-size: 16px;
 }

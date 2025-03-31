@@ -204,12 +204,14 @@ button:hover {
 /* テーブルのスタイル */
 table {
     width: 100% !important;
+    background-color: white !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
     border-collapse: collapse !important; /* セルの枠線を統合 */
     margin-bottom: 20px !important; /* テーブルとページネーションの間に余白 */
-    border: None !important;
     padding: 0px !important;
-    box-shadow: None !important;
-    box-sizing: None !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 td {
     border: 1px solid #ddd; /* セルの枠線を追加 */
