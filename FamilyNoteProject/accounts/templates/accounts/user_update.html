@@ -1,7 +1,7 @@
 {% extends 'accounts/a_base.html' %}
 {% block title %}アカウント情報変更 - FamilyNote{% endblock %}
 {% block content %}
-<h2>～アカウント情報を変更してください～</h2>
+<h2 class="update">～アカウント情報を変更してください～</h2>
   {% if messages %}
     <div class="messages">
       {% for message in messages %}
@@ -9,10 +9,12 @@
       {% endfor %}
     </div>
   {% endif %}
+<div class="form-container">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">変更</button>
   </form>
-  <a href="{% url 'accounts:password_change' %}">パスワード変更</a>
+</div>
+  <a class="password" href="{% url 'accounts:password_change' %}">パスワード変更</a>
 {% endblock %}

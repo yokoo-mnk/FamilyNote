@@ -90,6 +90,11 @@ a:-webkit-any-link {
 /* ログアウトボタン */
 .logout-form {
     display: inline;
+    background-color: #add9f6;
+    border: 1px solid #add9f6;
+    box-shadow: none;
+    padding: 0px 0px;
+    border-radius: 5px;
 }
 .logout-btn {
     background-color: #007bff;
@@ -104,7 +109,6 @@ a:-webkit-any-link {
 .logout-btn:hover {
     background-color: rgb(5, 5, 106);
 }
-
 /* メインのスタイル */
 main {
     margin-top: 40px; /* ヘッダーの高さ分だけ下げる */
@@ -152,4 +156,109 @@ h2 {
 .profile {
     margin: 10px 0;
     font-size: 16px;
+}
+
+h2.update {
+    text-align: center;
+    font-size: 1.8em;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+/* フォームのスタイル */
+form {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+}
+form p {
+    margin-bottom: 15px;
+}
+form label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+/* エラーメッセージのスタイル */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+li {
+    text-align: left;
+    margin-bottom: 5px;
+}
+ul.helptext li {
+    color: gray;
+    font-size: 12px;
+    display: block;
+    
+}
+.helptext {
+    color: gray;
+    font-size: 12px;
+    display: block;
+    text-align: left;
+}
+form .errorlist li {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.logout-btn {
+    width: auto; /* 自動幅 */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+/* リンクのスタイル */
+a.password {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #007bff;
+    text-decoration: none !important;
+}
+a.password:hover {
+    text-decoration: underline !important;
 }

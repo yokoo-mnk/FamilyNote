@@ -38,12 +38,14 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ["full_name", "nickname", "email", "password1", "password2"]
 
 class CustomLoginForm(AuthenticationForm):
-    username = forms.CharField(
-        label='メールアドレス',
-    )
+    username = forms.CharField(label='メールアドレス',)
 
 
 class UserUpdateForm(forms.ModelForm):
+    full_name = forms.CharField(label="名前", max_length=50)
+    nickname = forms.CharField(label='ニックネーム（続柄）',max_length=30)
+    email = forms.EmailField(label="メールアドレス")
+    profile_image = forms.ImageField(label="プロフィール画像")
     class Meta:
         model = User
         fields = ["full_name", "nickname", "email", "profile_image"]
