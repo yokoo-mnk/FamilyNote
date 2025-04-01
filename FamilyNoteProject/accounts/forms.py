@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
+from .models import Child
 
 User = get_user_model()
 
@@ -49,6 +50,17 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["full_name", "nickname", "email", "profile_image"]
+
+
+class ChildForm(forms.ModelForm):
+    child_name = forms.CharField(label="こどもの名前")
+    birth_date = forms.DateField(label="生年月日")
+    class Meta:
+        model = Child
+        fields = ["child_name", "birth_date"]
+        widgets = {
+            "birth_date": forms.DateInput(attrs={"type": "date"})
+        }
 
 
 
