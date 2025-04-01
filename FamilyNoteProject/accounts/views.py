@@ -45,8 +45,8 @@ class CustomLogoutView(LogoutView):
 @login_required
 def mypage(request):
     user = request.user
-    family_members = user.families.all()
-    children = Child.objects.filter(family=request.user.family)
+    family_members = user.families.all() if user.family else []
+    children = Child.objects.filter(family=user.family) if user.family else []
    
     context = {
         "user": user,

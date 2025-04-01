@@ -25,7 +25,7 @@
 
   <div class="family-box">
     <div class="family-container">
-      <h3>{{ user.family.name|default:"あなたの家族" }} メンバー一覧</h3>
+      <h3>{{ user.family.name|default:"あなたの家族" }} 情報</h3>
       {% if members %}
         <ul>
           {% for member in family_members %}
@@ -50,5 +50,73 @@
       {% endif %}
     </div>
   </div>
+  <div class="child-box">
+    <div class="child-container">
+      <h3>{{ user.family.name|default:"あなたの家族" }} こども情報</h3>
+      {% if children %}
+        <ul>
+          {% for child in children %}
+          <li>{{ child.child_name }} ({{ child.birth_date|date:"Y年m月d日" }})</li>
+            <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.name }} ({{ child.birth_date }})</a>
+            <button class="delete-child" data-id="{{ child.id }}">削除</button>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>こどもが登録されていません。</p>
+      {% endif %}
+    </div>
+    <div id="child-modal" style="display: none;">
+      <div id="modal-content">
+        <span id="close-modal">&times;</span>
+        <h3>こどもを登録</h3>
+        <div id="modal-form-container"></div>
+      </div>
+    </div>
+  </div> 
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("child-modal");
+    const modalContent = document.getElementById("modal-form-container");
+  
+    document.getElementById("open-modal").addEventListener("click", function () {
+      fetch("{% url 'accounts:add_child' %}")
+        .then(response => response.text())
+        .then(html => {
+          modalContent.innerHTML = html;
+          modal.style.display = "block";
+        });
+    });
+  
+    document.querySelectorAll(".edit-child").forEach(btn => {
+      btn.addEventListener("click", function () {
+        fetch(`/accounts/edit_child/${btn.dataset.id}/`)
+          .then(response => response.text())
+          .then(html => {
+            modalContent.innerHTML = html;
+            modal.style.display = "block";
+          });
+      });
+    });
+  
+    document.querySelectorAll(".delete-child").forEach(btn => {
+      btn.addEventListener("click", function () {
+        if (confirm("この子供情報を削除しますか？")) {
+          fetch(`/accounts/delete_child/${btn.dataset.id}/`, { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+              if (data.status === "deleted") {
+                location.reload();
+              }
+            });
+        }
+      });
+    });
+  
+    document.getElementById("close-modal").addEventListener("click", function () {
+      modal.style.display = "none";
+    });
+  });
+</script>
 {% endblock %}

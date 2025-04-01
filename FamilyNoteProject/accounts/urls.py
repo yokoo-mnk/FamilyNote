@@ -1,17 +1,15 @@
 from django.urls import path
-from .views import (
-    register, CustomLoginView, mypage, UserUpdateView,
-)
+from .views import CustomLoginView, UserUpdateView
 from django.contrib.auth.views import LogoutView, PasswordChangeView
 from . import views
 
 app_name = "accounts"
 
 urlpatterns = [
-    path("register/", register, name="register"),
+    path("register/", views.register, name="register"),
     path('accounts/login/', CustomLoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', LogoutView.as_view(next_page='accounts/accounts/login'), name='logout'),
-    path("mypage/", mypage, name="mypage"),
+    path("mypage/", views.mypage, name="mypage"),
     path("user_edit/<int:pk>/", UserUpdateView.as_view(template_name='accounts/user_update.html'), name="user_edit"),
     path('password_change/', PasswordChangeView.as_view(template_name = 'accounts/password_change.html'), name='password_change'),
     path("add_child/", views.add_child, name="add_child"),
