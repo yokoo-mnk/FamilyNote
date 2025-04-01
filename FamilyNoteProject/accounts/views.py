@@ -1,15 +1,22 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
-from django.contrib.auth import login, get_user_model
+from django.http import JsonResponse, HttpResponseForbidden
 from django.views.generic import UpdateView
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
-from .forms import CustomUserCreationForm, CustomLoginForm, UserUpdateForm
+from .models import Child
+from .forms import (
+    CustomUserCreationForm, CustomLoginForm, UserUpdateForm, ChildForm,
+)
+from django.contrib.auth.views import(
+    LoginView, LogoutView, PasswordChangeView,
+)
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, get_user_model
 from django.contrib import messages
 
 User = get_user_model()
+
 
 def register(request):
     if request.method == "POST":
@@ -24,24 +31,74 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, "accounts/register.html", {"form": form})
 
+
 class CustomLoginView(LoginView):
     authentication_form = CustomLoginForm
     template_name = "accounts/login.html"
     success_url = reverse_lazy('tasks:home')
+
     
 class CustomLogoutView(LogoutView):
     next_page = "accounts/accounts/login"
+
 
 @login_required
 def mypage(request):
     user = request.user
     family_members = user.families.all()
-
+    children = Child.objects.filter(family=request.user.family)
+   
     context = {
         "user": user,
         "family_members": family_members,
+        "children": children,
     }
     return render(request, "accounts/mypage.html", context)
+
+
+@login_required
+def add_child(request):
+    if request.method == "POST":
+        form = ChildForm(request.POST)
+        if form.is_valid():
+            child = form.save(commit=False)
+            child.parent = request.user
+            child.family = request.user.family
+            child.save()
+            return JsonResponse({"status": "success"})
+    else:
+        form = ChildForm()
+    return render(request, "accounts/child_form.html", {"form": form})
+
+
+@login_required
+def edit_child(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+    
+    if request.user.family != child.family:
+        return HttpResponseForbidden("この子供情報を編集する権限がありません。")
+    
+    if request.method == "POST":
+        form = ChildForm(request.POST, instance=child)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({"status": "success"})
+    else:
+        form = ChildForm(instance=child)
+
+    return render(request, "accounts/child_form.html", {"form": form})
+
+
+@login_required
+def delete_child(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+
+    if request.user.family != child.family:
+        return HttpResponseForbidden("削除権限がありません。")
+
+    child.delete()
+    return JsonResponse({"status": "deleted"})
+
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
@@ -53,6 +110,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_success_url(self):
         return reverse_lazy("accounts:mypage")
+
 
 class PasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     model = User
