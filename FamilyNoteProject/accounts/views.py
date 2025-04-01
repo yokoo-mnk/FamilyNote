@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponseForbidden
 from django.views.generic import UpdateView
 from .models import Child
 from .forms import (
-    CustomUserCreationForm, CustomLoginForm, UserUpdateForm, ChildForm,
+    CustomUserCreationForm, CustomLoginForm, UserUpdateForm,
 )
 from django.contrib.auth.views import(
     LoginView, LogoutView, PasswordChangeView,
@@ -59,17 +59,31 @@ def mypage(request):
 @login_required
 def add_child(request):
     if request.method == "POST":
-        form = ChildForm(request.POST)
-        if form.is_valid():
-            child = form.save(commit=False)
-            child.parent = request.user
-            child.family = request.user.family
+        child_name = request.POST.get('child_name')
+        birth_date = request.POST.get('birth_date')
+        if child_name and birth_date:
+            child = Child(
+                child_name=child_name,
+                birth_date=birth_date,
+                parent=request.user,  # ユーザーに関連付け
+                family=request.user.family,
+            )
             child.save()
-            return JsonResponse({"status": "success"})
-    else:
-        form = ChildForm()
-    return render(request, "accounts/child_form.html", {"form": form})
+            return JsonResponse({
+                "success": True,
+                "child_name": child.child_name, 
+                "birth_date": child.birth_date.strftime("%Y-%m-%d")
+            })
+        else:
+            return JsonResponse({
+                "success": False,
+                "errors": "名前と生年月日が必要です"
+            }, status=400)
 
+    return JsonResponse({
+        "success": False,
+        "errors": "不正なリクエストです"
+    }, status=400)
 
 @login_required
 def edit_child(request, child_id):
@@ -79,14 +93,28 @@ def edit_child(request, child_id):
         return HttpResponseForbidden("この子供情報を編集する権限がありません。")
     
     if request.method == "POST":
-        form = ChildForm(request.POST, instance=child)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({"status": "success"})
-    else:
-        form = ChildForm(instance=child)
-
-    return render(request, "accounts/child_form.html", {"form": form})
+        # フォームデータを取得
+        child_name = request.POST.get('child_name')
+        birth_date = request.POST.get('birth_date')
+        
+        if child_name and birth_date:
+            # 子供の情報を更新
+            child.child_name = child_name
+            child.birth_date = birth_date
+            child.save()
+            
+            return JsonResponse({
+                "status": "success",
+                "child_name": child.child_name,
+                "birth_date": child.birth_date.strftime("%Y-%m-%d")
+            })
+        else:
+            return JsonResponse({
+                "status": "error",
+                "message": "名前と生年月日は必須です。"
+            }, status=400)
+            
+    return render(request, "accounts/edit_child_modal.html", {"child": child})
 
 
 @login_required

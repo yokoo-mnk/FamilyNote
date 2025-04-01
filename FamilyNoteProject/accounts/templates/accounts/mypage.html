@@ -1,4 +1,5 @@
 {% extends 'accounts/a_base.html' %}
+{% load static %}
 {% block title %}マイページ - FamilyNote{% endblock %}
 {% block content %}
 <h2>マイページ</h2>
@@ -8,7 +9,7 @@
       {% if user.profile_image %}
         <img src="{{ user.profile_image.url }}" alt="" class="profile-image">
       {% else %}
-        <p>プロフィール画像が設定されていません。</p>
+        <p>プロフィール画像が<br>設定されていません。</p>
       {% endif %}
 
       <div class="profile-info">
@@ -25,7 +26,7 @@
 
   <div class="family-box">
     <div class="family-container">
-      <h3>{{ user.family.name|default:"あなたの家族" }} 情報</h3>
+      <h3>{{ user.family.name|default:"-" }} 家族情報</h3>
       {% if members %}
         <ul>
           {% for member in family_members %}
@@ -52,71 +53,43 @@
   </div>
   <div class="child-box">
     <div class="child-container">
-      <h3>{{ user.family.name|default:"あなたの家族" }} こども情報</h3>
+      <h3>{{ user.family.name|default:"-" }} こども情報</h3>
       {% if children %}
-        <ul>
+        <ul id="child-list">
           {% for child in children %}
-          <li>{{ child.child_name }} ({{ child.birth_date|date:"Y年m月d日" }})</li>
-            <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.name }} ({{ child.birth_date }})</a>
-            <button class="delete-child" data-id="{{ child.id }}">削除</button>
+            <li>{{ child.child_name }} ({{ child.birth_date|date:"Y年m月d日" }})
+              <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.child_name }} ({{ child.birth_date|date:"Y年m月d日" }})</a>
+              <button class="delete-child" data-id="{{ child.id }}">削除</button>
+            </li>
           {% endfor %}
         </ul>
       {% else %}
         <p>こどもが登録されていません。</p>
       {% endif %}
+      <a href="#" id="open-modal">こどもを登録</a>
     </div>
-    <div id="child-modal" style="display: none;">
-      <div id="modal-content">
-        <span id="close-modal">&times;</span>
-        <h3>こどもを登録</h3>
-        <div id="modal-form-container"></div>
-      </div>
-    </div>
-  </div> 
-</div>
+  </div>
+    
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const modal = document.getElementById("child-modal");
-    const modalContent = document.getElementById("modal-form-container");
-  
-    document.getElementById("open-modal").addEventListener("click", function () {
-      fetch("{% url 'accounts:add_child' %}")
-        .then(response => response.text())
-        .then(html => {
-          modalContent.innerHTML = html;
-          modal.style.display = "block";
-        });
-    });
-  
-    document.querySelectorAll(".edit-child").forEach(btn => {
-      btn.addEventListener("click", function () {
-        fetch(`/accounts/edit_child/${btn.dataset.id}/`)
-          .then(response => response.text())
-          .then(html => {
-            modalContent.innerHTML = html;
-            modal.style.display = "block";
-          });
-      });
-    });
-  
-    document.querySelectorAll(".delete-child").forEach(btn => {
-      btn.addEventListener("click", function () {
-        if (confirm("この子供情報を削除しますか？")) {
-          fetch(`/accounts/delete_child/${btn.dataset.id}/`, { method: "POST" })
-            .then(response => response.json())
-            .then(data => {
-              if (data.status === "deleted") {
-                location.reload();
-              }
-            });
-        }
-      });
-    });
-  
-    document.getElementById("close-modal").addEventListener("click", function () {
-      modal.style.display = "none";
-    });
-  });
-</script>
+  <div id="child-modal" style="display: none;" class="modal">
+    <div id="modal-content">
+      <form id="child-modal-form" method="POST">
+        <span id="close-modal" class="close">&times;</span>
+        <h3>こどもを登録</h3>
+        {% csrf_token %}
+        <label for="child_name">こどもの名前:</label>
+        <input type="text" id="child_name" name="child_name" required>
+        <br><br>
+        <label for="birth_date">生年月日:</label>
+        <input type="date" id="birth_date" name="birth_date" required>
+        <br><br>
+        <button type="submit">登録</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'accounts/js/child_modal.js' %}?v=1.0"></script>
 {% endblock %}
