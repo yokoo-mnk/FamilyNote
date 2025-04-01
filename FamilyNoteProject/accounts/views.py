@@ -24,8 +24,8 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            next_url = request.GET.get('next', 'tasks/home')
-            return redirect(next_url)
+            next_url = request.GET.get('next', 'tasks:home')
+            return redirect('tasks:home')
 
     else:
         form = CustomUserCreationForm()

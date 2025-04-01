@@ -19,7 +19,7 @@ def home(request):
         task_ids_to_remove = request.POST.getlist('remove_task')
         selected_task_ids = [task_id for task_id in selected_task_ids if task_id not in task_ids_to_remove]
         request.session['selected_tasks'] = selected_task_ids
-        return redirect('tasks/home')
+        return redirect('tasks:home')
     return render(request, 'tasks/home.html', {'selected_tasks': selected_tasks})
 
 
