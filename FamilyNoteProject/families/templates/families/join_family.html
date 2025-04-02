@@ -1,7 +1,7 @@
 {% extends 'families/f_base.html' %}
 {% block title %}家族招待確認 - FamilyNote{% endblock %}
 {% block content %}
-<h2>{{ family.name }} に参加しますか？</h2>
+<h2>{{ family.family.name }} に参加しますか？</h2>
 <form method="post">
     {% csrf_token %}
     <button type="submit">参加する</button>

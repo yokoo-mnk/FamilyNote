@@ -4,8 +4,8 @@
 <h2>家族グループを作成</h2>
 <form method="post">
     {% csrf_token %}
-    <label for="family_name">家族名：</label>
-    <input type="text" name="family_name" required>
+    <label for="family.family_name">家族名：</label>
+    <input type="text" name="family.family_name" required>
     <button type="submit">作成</button>
 </form>
 {% endblock %}

@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView, CreateView, UpdateView, DeleteView, View,
 )
-from .models import Task
+from .models import Task, Family
 from .forms import TaskForm
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
@@ -53,7 +54,13 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('tasks:task_list')
     
     def form_valid(self, form):
-        form.instance.family = self.request.user.family
+        family = Family.objects.filter(members=self.request.user).first()
+        
+        if not family:
+            messages.error(self.request, "先に Family を作成してください。")
+            return redirect("accounts:mypage")
+        
+        form.instance.family = family
         return super().form_valid(form)
     
 class TaskUpdateView(LoginRequiredMixin, UpdateView):

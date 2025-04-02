@@ -9,8 +9,9 @@ User = get_user_model()
 @login_required
 def create_family(request):
     if request.method == "POST":
-        family_name = request.POST.get("family_name")
-        family = Family.objects.create(name=family_name)
+        family_name = request.POST.get("family.family_name")
+        family = Family.objects.create(family_name=family_name)
+        family.members.add(request.user)
         request.user.family = family
         request.user.save()
         return redirect("accounts:mypage")

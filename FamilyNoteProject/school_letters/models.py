@@ -1,11 +1,11 @@
 from django.db import models
-from django.conf import settings
+from accounts.models import Child
 
-class Letter(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=300)
-    image = models.ImageField(upload_to='letter_images/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    
+class SchoolLetter(models.Model):
+    child = models.ForeignKey(Child, on_delete=models.CASCADE, related_name='school_letters')
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='school_letters/images/')
+    created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
-        return self.title
+        return f"{self.title} - {self.child.child_name}"
