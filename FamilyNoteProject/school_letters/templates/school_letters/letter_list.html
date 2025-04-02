@@ -1,0 +1,16 @@
+{% extends 'tasks/t_base.html' %}
+{% block title %}おたより一覧 - FamilyNote{% endblock %}
+{% block content %}
+<h2>{{ family.family.name }} おたより</h2>
+
+<div class="letter-cards">
+    {% for letter in letters %}
+        <div class="letter-card">
+            <img src="{{ letter.image.url }}" alt="おたより画像">
+            <h3>{{ letter.title }}</h3>
+            <p>{{ letter.child.child_name }}（{{ letter.child.birth_date }}）</p>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
