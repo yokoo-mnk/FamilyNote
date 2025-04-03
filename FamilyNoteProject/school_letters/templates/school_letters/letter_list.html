@@ -1,4 +1,5 @@
 {% extends 'school_letters/s_base.html' %}
+{% load static %}
 {% block title %}おたより一覧 - FamilyNote{% endblock %}
 {% block content %}
 <h2>{{ family.family.name }} ～園や学校のおたより一覧～</h2>
@@ -18,13 +19,30 @@
 <div class="letter-container">
   {% for letter in letters %}
   <a href="{% url 'school_letters:update_letter' letter.pk %}" class="letter-card">
-        <img src="{{ letter.image.url }}" alt="{{ letter.title }}">
-        <h3>{{ letter.title }}</h3>
-        <p>{{ letter.child.child_name }}</p>
-    </a>
+    <input type="checkbox" class="letter-checkbox" value="{{ letter.id }}" data-title="{{ letter.title }}">
+    <img src="{{ letter.image.url }}" alt="{{ letter.title }}">
+    <h3>{{ letter.title }}</h3>
+    <p>{{ letter.child.child_name }}</p>
+  </a>
   {% empty %}
     <p>おたよりがまだ登録されていません。</p>
   {% endfor %}
 </div>
+<div class="footer-container">
+  <input type="checkbox" id="select-all"> 全ての項目を選択
+  <button id="delete-btn" disabled>選択した項目を削除</button>
+</div>
 
+<div id="delete-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <span id="close-modal" class="close">&times;</span>
+    <h3>以下のおたよりを削除しますか？</h3>
+    <ul id="selected-letters-list"></ul>
+    <button id="confirm-delete">削除</button>
+  </div>
+</div>   
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'school_letters/js/modal.js' %}"></script>
 {% endblock %}

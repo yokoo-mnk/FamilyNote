@@ -13,10 +13,11 @@
   </div>
   
   <div class="letter-form">
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="otayori">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit">更新</button>
+      <br>
+      <button type="submit">編集完了</button>
     </form>
   </div>
 </div>
