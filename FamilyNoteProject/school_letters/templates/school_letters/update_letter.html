@@ -1,0 +1,24 @@
+{% extends 'school_letters/s_base.html' %}
+{% block title %}おたより登録 - FamilyNote{% endblock %}
+{% block content %}
+<h2>～おたよりを編集してください～</h2>
+
+<div class="edit-container">
+  <div class="letter-image">
+    {% if form.instance.image %}
+      <img src="{{ form.instance.image.url }}" alt="おたより画像">
+    {% else %}
+      <p>画像がありません</p>
+    {% endif %}
+  </div>
+  
+  <div class="letter-form">
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">更新</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

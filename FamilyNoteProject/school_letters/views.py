@@ -8,6 +8,7 @@ from django.views.generic.edit import (
 from .models import SchoolLetter
 from .forms import SchoolLetterForm
 from families.models import Family
+from accounts.models import Child
 
 class SchoolLetterCreateView(LoginRequiredMixin, CreateView):
     model = SchoolLetter
@@ -23,7 +24,7 @@ class SchoolLetterCreateView(LoginRequiredMixin, CreateView):
 class SchoolLetterUpdateView(LoginRequiredMixin, UpdateView):
     model = SchoolLetter
     form_class = SchoolLetterForm
-    template_name = 'school_letters/create_letter.html'
+    template_name = 'school_letters/update_letter.html'
     success_url = reverse_lazy('school_letters:letter_list')
     
     def get_form_kwargs(self):
@@ -39,4 +40,16 @@ class SchoolLetterListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
         families = user.families.all()
-        return SchoolLetter.objects.filter(child__family__in=families)
+        queryset = SchoolLetter.objects.filter(child__family__in=families).order_by('-id')
+        
+        child_id = self.request.GET.get('child_id')
+        if child_id:
+            queryset = queryset.filter(child_id=child_id)
+
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['children'] = Child.objects.filter(family__in=user.families.all())  # 家族の子供一覧
+        return context

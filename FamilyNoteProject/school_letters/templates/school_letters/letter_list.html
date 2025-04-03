@@ -1,16 +1,30 @@
-{% extends 'tasks/t_base.html' %}
+{% extends 'school_letters/s_base.html' %}
 {% block title %}おたより一覧 - FamilyNote{% endblock %}
 {% block content %}
 <h2>{{ family.family.name }} おたより</h2>
 
-<div class="letter-cards">
-    {% for letter in letters %}
-        <div class="letter-card">
-            <img src="{{ letter.image.url }}" alt="おたより画像">
-            <h3>{{ letter.title }}</h3>
-            <p>{{ letter.child.child_name }}（{{ letter.child.birth_date }}）</p>
-        </div>
+<form method="GET" action="" class="child-filter">
+  <label for="child_filter">子供の名前で絞り込み:</label>
+  <select name="child_id" id="child_filter" onchange="this.form.submit()">
+    <option value="">すべて</option>   
+    {% for child in children %}
+      <option value="{{ child.id }}" {% if request.GET.child_id|default:'' == child.id|slugify %}selected{% endif %}>
+        {{ child.child_name }}
+      </option>
     {% endfor %}
+  </select>
+</form>
+
+<div class="letter-container">
+  {% for letter in letters %}
+  <a href="{% url 'school_letters:update_letter' letter.pk %}" class="letter-card">
+        <img src="{{ letter.image.url }}" alt="{{ letter.title }}">
+        <h3>{{ letter.title }}</h3>
+        <p>{{ letter.child.child_name }}</p>
+    </a>
+  {% empty %}
+    <p>おたよりがまだ登録されていません。</p>
+  {% endfor %}
 </div>
 
 {% endblock %}
