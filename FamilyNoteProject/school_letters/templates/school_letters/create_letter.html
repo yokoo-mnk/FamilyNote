@@ -3,7 +3,7 @@
 {% block content %}
 <h2>～おたよりを登録してください～</h2>
 
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data" class="otayori">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">送信</button>

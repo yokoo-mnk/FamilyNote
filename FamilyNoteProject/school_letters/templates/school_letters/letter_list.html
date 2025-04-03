@@ -1,10 +1,10 @@
 {% extends 'school_letters/s_base.html' %}
 {% block title %}おたより一覧 - FamilyNote{% endblock %}
 {% block content %}
-<h2>{{ family.family.name }} おたより</h2>
+<h2>{{ family.family.name }} ～園や学校のおたより一覧～</h2>
 
 <form method="GET" action="" class="child-filter">
-  <label for="child_filter">子供の名前で絞り込み:</label>
+  <label for="child_filter">こどもの名前:</label>
   <select name="child_id" id="child_filter" onchange="this.form.submit()">
     <option value="">すべて</option>   
     {% for child in children %}
