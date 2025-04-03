@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, get_user_model
 from django.contrib import messages
+from datetime import datetime
 
 User = get_user_model()
 
@@ -60,30 +61,37 @@ def mypage(request):
 def add_child(request):
     if request.method == "POST":
         child_name = request.POST.get('child_name')
-        birth_date = request.POST.get('birth_date')
-        if child_name and birth_date:
-            child = Child(
-                child_name=child_name,
-                birth_date=birth_date,
-                parent=request.user,  # ユーザーに関連付け
-                family=request.user.family,
-            )
-            child.save()
-            return JsonResponse({
-                "success": True,
-                "child_name": child.child_name, 
-                "birth_date": child.birth_date.strftime("%Y-%m-%d")
-            })
-        else:
+        birth_date_str = request.POST.get('birth_date')
+        if not child_name or not birth_date_str:
             return JsonResponse({
                 "success": False,
                 "errors": "名前と生年月日が必要です"
             }, status=400)
+            
+        try:
+            birth_date = datetime.strptime(birth_date_str, "%Y-%m-%d").date()
+        except ValueError:
+            return JsonResponse({
+                "success": False,
+                "errors": "日付の形式が正しくありません"
+            }, status=400)
+            
+        child = Child(
+            child_name=child_name,
+            birth_date=birth_date,
+            parent=request.user,  # ユーザーに関連付け
+            family=request.user.family,
+        )
+        child.save()
+        
+        return JsonResponse({
+            "success": True,
+            "child_name": child_name, 
+            "birth_date": birth_date.strftime("%Y-%m-%d")
+        })
+        
+    return render(request, "accounts/add_child.html")
 
-    return JsonResponse({
-        "success": False,
-        "errors": "不正なリクエストです"
-    }, status=400)
 
 @login_required
 def edit_child(request, child_id):

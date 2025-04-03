@@ -1,9 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
+    function getCsrfToken() {
+        const tokenElement = document.querySelector("[name=csrfmiddlewaretoken]");
+        return tokenElement ? tokenElement.value : "";
+    }
+
+
     const openModal = document.getElementById("open-modal");
     const modal = document.getElementById("child-modal");
     const closeModal = document.getElementById("close-modal");
-   
-    if (!openModal || !modal || !closeModal) {
+    const childForm = document.querySelector("#child-modal-form");
+
+    if (!openModal || !modal || !closeModal || !childForm) {
         console.error("モーダルの要素が見つかりません！");
         return;
     }
@@ -12,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openModal.addEventListener("click", function (event) {
         event.preventDefault();  // リンクのデフォルト動作を防ぐ
         console.log("モーダルを開きます");
-        modal.style.display = "block"; // モーダルを表示
+        modal.style.display = "flex"; // モーダルを表示
     });
 
     // モーダルを閉じる
@@ -28,32 +35,34 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     // フォームの送信処理
-    const form = document.getElementById("child-form"); // フォームのIDを指定
-        form.addEventListener("submit", function (e) {
-            e.preventDefault(); // デフォルトのフォーム送信をキャンセル
-
-            const formData = new FormData(form);
-            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    const form = document.getElementById("child-modal-form"); // フォームのIDを指定
+    if (form) {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
 
             // DjangoのURLパターンに合わせたURLを指定
-            fetch("{% url 'accounts:add_child' %}", {  // ここでURLを指定
-                method: 'POST',
-                body: formData,
+            fetch("/accounts/add_child/", {  // ✅ 直接パスを指定
+                method: "POST",
                 headers: {
-                    'X-CSRFToken': csrfToken  // CSRFトークンを送信
-                }
+                    "X-CSRFToken": getCsrfToken(), // ✅ CSRFトークンを取得する関数を作る
+                },
+                body: new URLSearchParams(new FormData(document.getElementById("child-modal-form"))),
             })
+            
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     console.log("子ども情報が登録されました");
                     modal.style.display = "none";
+                    location.reload();
                 } else {
                     console.log("エラー:", data.errors);
                 }
             })
             .catch(error => {
                 console.error("エラー:", error);
+                alert("通信エラーが発生しました。");
             });
         });
-    });
+    }
+});

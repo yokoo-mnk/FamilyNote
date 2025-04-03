@@ -3,11 +3,6 @@
 {% block title %}マイページ - FamilyNote{% endblock %}
 {% block content %}
 <h2>マイページ</h2>
-{% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-{% endif %}
 <div class="box-container">
   <div class="profile-box">
     <div class="profile-container">
@@ -62,8 +57,8 @@
       {% if children %}
         <ul id="child-list">
           {% for child in children %}
-            <li>{{ child.child_name }} ({{ child.birth_date|date:"Y年m月d日" }})
-              <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.child_name }} ({{ child.birth_date|date:"Y年m月d日" }})</a>
+            <li>
+              <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.child_name }} ({{ child.birth_date|date:"Y年m月d日" }})生まれ</a>
               <button class="delete-child" data-id="{{ child.id }}">削除</button>
             </li>
           {% endfor %}
@@ -76,8 +71,8 @@
   </div>
     
 
-  <div id="child-modal" style="display: none;" class="modal">
-    <div id="modal-content">
+  <div id="child-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
       <form id="child-modal-form" method="POST">
         <span id="close-modal" class="close">&times;</span>
         <h3>こどもを登録</h3>
@@ -96,5 +91,5 @@
 {% endblock %}
 
 {% block extra_js %}
-  <script src="{% static 'accounts/js/child_modal.js' %}?v=1.0"></script>
+  <script src="{% static 'accounts/js/modal.js' %}"></script>
 {% endblock %}
