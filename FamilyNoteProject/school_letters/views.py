@@ -1,8 +1,8 @@
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.list import ListView
-from django.views.generic.edit import (
-    CreateView, UpdateView
+from django.views.generic import (
+    CreateView, UpdateView, ListView
 )
 from django.views import View
 from django.http import JsonResponse
@@ -17,10 +17,15 @@ class SchoolLetterCreateView(LoginRequiredMixin, CreateView):
     template_name = 'school_letters/create_letter.html'
     success_url = reverse_lazy('school_letters:letter_list')
     
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.family = self.request.user.families.first()  # ユーザーの最初の家族を設定（例）
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = '新しいおたより作成'
+        return context
 
 
 class SchoolLetterUpdateView(LoginRequiredMixin, UpdateView):
@@ -29,36 +34,43 @@ class SchoolLetterUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'school_letters/update_letter.html'
     success_url = reverse_lazy('school_letters:letter_list')
     
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
-        return kwargs
-  
+    def form_valid(self, form):
+        # ユーザーが家族メンバーであることを確認
+        if form.instance.family not in self.request.user.families.all():
+            return redirect('school_letters:list')
+        return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'おたより編集'
+        return context
     
 class SchoolLetterListView(LoginRequiredMixin, ListView):
     model = SchoolLetter
     template_name = 'school_letters/letter_list.html'
     context_object_name = 'letters'
+    # paginate_by = 4
     
     def get_queryset(self):
-        user = self.request.user
-        families = user.families.all()
-        queryset = SchoolLetter.objects.filter(child__family__in=families).order_by('-id')
-        
-        child_id = self.request.GET.get('child_id')
-        if child_id:
-            queryset = queryset.filter(child_id=child_id)
-
-        return queryset
+        family_ids = self.request.user.families.values_list('id', flat=True)
+        return SchoolLetter.objects.filter(family__id__in=family_ids)
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user = self.request.user
-        context['children'] = Child.objects.filter(family__in=user.families.all())  # 家族の子供一覧
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     user = self.request.user
+    #     context['children'] = Child.objects.filter(family__in=user.families.all())  # 家族の子供一覧
+    #     return context
     
 class SchoolLetterDeleteView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         letter_ids = request.POST.getlist("delete_letter")
-        SchoolLetter.objects.filter(id__in=letter_ids, child__family__members=request.user).delete()
-        return JsonResponse({"success": True})
+        # SchoolLetter.objects.filter(id__in=letter_ids, child__family__members=request.user).delete()
+        # return JsonResponse({"success": True})
+        deleted_count, _ = SchoolLetter.objects.filter(
+            id__in=letter_ids, child__family__members=request.user
+        ).delete()
+        
+        if deleted_count > 0:
+            return JsonResponse({"success": True})
+        else:
+            return JsonResponse({"success": False, "error": "削除に失敗しました"})

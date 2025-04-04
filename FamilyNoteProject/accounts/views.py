@@ -75,7 +75,7 @@ def add_child(request):
                 "success": False,
                 "errors": "日付の形式が正しくありません"
             }, status=400)
-            
+        
         child = Child(
             child_name=child_name,
             birth_date=birth_date,
@@ -90,7 +90,7 @@ def add_child(request):
             "birth_date": birth_date.strftime("%Y-%m-%d")
         })
         
-    return render(request, "accounts/add_child.html")
+    return JsonResponse({"success": False, "errors": "Invalid request method"})
 
 
 @login_required

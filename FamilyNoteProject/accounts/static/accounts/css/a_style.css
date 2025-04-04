@@ -48,10 +48,10 @@ header h1 {
 .custom-navbar a:hover {
     text-decoration: underline !important;
 }
-a:-webkit-any-link {
+/* a:-webkit-any-link {
     color: inherit !important;
     text-decoration: none !important;
-}
+} */
 
 /* ドロップダウンメニューのスタイル */
 .custom-navbar li {
@@ -263,6 +263,13 @@ a.password:hover {
     text-decoration: underline !important;
 }
 
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
 /* モーダル全体のスタイル */
 .modal-overlay {
     position: fixed;
@@ -274,7 +281,7 @@ a.password:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 5000;
 }
 
 /* モーダル内のコンテンツ */

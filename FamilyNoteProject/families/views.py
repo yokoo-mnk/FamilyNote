@@ -1,7 +1,9 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import get_user_model
 from .models import Family
+
 
 User = get_user_model()
 
@@ -10,12 +12,19 @@ User = get_user_model()
 def create_family(request):
     if request.method == "POST":
         family_name = request.POST.get("family.family_name")
+        
+        if not family_name:
+            return JsonResponse({"success": False, "errors": "家族名が未入力です。"})
+        
         family = Family.objects.create(family_name=family_name)
         family.members.add(request.user)
         request.user.family = family
         request.user.save()
-        return redirect("accounts:mypage")
-    return render(request, "families/create_family.html")
+        
+    
+        return JsonResponse({"success": True})
+        
+    return JsonResponse({"success": False, "errors": "Invalid request method"})
 
 
 @login_required

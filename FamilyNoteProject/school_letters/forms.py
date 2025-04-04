@@ -2,6 +2,7 @@ from django import forms
 from .models import SchoolLetter
 from accounts.models import Child
 from families.models import Family
+from django.conf import settings
 
 class SchoolLetterForm(forms.ModelForm):
     class Meta:
@@ -17,7 +18,7 @@ class SchoolLetterForm(forms.ModelForm):
         user = kwargs.pop('user', None) 
         super().__init__(*args, **kwargs)
         
-        families = user.families.all()
-        
-        self.fields['child'].queryset = Child.objects.filter(family__in=families)
-        self.fields['child'].label_from_instance = lambda obj: obj.child_name
+        if user:
+            family_ids = user.families.values_list('id', flat=True)
+            self.fields['child'].queryset = Child.objects.filter(family__id__in=family_ids)
+            self.fields['child'].label_from_instance = lambda obj: obj.child_name

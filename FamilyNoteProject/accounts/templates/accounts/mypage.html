@@ -36,36 +36,30 @@
       {% else %}
         <p>家族が登録されていません。</p>
       {% endif %}
-
+      <div id="family-status"></div>
       {% if user.family %}
         <form method="post" action="{% url 'families:leave_family' %}" class=getout>
           {% csrf_token %}
-          <button type="submit">家族を抜ける</button>
+          <button type="submit" id="leave-family-button" style="display: none;">家族を抜ける</button>
         </form>
-      {% endif %}
-
-      {% if user.family %}
-        <a href="{% url 'families:invite_family' %}">家族を招待する</a>
+        <a href="{% url 'families:invite_family' %}"  style="display: none;">家族を招待する</a>
       {% else %}
-        <a href="#" id="open-modal">家族を作成する</a>
-      {% endif %}
+        <a href="#" id="open-family-modal">家族を作成する</a>
+      {% endif %} 
     </div>
   </div>
   
   
   <div id="family-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
-      <form id="child-modal-form" method="POST">
-        <span id="close-modal" class="close">&times;</span>
-        <h3>こどもを登録</h3>
+      <form id="create-family-form" method="POST">
+        <span id="close-family-modal" class="close">&times;</span>
+        <h3>家族を作成</h3>
         {% csrf_token %}
-        <label for="child_name">こどもの名前:</label>
-        <input type="text" id="child_name" name="child_name" required>
+        <label for="family_name">家族の名前:</label>
+        <input type="text" id="family_name" name="family.family_name" required>
         <br><br>
-        <label for="birth_date">生年月日:</label>
-        <input type="date" id="birth_date" name="birth_date" required>
-        <br><br>
-        <button type="submit">登録</button>
+        <button type="submit">作成</button>
       </form>
     </div>
   </div>
@@ -86,7 +80,7 @@
       {% else %}
         <p>こどもが登録されていません。</p>
       {% endif %}
-      <a href="#" id="open-modal">こどもを登録</a>
+      <a href="#" id="open-child-modal">こどもを登録</a>
     </div>
   </div>
     
@@ -94,7 +88,7 @@
   <div id="child-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
       <form id="child-modal-form" method="POST">
-        <span id="close-modal" class="close">&times;</span>
+        <span id="close-child-modal" class="close">&times;</span>
         <h3>こどもを登録</h3>
         {% csrf_token %}
         <label for="child_name">こどもの名前:</label>
