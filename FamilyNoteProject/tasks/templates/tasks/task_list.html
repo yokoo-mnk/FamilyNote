@@ -1,18 +1,93 @@
-{% extends 'tasks/t_base.html' %}
-{% block title %}Note一覧 - FamilyNote{% endblock %}
-{% block content %}
-<h2>Note～我が家の記録～</h2>
-<button id="add_to_todolist">チェックした項目を<br>ToDoリストへ追加</button>
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Note一覧 - FamilyNote{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'tasks/css/t_style.css' %}">
+</head>
+<body>
+  <header>
+    <div class="header">
+      <h1>～FamilyNote～</h1>
 
-<form form class="no-box-form" method="post" action="{% url 'tasks:home' %}">
-  {% csrf_token %}
+      <form method="GET" action="{% url 'tasks:task_list' %}" class="search-bar">
+        <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Noteタイトルまたはメモを検索">
+        <button type="submit">🔍</button>
+      </form>
+
+      <nav class="custom-navbar">
+        <a href="{% url 'tasks:home' %}">ホーム</a>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Note ▼</a>
+          <div class="dropdown-content">
+            <a href="{% url 'tasks:task_list' %}">Note一覧</a>
+            <a href="{% url 'tasks:task_create' %}">Note登録</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">おたより ▼</a>
+          <div class="dropdown-content">      
+            <a href="{% url 'school_letters:letter_list' %}">おたより一覧</a>
+            <a href="{% url 'school_letters:create_letter' %}">おたより登録</a>
+          </div>
+        </li>
+        <a href="{% url 'accounts:mypage' %}">マイページ</a>
+        {% if user.is_authenticated %}
+          <form action="{% url 'accounts:logout' %}" method="post" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">ログアウト</button>
+          </form>
+        {% else %}
+          <p>ログインしてください。</p>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main>
+    <h4>{{ user.nickname }}さん、今日もお疲れさまです。</h4>
+    <h2>Note～我が家の記録～</h2>
+{% comment %} <button id="add_to_todolist">チェックした項目を<br>ToDoリストへ追加</button> {% endcomment %}
+
+  <form method="GET" action="{% url 'tasks:task_list' %}" class="category-filter">
+    <div class="filter-item">
+      <label for="category">カテゴリで絞り込む:</label>
+      <select name="category" id="category" onchange="this.form.submit()">
+        <option value="">すべて</option>
+        {% for value, label in categories %}
+          <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>
+            {{ label }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label for="is_favorite">お気に入りのみ表示</label>
+      <input type="checkbox" name="is_favorite" id="id_is_favorite" {% if request.GET.is_favorite == 'on' %}checked{% endif %}>
+      <button type="submit">フィルタ</button>
+    </div>
+  </form>
+
   <table>
+    <colgroup>
+      <col style="width: 30px;">  <!-- チェックボックス -->
+      <col style="width: 60px;"> <!-- 日付 -->
+      <col style="width: 60px;"> <!-- 時間 -->
+      <col style="width: 30px;">  <!-- お気に入り -->
+      <col style="width: 150px;"> <!-- タイトル -->
+      <col style="width: 300px;"> <!-- メモ -->
+      <col style="width: 120px;"> <!-- 画像 -->
+      <col style="width: 50px;">  <!-- 編集 -->
+      <col style="width: 50px;">  <!-- コピー -->
+    </colgroup>
     <thead>
       <tr>
         <th></th>
-        <th>カテゴリ</th>
         <th>日付</th>
         <th>時間</th>
+        <th></th>
         <th>タイトル</th>
         <th>メモ</th>
         <th>画像</th>
@@ -23,10 +98,9 @@
     <tbody>
         {% for task in tasks %}
           <tr>
-            <td>
-              <input type="checkbox" name="tasks" value="{{ task.id }}" {% if task.id in request.session.selected_tasks %}checked{% endif %}>
+            <td class="check">
+              <input type="checkbox" class="task-checkbox" value="{{ task.id }}" data-title="{{ task.title }}">
             </td>
-            <td>{{ task.get_category_display }}</td>
             <td>{{ task.formatted_due_date }}</td>
             <td>
               {% if task.start_time %}
@@ -35,8 +109,13 @@
                 -
               {% endif %}
             </td>
-            <td>{{ task.title }}</td>
             <td>
+              {% if task.is_favorite %}
+                  ⭐
+              {% endif %}
+            </td>
+            <td>{{ task.title }}</td>
+            <td class=memo>
               {% if task.memo %}
                 {{ task.memo }}
               {% else %}
@@ -50,10 +129,10 @@
                 -
               {% endif %}
             </td>
-            <td>
+            <td class="edit">
               <a href="{% url 'tasks:task_edit' task.pk %}">📝</a>  <!-- 追加: 編集ボタン -->
             </td>
-            <td>
+            <td class="copy">
               <a href="{% url 'tasks:task_copy' task.id %}">📄</a>
             </td>
           </tr>
@@ -66,24 +145,44 @@
   </table>
 </form>
 
-<script>
+{% comment %} <script>
 document.getElementById('add_to_todolist').addEventListener('click', function() {
   var form = document.getElementById('task_form');
     form.submit();
 });
-</script>
+</script> {% endcomment %}
 
 
-  <!-- ページネーション -->
+    <!-- ページネーション -->
     <div>
       {% if tasks.has_previous %}
         <a href="?page=1">&laquo; 最初</a>
         <a href="?page={{ tasks.previous_page_number }}">前へ</a>
       {% endif %}
-      <span>ページ {{ tasks.number }} / {{ tasks.paginator.num_pages }}</span>
+        <span>ページ {{ tasks.number }} / {{ tasks.paginator.num_pages }}</span>
       {% if tasks.has_next %}
         <a href="?page={{ tasks.next_page_number }}">次へ</a>
         <a href="?page={{ tasks.paginator.num_pages }}">最後 &raquo;</a>
       {% endif %}
     </div>
+
+    <div class="footer-container">
+      <input type="checkbox" id="select-all"> 全ての項目を選択
+      <button id="delete-btn" disabled>選択した項目を削除</button>
+    </div>
+
+    <div id="delete-modal" class="modal-overlay" style="display: none;">
+      <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h3>以下のタスクを削除しますか？</h3>
+        <ul id="selected-tasks-list"></ul>
+        <button id="confirm-delete">削除</button>
+      </div>
+    </div>
+  </main> 
+</body>
+</html>
+
+{% block extra_js %}
+  <script src="{% static 'tasks/js/modal.js' %}"></script>
 {% endblock %}

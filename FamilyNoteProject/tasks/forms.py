@@ -6,7 +6,6 @@ class TaskForm(forms.ModelForm):
         label='日付・期限（必須）',
         widget=forms.DateInput(attrs={'type': 'date'})
     )
-    
     start_time = forms.TimeField(
         label='時間（任意）',
         required=False,
@@ -15,13 +14,13 @@ class TaskForm(forms.ModelForm):
     memo = forms.CharField(
         label='メモ（任意）',
         required=False,
+        widget=forms.Textarea(attrs={'rows': 4, 'cols': 40})
     )
-    
     category = forms.ChoiceField(
         choices=Task.CATEGORY_CHOICES,
         label='カテゴリ（必須）'
     )
-    
+
     class Meta:
         model = Task
         fields = [ 

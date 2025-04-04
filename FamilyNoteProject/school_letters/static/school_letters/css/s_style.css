@@ -179,7 +179,7 @@ form.otayori button {
     cursor: pointer;
 
 }
-form .otayori button:hover {
+form.otayori button:hover {
     background-color: #0056b3;
 }
 .no-box-form {

@@ -2,13 +2,13 @@
 {% block title %}Note編集 - FamilyNote{% endblock %}
 {% block content %}
 <h2>～タスク・ログ・スケジュールを編集してください～</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="form-check">
-        {{ form.is_favorite }}
-        <label class="form-check-label" for="{{ form.is_favorite.id_for_label }}">お気に入りに登録</label>
-    </div>
-    <button type="submit">編集完了</button>
+<form method="post" enctype="multipart/form-data" class="notesakusei">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div class="is_favorite">
+    <label for="id_is_favorite" style="margin-left: 6px;">お気に入りに登録</label>
+    <input type="checkbox" id="id_is_favorite" name="is_favorite">
+  </div>
+  <button type="submit">編集完了</button>
 </form>
 {% endblock %}

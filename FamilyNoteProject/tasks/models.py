@@ -21,7 +21,7 @@ class Task(models.Model):
     due_date = models.DateField()
     start_time = models.TimeField(null=True, blank=True)
     title = models.CharField(max_length=100)
-    memo = models.CharField(max_length=300, blank=True, null=True)
+    memo = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='task_images/', blank=True, null=True)
     is_favorite = models.BooleanField(default=False)
     
