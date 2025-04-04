@@ -18,8 +18,8 @@ header {
     background-color: #add9f6;
     color: gray;
     width: 100%;
-    padding: 10px 30px; /* 上下の余白を小さくする（20px → 10px） */
-    height: auto; /* 必要なら高さを自動調整 */
+    padding: 10px 30px;
+    height: auto;
     position: fixed;
     top: 0;
     left: 0;
@@ -112,12 +112,13 @@ a:-webkit-any-link {
 
 /* メイン部分のタイトルのスタイル */
 main {
-    margin-top: 40px; /* ヘッダーの高さ分だけ下げる */
-    padding: 20px; /* 適度な余白を追加 */
+    margin-top: 40px;
+    padding: 20px;
 }
 h2 {
     padding: 0px 30px;
 }
+
 /* おたよりフォームのスタイル */
 form.otayori {
     background-color: white;

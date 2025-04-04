@@ -5,7 +5,7 @@
 <h2>マイページ</h2>
 <div class="box-container">
   <div class="profile-box">
-    <div class="profile-container">
+    {% comment %} <div class="profile-container"> {% endcomment %}
       {% if user.profile_image %}
         <img src="{{ user.profile_image.url }}" alt="" class="profile-image">
       {% else %}
@@ -17,7 +17,7 @@
         <p class="profile">ニックネーム: {{ user.nickname }}</p>
         <p class="profile">あなたの家族: {{ user.family.family_name|default:"未所属" }}</p>
       </div>
-    </div>
+    {% comment %} </div> {% endcomment %}
     <br>
     <a href="{% url 'accounts:user_edit' pk=user.id %}">📝 プロフィールを編集</a>
     <br>
@@ -38,7 +38,7 @@
       {% endif %}
 
       {% if user.family %}
-        <form method="post" action="{% url 'families:leave_family' %}">
+        <form method="post" action="{% url 'families:leave_family' %}" class=getout>
           {% csrf_token %}
           <button type="submit">家族を抜ける</button>
         </form>

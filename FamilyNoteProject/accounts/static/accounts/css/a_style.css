@@ -18,8 +18,8 @@ header {
     background-color: #add9f6;
     color: gray;
     width: 100%;
-    padding: 10px 30px; /* 上下の余白を小さくする（20px → 10px） */
-    height: auto; /* 必要なら高さを自動調整 */
+    padding: 10px 30px;
+    height: auto;
     position: fixed;
     top: 0;
     left: 0;
@@ -109,13 +109,12 @@ a:-webkit-any-link {
 .logout-btn:hover {
     background-color: rgb(5, 5, 106);
 }
-/* メインのスタイル */
-main {
-    margin-top: 40px; /* ヘッダーの高さ分だけ下げる */
-    padding: 20px; /* 適度な余白を追加 */
-}
 
-/* タイトルのスタイル */
+/* メイン部分のタイトルのスタイル */
+main {
+    margin-top: 40px;
+    padding: 20px;
+}
 h2 {
     padding: 0px 30px;
 }
@@ -137,11 +136,11 @@ h2 {
     flex-direction: column; /* 内容に合わせたサイズ */
     flex: 1;
 }
-.profile-container {
+/* .profile-container {
     display: flex;
     align-items: center;
-    gap: 15px; /* 画像とテキストの間隔 */
-}
+    gap: 15px; 
+} */
 .profile-image {
     width: 150px !important;   /* 幅を指定（!importantで強制） */
     height: 150px !important;  /* 高さを指定（!importantで強制） */
@@ -150,12 +149,13 @@ h2 {
     border: 2px solid #ccc !important;  /* 任意で枠を追加 */
 }
 .profile-info {
-    margin-left: 30px; /* 画像との間隔 */
+    margin-left: 20px; /* 画像との間隔 */
     flex: 1;
 }
 .profile, .family, .child {
     margin: 10px 0;
-    font-size: 12px;
+    font-size: 15px;
+    align-items: center;
 }
 
 h2.update {
@@ -165,7 +165,7 @@ h2.update {
     margin-bottom: 20px;
 }
 /* フォームのスタイル */
-form {
+form.namechange {
     background-color: white;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -178,16 +178,16 @@ form {
     margin-bottom: 30px;
     margin: 0 auto;
 }
-form p {
+form.namechange p {
     margin-bottom: 15px;
 }
-form label {
+form.namechange label {
     display: block;
     text-align: left;
     margin-bottom: 5px;
 }
 
-form input {
+form.namechange input {
     width: 100%;
     padding: 10px;
     font-size: 1em;
@@ -195,7 +195,7 @@ form input {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
-form button {
+form.namechange button {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -204,7 +204,7 @@ form button {
     border: none;
     cursor: pointer;
 }
-button:hover {
+form.namechange button:hover {
     background-color: #0056b3;
 }
 
@@ -256,7 +256,7 @@ a.password {
     text-align: center;
     margin-top: 10px;
     font-size: 0.9em;
-    color: #007bff;
+    color: #007bff !important;
     text-decoration: none !important;
 }
 a.password:hover {
