@@ -64,8 +64,10 @@ class SchoolLetterListView(LoginRequiredMixin, ListView):
 class SchoolLetterDeleteView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         letter_ids = request.POST.getlist("delete_letter")
-        # SchoolLetter.objects.filter(id__in=letter_ids, child__family__members=request.user).delete()
-        # return JsonResponse({"success": True})
+        # if letter_ids:
+        #     SchoolLetter.objects.filter(id__in=letter_ids, family=request.user.family).delete()
+        #     return JsonResponse({"success": True})
+        # return JsonResponse({"success": False, "error": "削除するタスクが選択されていません。"})
         deleted_count, _ = SchoolLetter.objects.filter(
             id__in=letter_ids, child__family__members=request.user
         ).delete()

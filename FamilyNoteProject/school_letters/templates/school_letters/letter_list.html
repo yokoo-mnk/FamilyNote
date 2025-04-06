@@ -16,22 +16,25 @@
   </select>
 </form>
 
-<div class="letter-container">
-  {% for letter in letters %}
-  <a href="{% url 'school_letters:update_letter' letter.pk %}" class="letter-card">
-    <input type="checkbox" class="letter-checkbox" value="{{ letter.id }}" data-title="{{ letter.title }}">
-    <img src="{{ letter.image.url }}" alt="{{ letter.title }}">
-    <h3>{{ letter.title }}</h3>
-    <p>{{ letter.child.child_name }}</p>
-  </a>
-  {% empty %}
-    <p>おたよりがまだ登録されていません。</p>
-  {% endfor %}
-</div>
-<div class="footer-container">
-  <input type="checkbox" id="select-all"> 全ての項目を選択
-  <button id="delete-btn" disabled>選択した項目を削除</button>
-</div>
+<form method="post" action="{% url 'school_letters:letter_list' %}">
+  {% csrf_token %}
+    <div class="letter-container">
+    {% for letter in letters %}
+      <a href="{% url 'school_letters:update_letter' letter.pk %}" class="letter-card">
+        <input type="checkbox" class="letter-checkbox" name="school_letters" value="{{ letter.id }}" data-title="{{ letter.title }}">
+        <img src="{{ letter.image.url }}" alt="{{ letter.title }}">
+        <h3>{{ letter.title }}</h3>
+        <p>{{ letter.child.child_name }}</p>
+      </a>
+    {% empty %}
+      <p>おたよりがまだ登録されていません。</p>
+    {% endfor %}
+    </div>
+  <div class="footer-container">
+    <input type="checkbox" id="select-all"> 全ての項目を選択
+    <button id="delete-btn" disabled>選択した項目を削除</button>
+  </div>
+</form>
 
 <div id="delete-modal" class="modal-overlay" style="display: none;">
   <div class="modal-content">

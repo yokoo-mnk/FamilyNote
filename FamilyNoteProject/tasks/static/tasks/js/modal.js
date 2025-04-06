@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     deleteBtn.addEventListener("click", function() {
         selectedTasks = Array.from(document.querySelectorAll(".task-checkbox:checked"))
-        .map(c => ({ id: c.value, title: c.dataset.title }));
-
+            .map(c => ({ id: c.value, title: c.dataset.title }));
+        
         console.log(selectedTasks);
 
         selectedList.innerHTML = "";
@@ -65,8 +65,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     confirmDelete.addEventListener("click", function() {
         const formData = new FormData();
-        selectedTasks.forEach(letter => {
-            formData.append("delete_task", letter.id);
+        selectedTasks.forEach(task => {
+            formData.append("tasks", task.id);
         });
 
         fetch("/tasks/task_delete/", {
@@ -77,15 +77,14 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         })
         .then(response => {
-            console.log("Raw Response:", response); // レスポンスをデバッグ
+            console.log("Raw Response:", response);
 
-            // リダイレクトされている場合、ログインページへ移動
             if (response.redirected) {
                 window.location.href = response.url;
                 return;
             }
 
-            return response.json();  // JSONに変換
+            return response.json();
         })
         .then(data => {
             if (data.success) {
@@ -104,41 +103,3 @@ document.addEventListener("DOMContentLoaded", function() {
         return document.querySelector("[name=csrfmiddlewaretoken]").value;
     }
 });
-
-
-
-
-
-// document.getElementById("selectAll").addEventListener("change", function() {
-//     let checkboxes = document.querySelectorAll(".taskCheckbox");
-//     checkboxes.forEach(cb => cb.checked = this.checked);
-//     toggleDeleteButton();
-// });
-
-// document.querySelectorAll(".taskCheckbox").forEach(cb => {
-//     cb.addEventListener("change", toggleDeleteButton);
-// });
-
-// function toggleDeleteButton() {
-//     let checked = document.querySelectorAll(".taskCheckbox:checked").length > 0;
-//     document.getElementById("deleteButton").disabled = !checked;
-// }
-
-// function openModal() {
-//     let selectedTasks = document.querySelectorAll(".taskCheckbox:checked");
-//     let taskList = document.getElementById("tasks:taskList");
-//     taskList.innerHTML = "";
-
-//     selectedTasks.forEach(task => {
-//         let title = task.closest("tr").querySelector("td:nth-child(2)").textContent;
-//         let li = document.createElement("li");
-//         li.textContent = title;
-//         taskList.appendChild(li);
-//     });
-
-//     document.getElementById("deleteModal").style.display = "flex";
-// }
-
-// function closeModal() {
-//     document.getElementById("deleteModal").style.display = "none";
-// }

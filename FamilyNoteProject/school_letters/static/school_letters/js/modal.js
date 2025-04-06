@@ -76,7 +76,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 "X-CSRFToken": getCsrfToken()
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            console.log("Raw Response:", response);
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            return response.json();
+        })
         .then(data => {
             if (data.success) {
                 window.location.href = "/school_letters/letter_list/";

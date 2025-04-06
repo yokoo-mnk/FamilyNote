@@ -2,16 +2,22 @@
 {% block title %}ホーム - FamilyNote{% endblock %}
 {% block content %}
 <h2>ToDoリスト</h2>
-<form method="post">
-    {% csrf_token %}
-    <ul>
-        {% for task in selected_tasks %}
-            <li>
-                <input type="checkbox" name="remove_tasks" value="{{ task.id }}"> {{ task.title }} - {{ task.formatted_due_date }}
-            </li>
-        {% empty %}
-            <li>ToDoリストにNoteがありません。</li>
-        {% endfor %}
-    </ul>
-    <button type="submit">選択したNoteを<br>リストから削除</button>
+{% if home_tasks %}
+  <ul>
+    {% for task in home_tasks %}
+      <li>
+        <strong>{{ task.title }}</strong>
+        {% if task.due_date %}（{{ task.due_date|date:"m/d" }}）{% endif %}
+        <br>
+        {{ task.memo|truncatechars:100 }}
+        <form method="post" action="{% url 'tasks:home_task_remove' task.id %}" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit">ホームから削除</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>ホームに表示するタスクはありません。</p>
+{% endif %}
 {% endblock %}

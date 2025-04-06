@@ -1,6 +1,6 @@
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView, CreateView, UpdateView, View,
@@ -9,22 +9,28 @@ from django.db.models import Q
 from .models import Task, Family
 from .forms import TaskForm
 from django.urls import reverse, reverse_lazy
-from django.http import HttpResponseRedirect
 
 
-@login_required
-def home(request):
-    selected_task_ids = request.session.get('selected_tasks', [])
-    selected_tasks = Task.objects.filter(id__in=selected_task_ids)
-    
-    if request.method == 'POST' and 'remove_task' in request.POST:
-        task_ids_to_remove = request.POST.getlist('remove_task')
-        selected_task_ids = [task_id for task_id in selected_task_ids if task_id not in task_ids_to_remove]
-        request.session['selected_tasks'] = selected_task_ids
+class HomeTaskListView(LoginRequiredMixin, ListView):
+    model = Task
+    template_name = 'tasks/home.html'
+    context_object_name = 'home_tasks'
+
+    def get_queryset(self):
+        return Task.objects.filter(
+            family=self.request.user.family,
+            show_on_home=True
+        ).order_by('due_date')
+        
+
+class HomeTaskRemoveView(LoginRequiredMixin, View):
+    def post(self, request, task_id):
+        task = get_object_or_404(Task, id=task_id, family=request.user.family)
+        task.show_on_home = False
+        task.save()
         return redirect('tasks:home')
-    return render(request, 'tasks/home.html', {'selected_tasks': selected_tasks})
 
-
+        
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'tasks/task_list.html'
@@ -55,14 +61,16 @@ class TaskListView(LoginRequiredMixin, ListView):
         
         if not task_ids:
             return redirect("tasks:task_list")
+        
+        tasks = Task.objects.filter(id__in=task_ids, family=request.user.family)
 
         if action == 'delete':
-            Task.objects.filter(id__in=task_ids, family=request.user.family).delete()
+            tasks.delete()
 
         elif action == 'show_on_home':
-            Task.objects.filter(id__in=task_ids, family=request.user.family).update(show_on_home=True)
+            tasks.update(show_on_home=True)
 
-        return redirect("tasks:task_list")
+        return redirect("tasks:home")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -127,7 +135,8 @@ class TaskDeleteView(LoginRequiredMixin, View):
         task_ids = request.POST.getlist("tasks")
         if task_ids:
             Task.objects.filter(id__in=task_ids, family=request.user.family).delete()
-        return redirect("tasks:task_list")
+            return JsonResponse({"success": True})
+        return JsonResponse({"success": False, "error": "削除するタスクが選択されていません。"})
     
     
 class TaskCopyView(LoginRequiredMixin, View):
