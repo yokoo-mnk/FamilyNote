@@ -11,7 +11,7 @@
 }
 
 /* ヘッダーのスタイル */
-/* header {
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,7 +24,7 @@
     top: 0;
     left: 0;
     box-sizing: border-box;
-} */
+}
 header h1 {
     margin: 0;
     font-size: 1.8em;
@@ -257,7 +257,7 @@ form.notesakusei textarea {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
-.is_favorite {
+/* .is_favorite {
     display: flex;
     align-items: left;
     margin-top: 10px;
@@ -267,7 +267,20 @@ form.notesakusei textarea {
     margin-right: 6px;
     margin-left: 2px;
     white-space: nowrap;
+} */
+.checkbox-wrapper {
+    display: flex;
+    gap: 2rem; /* チェックボックスの間隔 */
+    align-items: center;
 }
+  
+.checkbox-wrapper label {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
 input[type="checkbox"] {
     margin-left: 6px !important;
     width: auto !important;
@@ -347,6 +360,27 @@ td img {
 }
 input.task-checkbox {
     text-align: center;
+}
+
+/* ページ移動のスタイル */
+.pagination {
+    text-align: left;
+    margin-top: 20px;
+}
+  
+.step-links a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+  
+.step-links a:hover {
+    text-decoration: underline;
+}
+  
+.current {
+    margin: 0 10px;
+    font-weight: bold;
 }
 
 /* 削除ボタン */

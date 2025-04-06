@@ -40,7 +40,6 @@ class TaskListView(LoginRequiredMixin, ListView):
             queryset = queryset.filter(category=category)
         
         if search_query:
-            # title と memo に対して検索
             queryset = queryset.filter(
                 Q(title__icontains=search_query) | Q(memo__icontains=search_query)
             )
@@ -52,11 +51,19 @@ class TaskListView(LoginRequiredMixin, ListView):
     
     def post(self, request, *args, **kwargs):
         task_ids = request.POST.getlist('tasks')
-        selected_tasks = request.session.get('selected_tasks', [])
-        selected_tasks.extend(task_ids)
-        request.session['selected_tasks'] = selected_tasks
-        return HttpResponseRedirect(request.path)
-    
+        action = request.POST.get('action')
+        
+        if not task_ids:
+            return redirect("tasks:task_list")
+
+        if action == 'delete':
+            Task.objects.filter(id__in=task_ids, family=request.user.family).delete()
+
+        elif action == 'show_on_home':
+            Task.objects.filter(id__in=task_ids, family=request.user.family).update(show_on_home=True)
+
+        return redirect("tasks:task_list")
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
@@ -85,8 +92,9 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         
         form.instance.family = family
         
-        is_favorite = self.request.POST.get('is_favorite')
-        form.instance.is_favorite = is_favorite == 'on'
+        form.instance.is_favorite = self.request.POST.get('is_favorite') == 'on'
+        form.instance.show_on_home = self.request.POST.get('show_on_home') == 'on'
+
         return super().form_valid(form)
     
     def get_initial(self):
@@ -97,7 +105,8 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         initial["start_time"] = self.request.GET.get("start_time", "")
         initial["memo"] = self.request.GET.get("memo", "")
         initial["category"] = self.request.GET.get("category", "")
-        initial["is_favorite"] = self.request.GET.get("is_favorite", "")
+        initial["is_favorite"] = self.request.GET.get("is_favorite", "") == "on"
+        initial["show_on_home"] = self.request.GET.get("show_on_home", "") == "on"
         return initial
     
     
@@ -108,10 +117,8 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('tasks:task_list')
     
     def form_valid(self, form):
-        # お気に入り状態の更新
-        is_favorite = self.request.POST.get('is_favorite')
-        form.instance.is_favorite = is_favorite == 'on'
-        
+        form.instance.is_favorite = self.request.POST.get('is_favorite') == 'on'
+        form.instance.show_on_home = self.request.POST.get('show_on_home') == 'on'
         return super().form_valid(form)
     
     
@@ -133,8 +140,10 @@ class TaskCopyView(LoginRequiredMixin, View):
             "start_time": task.start_time.strftime("%H:%M") if task.start_time else "",
             "memo": task.memo,
             "category": task.category,
-            "is_favorite": task.is_favorite,
+            "is_favorite": "on" if task.is_favorite else "",
+            "show_on_home": "on" if task.show_on_home else "",
         }
         
-        url = reverse("tasks:task_create") + "?" + "&".join([f"{key}={value}" for key, value in query_params.items() if value])
+        url = reverse("tasks:task_create") + "?" + "&".join(
+            [f"{key}={value}" for key, value in query_params.items() if value])
         return redirect(url)

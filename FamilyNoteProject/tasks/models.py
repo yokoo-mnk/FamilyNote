@@ -23,6 +23,7 @@ class Task(models.Model):
     title = models.CharField(max_length=100)
     memo = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='task_images/', blank=True, null=True)
+    show_on_home = models.BooleanField(default=False)
     is_favorite = models.BooleanField(default=False)
     
     created_at = models.DateTimeField(auto_now_add=True)

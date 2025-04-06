@@ -5,9 +5,16 @@
 <form method="post" enctype="multipart/form-data" class="notesakusei">
   {% csrf_token %}
   {{ form.as_p }}
-  <div class="is_favorite">
-    <label for="id_is_favorite" style="margin-left: 6px;">お気に入りに登録</label>
-    <input type="checkbox" id="id_is_favorite" name="is_favorite">
+  <div class="checkbox-wrapper">
+    <label for="show_on_home">
+      <input type="checkbox" id="show_on_home" name="show_on_home" checked>
+      ToDoリストに表示する
+    </label>
+  
+    <label for="is_favorite">
+      <input type="checkbox" id="is_favorite" name="is_favorite">
+      お気に入りに登録
+    </label>
   </div>
   <button type="submit">編集完了</button>
 </form>

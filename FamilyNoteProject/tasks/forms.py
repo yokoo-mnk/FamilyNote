@@ -20,7 +20,7 @@ class TaskForm(forms.ModelForm):
         choices=Task.CATEGORY_CHOICES,
         label='カテゴリ（必須）'
     )
-
+    
     class Meta:
         model = Task
         fields = [ 
@@ -40,5 +40,5 @@ class TaskForm(forms.ModelForm):
     def clean_start_time(self):
         start_time = self.cleaned_data.get('start_time')
         if start_time is None or start_time == '':
-            return None  # 空欄の場合は None に設定
+            return None
         return start_time
