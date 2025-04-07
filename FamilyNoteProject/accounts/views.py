@@ -26,7 +26,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            next_url = request.GET.get('next', 'tasks:home')
+            next_url = request.GET.get('next', 'accounts:mypage')
             return redirect(next_url)
 
     else:
@@ -37,7 +37,7 @@ def register(request):
 class CustomLoginView(LoginView):
     authentication_form = CustomLoginForm
     template_name = "accounts/login.html"
-    success_url = reverse_lazy('tasks:home')
+    success_url = reverse_lazy('accounts:mypage')
 
     
 class CustomLogoutView(LogoutView):

@@ -48,10 +48,6 @@ header h1 {
 .custom-navbar a:hover {
     text-decoration: underline !important;
 }
-a:-webkit-any-link {
-    color: inherit !important;
-    text-decoration: none !important;
-}
 
 /* ドロップダウンメニューのスタイル */
 .custom-navbar li {
@@ -111,6 +107,7 @@ main {
     padding: 20px; /* 適度な余白を追加 */
 }
 
+/* 家族参加htmlのスタイル */
 .join-box {
     display: flex;
     flex-direction: column; /* 子要素を縦に並べる */
@@ -154,4 +151,85 @@ main {
   
 .join-box a:hover {
     text-decoration: underline !important; /* ホバー時に下線を表示 */
+}
+
+/* 家族招待URL発行htmlのスタイル */
+div.invite-box {
+    display: flex;
+    flex-direction: column; /* 子要素を縦に並べる */
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border-radius: 10px; /* 角を丸くする */
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+div.invite-box button {
+    display: inline-block;
+    white-space: nowrap;
+    width: 30%;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 20px;
+}
+input#invite_url {
+    width: 100%;
+    font-size: 1em;
+}
+
+/* 家族キャンセル確認htmlのスタイル */
+div.leave-box {
+    display: flex;
+    flex-direction: column; /* 子要素を縦に並べる */
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border-radius: 10px; /* 角を丸くする */
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+div.leave-box button {
+    display: inline-block;
+    white-space: nowrap;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+div.leave-box button:hover {
+    background-color: rgb(132, 27, 27); /* ホバー時の背景色を変更 */
+    color: #ffffff; /* ホバー時のテキスト色 */
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover {
+    text-decoration: underline;
 }

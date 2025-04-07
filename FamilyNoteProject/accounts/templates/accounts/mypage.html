@@ -50,9 +50,9 @@
       
       <div class="link-container">
         <a href="{% url 'families:leave_family' %}" 
-           class="btn"
-           {% if not user.family %}class="disabled-link"{% endif %}>
-           家族を抜ける
+          class="btn"
+          {% if not user.family %}class="disabled-link"{% endif %}>
+          家族を抜ける
         </a>
         <a href="{% url 'families:invite_family' %}" id="family-invite-link"
           {% if not user.family %}class="disabled-link" onclick="return false;"{% endif %}>
@@ -87,32 +87,41 @@
         {% if children %}
           <ul id="child-list">
           <table>
+            <colgroup>
+              <col style="width: 100px;">
+              <col style="width: 30px;">
+            </colgroup>
             <thead>
               <tr>
                 <th>名前 / 生年月日</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
             {% for child in children %}
               <tr>
                 <td>
-                  <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.child_name }} / {{ child.birth_date|date:"Y年m月d日" }}生まれ</a>
+                  <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.child_name }} / {{ child.birth_date|date:"Y年m月d日" }}</a>
+                </td>
+                <td>
+                  <button class="delete-child" data-id="{{ child.id }}">削除</button>
                 </td>
               </tr>
+            {% endfor %}
             </tbody>
           </table>
-            <button class="delete-child" data-id="{{ child.id }}">削除</button>
-            {% endfor %}
           </ul>
         {% else %}
           <p>こどもが登録されていません。</p>
         {% endif %}
-      <a href="#" id="open-child-modal"
-         {% if not user.family %}
+      <div class="link-container">
+        <a href="#" id="open-child-modal"
+          {% if not user.family %}
             class="disabled-link"
             onclick="alert('こどもを登録するには家族を作成してください。'); return false;"
-         {% endif %}
-      >こどもを登録</a>
+          {% endif %}
+        >こどもを登録</a>
+      </div>
     </div>
   </div>
     
