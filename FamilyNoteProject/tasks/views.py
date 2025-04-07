@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.http import require_POST
 from django.views.generic import (
     ListView, CreateView, UpdateView, View,
 )
@@ -9,6 +10,7 @@ from django.db.models import Q
 from .models import Task, Family
 from .forms import TaskForm
 from django.urls import reverse, reverse_lazy
+from datetime import date
 
 
 class HomeTaskListView(LoginRequiredMixin, ListView):
@@ -16,12 +18,6 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
     template_name = 'tasks/home.html'
     context_object_name = 'tasks'
     paginate_by = 10
-
-    def get_queryset(self):
-        return Task.objects.filter(
-            family=self.request.user.family,
-            show_on_home=True
-        ).order_by('due_date')
     
     def get_queryset(self):
         queryset = Task.objects.filter(
@@ -33,12 +29,32 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         if category:
             queryset = queryset.filter(category=category)
 
-        return queryset.order_by('-due_date', '-start_time')
-
+        sort_order = self.request.GET.get('sort_order', 'newest')
+        
+        if sort_order == 'newest':
+            queryset = queryset.order_by('-due_date')  # 新しい順
+        elif sort_order == 'oldest':
+            queryset = queryset.order_by('due_date')  # 古い順
+        else:
+            queryset = queryset.order_by('-due_date')  # デフォルトで新しい順
+        
+        for task in queryset:
+            if task.due_date:
+                task.is_today = task.due_date == date.today()
+                task.is_overdue = task.due_date < date.today()
+            else:
+                task.is_today = False
+                task.is_overdue = False
+        
+        return queryset
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
         context["selected_category"] = self.request.GET.get("category", "")
-        context["categories"] = Task.CATEGORY_CHOICES  # モデルから選択肢を取得
+        context["categories"] = Task.CATEGORY_CHOICES
+        context["selected_sort_order"] = self.request.GET.get('sort_order', 'newest')
+        context["today"] = date.today()
         return context
 
 class HomeTaskRemoveView(LoginRequiredMixin, View):
@@ -52,6 +68,21 @@ class HomeTaskRemoveView(LoginRequiredMixin, View):
             ).update(show_on_home=False)
             return JsonResponse({"success": True})
         return JsonResponse({"success": False, "error": "削除するToDoが選択されていません。"})   
+
+
+@require_POST
+def toggle_task_completion(request):
+    task_id = request.POST.get("task_id")
+    is_completed = request.POST.get("is_completed") == "true"
+
+    try:
+        task = Task.objects.get(id=task_id)
+        task.is_completed = is_completed
+        task.save()
+        return JsonResponse({"success": True})
+    except Task.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Task not found"})
+
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task

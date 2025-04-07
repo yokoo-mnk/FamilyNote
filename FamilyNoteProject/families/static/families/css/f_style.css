@@ -100,6 +100,7 @@ a:-webkit-any-link {
     cursor: pointer;
     font-size: 1em;
     border-radius: 5px;
+    
 }
 .logout-btn:hover {
     background-color: rgb(5, 5, 106);
@@ -108,4 +109,49 @@ a:-webkit-any-link {
 main {
     margin-top: 40px; /* ヘッダーの高さ分だけ下げる */
     padding: 20px; /* 適度な余白を追加 */
+}
+
+.join-box {
+    display: flex;
+    flex-direction: column; /* 子要素を縦に並べる */
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border-radius: 10px; /* 角を丸くする */
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+.join-box h2 {
+    margin-bottom: 20px; /* 見出しの下に余白を設定 */
+}
+  
+.join-box form {
+    margin-bottom: 20px; /* フォームの下に余白を設定 */
+}
+.join-box button{
+    display: inline-block;
+    white-space: nowrap;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+} 
+.join-box a {
+    color: #007bff !important; /* リンクの色 */
+    text-decoration: none !important; /* 下線を除去 */
+}
+  
+.join-box a:hover {
+    text-decoration: underline !important; /* ホバー時に下線を表示 */
 }

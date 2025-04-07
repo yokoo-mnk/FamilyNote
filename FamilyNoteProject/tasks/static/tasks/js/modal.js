@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const selectAllCheckbox = document.getElementById("select-all");
+    const isHomePage = document.body.classList.contains("home-page");
     const checkboxes = document.querySelectorAll(".task-checkbox");
     const deleteBtn = document.getElementById("delete-btn");
     const modal = document.getElementById("delete-modal");
@@ -8,7 +9,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const closeModal = document.getElementById("close-modal");
     const taskDeleteEndpoint = document.getElementById("task-delete-endpoint");
     const homeTaskRemoveEndpoint = document.getElementById("home-task-remove-endpoint");
-    
 
     let selectedTasks = [];
 
@@ -27,7 +27,35 @@ document.addEventListener("DOMContentLoaded", function() {
             } else if (Array.from(checkboxes).every(c => c.checked)) {
                 selectAllCheckbox.checked = true; // 全部チェックされたら全選択をオン
             }
+            
+            const row = this.closest("tr");
+            if (isHomePage) {
+                // ホーム画面の場合、チェックボックスの状態に基づいて行に線を引く
+                if (this.checked) {
+                    row.classList.add("completed"); // チェックされたら線を引く
+                } else {
+                    row.classList.remove("completed"); // チェックが外れたら線を外す
+                }
+            }
 
+            fetch("/tasks/toggle_completion/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": getCsrfToken()
+                },
+                body: `task_id=${this.value}&is_completed=${this.checked}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert("チェック状態の保存に失敗しました：" + (data.error || ""));
+                }
+            })
+            .catch(error => {
+                console.error("チェック状態の保存エラー:", error);
+            });
+        
             updateSelectedTasks(); // 状態を更新
         });
     });
@@ -106,9 +134,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(data => {
             if (data.success) {
                 if (endpoint.includes("home_task_remove")) {
-                    window.location.href = "/tasks/home/";
+                    window.location.href = "/tasks/home/?sort_order=" + getSortOrder();
                 } else {
-                    window.location.href = "/tasks/task_list/";
+                    window.location.href = "/tasks/task_list/?sort_order=" + getSortOrder();
                 }
             } else {
                 alert("削除に失敗しました：" + (data.error || "不明なエラー"));
@@ -122,5 +150,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function getCsrfToken() {
         return document.querySelector("[name=csrfmiddlewaretoken]").value;
+    }
+
+    function getSortOrder() {
+        const sortOrderSelect = document.querySelector("[name=sort_order]");
+        return sortOrderSelect ? sortOrderSelect.value : "newest";  // デフォルトは新しい順
     }
 });

@@ -1,11 +1,13 @@
 {% extends 'families/f_base.html' %}
 {% block title %}家族招待確認 - FamilyNote{% endblock %}
 {% block content %}
-<h2>{{ user.family.family_name }} に参加しますか？</h2>
-<form method="post">
+<div class="join-box">
+  <h2>{{ family.family_name }} に参加しますか？</h2>
+  <form method="post">
     {% csrf_token %}
     <button type="submit">参加する</button>
-</form>
+  </form>
 
-<a href="{% url 'accounts:mypage' %}">キャンセル</a>
+  <a href="{% url 'accounts:mypage' %}">キャンセル</a>
+</div>
 {% endblock %}
