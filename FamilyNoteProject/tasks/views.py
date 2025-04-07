@@ -14,23 +14,45 @@ from django.urls import reverse, reverse_lazy
 class HomeTaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'tasks/home.html'
-    context_object_name = 'home_tasks'
+    context_object_name = 'tasks'
+    paginate_by = 10
 
     def get_queryset(self):
         return Task.objects.filter(
             family=self.request.user.family,
             show_on_home=True
         ).order_by('due_date')
-        
+    
+    def get_queryset(self):
+        queryset = Task.objects.filter(
+            family=self.request.user.family,
+            show_on_home=True
+        )
+
+        category = self.request.GET.get("category")
+        if category:
+            queryset = queryset.filter(category=category)
+
+        return queryset.order_by('-due_date', '-start_time')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["selected_category"] = self.request.GET.get("category", "")
+        context["categories"] = Task.CATEGORY_CHOICES  # モデルから選択肢を取得
+        return context
 
 class HomeTaskRemoveView(LoginRequiredMixin, View):
-    def post(self, request, task_id):
-        task = get_object_or_404(Task, id=task_id, family=request.user.family)
-        task.show_on_home = False
-        task.save()
-        return redirect('tasks:home')
+    def post(self, request, *args, **kwargs):
+        task_ids = request.POST.getlist("tasks")
+        if task_ids:
+            Task.objects.filter(
+                id__in=task_ids, 
+                family=request.user.family, 
+                show_on_home=True
+            ).update(show_on_home=False)
+            return JsonResponse({"success": True})
+        return JsonResponse({"success": False, "error": "削除するToDoが選択されていません。"})   
 
-        
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'tasks/task_list.html'
@@ -50,7 +72,7 @@ class TaskListView(LoginRequiredMixin, ListView):
                 Q(title__icontains=search_query) | Q(memo__icontains=search_query)
             )
             
-        if self.request.GET.get('is_favorite') == 'on':  # チェックボックスがオンの場合
+        if self.request.GET.get('is_favorite') == 'on':
             queryset = queryset.filter(is_favorite=True)
             
         return queryset   

@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const selectedList = document.getElementById("selected-tasks-list");
     const confirmDelete = document.getElementById("confirm-delete");
     const closeModal = document.getElementById("close-modal");
+    const taskDeleteEndpoint = document.getElementById("task-delete-endpoint");
+    const homeTaskRemoveEndpoint = document.getElementById("home-task-remove-endpoint");
+    
 
     let selectedTasks = [];
 
@@ -64,12 +67,26 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     confirmDelete.addEventListener("click", function() {
+        let endpoint = null;
+
+        if (taskDeleteEndpoint) {
+            endpoint = taskDeleteEndpoint.value;
+        } else if (homeTaskRemoveEndpoint) {
+            endpoint = homeTaskRemoveEndpoint.value;
+        } else {
+            console.error("エンドポイントが見つかりません");
+            return;
+        }
+        
+        // 削除処理を行う
+        console.log("エンドポイント:", endpoint);
+
         const formData = new FormData();
         selectedTasks.forEach(task => {
             formData.append("tasks", task.id);
         });
 
-        fetch("/tasks/task_delete/", {
+        fetch(endpoint, {
             method: "POST",
             body: formData,
             headers: {
@@ -88,7 +105,11 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(data => {
             if (data.success) {
-                window.location.href = "/tasks/task_list/";
+                if (endpoint.includes("home_task_remove")) {
+                    window.location.href = "/tasks/home/";
+                } else {
+                    window.location.href = "/tasks/task_list/";
+                }
             } else {
                 alert("削除に失敗しました：" + (data.error || "不明なエラー"));
             }

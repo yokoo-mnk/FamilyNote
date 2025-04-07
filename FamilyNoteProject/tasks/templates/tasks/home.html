@@ -1,23 +1,138 @@
 {% extends 'tasks/t_base.html' %}
+{% load static %}
 {% block title %}ホーム - FamilyNote{% endblock %}
 {% block content %}
-<h2>ToDoリスト</h2>
-{% if home_tasks %}
-  <ul>
-    {% for task in home_tasks %}
-      <li>
-        <strong>{{ task.title }}</strong>
-        {% if task.due_date %}（{{ task.due_date|date:"m/d" }}）{% endif %}
-        <br>
-        {{ task.memo|truncatechars:100 }}
-        <form method="post" action="{% url 'tasks:home_task_remove' task.id %}" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit">ホームから削除</button>
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
-{% else %}
-  <p>ホームに表示するタスクはありません。</p>
-{% endif %}
+<form method="GET" action="{% url 'tasks:home' %}" class="category-filter">
+  <div class="filter-item">
+    <h2>～ToDoリスト～</h2>
+    <label for="category">カテゴリで絞り込む:</label>
+    <select name="category" id="category" onchange="this.form.submit()">
+      <option value="">すべて</option>
+      {% for value, label in categories %}
+        <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>
+          {{ label }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+</form>
+
+<form method="post" action="{% url 'tasks:home' %}">
+  {% csrf_token %}
+  <table class="task-table">
+    <colgroup>
+      <col style="width: 30px;">
+      <col style="width: 60px;"> <!-- 日付 -->
+      <col style="width: 60px;"> <!-- 時間 -->
+      <col style="width: 150px;"> <!-- タイトル -->
+      <col style="width: 300px;"> <!-- メモ -->
+      <col style="width: 120px;"> <!-- 画像 -->
+    </colgroup>
+    <thead>
+      <tr>
+        <th></th>
+        <th>日付</th>
+        <th>時間</th>
+        <th>タイトル</th>
+        <th>メモ</th>
+        <th>画像</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td class="check">
+            <input type="checkbox" class="task-checkbox" name="tasks" value="{{ task.id }}" data-title="{{ task.title }}">
+          </td>
+          <td>
+            {% if task.due_date %}
+              {{ task.due_date|date:"m/d" }}
+            {% endif %}
+          </td>
+          <td>
+            {% if task.start_time %}
+              {{ task.start_time }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>{{ task.title }}</td>
+          <td class=memo>
+            {% if task.memo %}
+              {{ task.memo }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>
+            {% if task.image %}
+              <img src="{{ task.image.url }}" alt="Task image" width="100">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">表示するToDoがありません。</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- ページネーション -->
+  <div class="pagination">
+    <span class="step-links">
+    {% if page_obj.has_previous %}
+      <a href="?page=1
+        {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+        {% if request.GET.favorite %}&favorite=on{% endif %}
+        {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">≪最初
+      </a>
+      <a href="?page={{ page_obj.previous_page_number }}
+        {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+        {% if request.GET.favorite %}&favorite=on{% endif %}
+        {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">＜前へ
+      </a>
+    {% endif %}
+
+    <span class="current">
+      ページ{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}
+        {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+        {% if request.GET.favorite %}&favorite=on{% endif %}
+        {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">次へ＞
+      </a>
+      <a href="?page={{ page_obj.paginator.num_pages }}
+        {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+        {% if request.GET.favorite %}&favorite=on{% endif %}
+        {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">最後≫
+      </a>
+    {% endif %}
+    </span>
+  </div>
+
+  <div class="footer-container">
+    <input type="checkbox" id="select-all"> 全ての項目を選択
+    <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を削除</button>
+  </div>
+</form>
+
+  <div id="delete-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <span id="close-modal" class="close">&times;</span>
+      <h3>以下のToDoを削除しますか？</h3>
+      <ul id="selected-tasks-list"></ul>
+      <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+      <input type="hidden" id="home-task-remove-endpoint" value="{% url 'tasks:home_task_remove' %}">
+      <button id="confirm-delete">削除</button>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'tasks/js/modal.js' %}"></script>
 {% endblock %}
