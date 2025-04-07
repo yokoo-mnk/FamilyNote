@@ -1,43 +1,47 @@
 document.addEventListener("DOMContentLoaded", function () {
     function getCsrfToken() {
         const tokenElement = document.querySelector("[name=csrfmiddlewaretoken]");
+        console.log(tokenElement ? tokenElement.value : "CSRFトークンが見つかりません");
         return tokenElement ? tokenElement.value : "";
     }
 
     const openFamilyModal = document.getElementById('open-family-modal');
     const familyModal = document.getElementById('family-modal');
     const closeFamilyModal = document.getElementById('close-family-modal');
-    const familyForm = document.querySelector("#create-family-form");
     
     const openChildModal = document.getElementById('open-child-modal');
     const childModal = document.getElementById('child-modal');
     const closeChildModal = document.getElementById('close-child-modal');
-    const childForm = document.querySelector("#child-modal-form");
+    const editChildModal = document.getElementById('edit-child-modal');
+    const closeEditChildModal = document.getElementById('close-edit-child-modal');
+    const editChildModalForm = document.getElementById("edit-child-modal-form");
     
 
-    // // 家族モーダルの要素が正しく取得できているか確認
-    // if (!openFamilyModal) console.error("openFamilyModalが見つかりません！");
-    // if (!familyModal) console.error("familyModalが見つかりません！");
-    // if (!closeFamilyModal) console.error("closeFamilyModalが見つかりません！");
-    // if (!familyForm) console.error("createFamilyFormが見つかりません！");
-
-    // // 子どもモーダルの要素が正しく取得できているか確認
-    // if (!openChildModal) console.error("openChildModalが見つかりません！");
-    // if (!childModal) console.error("childModalが見つかりません！");
-    // if (!closeChildModal) console.error("closeChildModalが見つかりません！");
-    // if (!childForm) console.error("childFormが見つかりません！");
-
     // モーダルを開く
-    openFamilyModal.addEventListener("click", function (event) {
-        event.preventDefault();  // リンクのデフォルト動作を防ぐ
-        console.log("家族モーダルを開きます");
-        familyModal.style.display = "flex"; // モーダルを表示
-    });
-    openChildModal.addEventListener("click", function (event) {
-        event.preventDefault();  // リンクのデフォルト動作を防ぐ
-        console.log("こどもモーダルを開きます");
-        childModal.style.display = "flex"; // モーダルを表示
-    });
+    if (openFamilyModal && familyModal) {
+        openFamilyModal.addEventListener("click", function (event) {
+            event.preventDefault();
+            console.log("家族モーダルを開きます");
+            familyModal.style.display = "flex";
+        });
+    }
+    
+    if (openChildModal) {
+        openChildModal.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (childModal) {
+                childModal.style.display = "flex";
+            }
+        });
+    }
+      
+    if (closeChildModal) {
+        closeChildModal.addEventListener("click", function () {
+            if (childModal) {
+                childModal.style.display = "none";
+            }
+        });
+    }
 
     // モーダルを閉じる
     closeFamilyModal.addEventListener("click", function () {
@@ -57,18 +61,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     
-    // フォームの送信処理
-    const createFamilyForm = document.getElementById("create-family-form"); // フォームのIDを指定
+    // 家族作成処理
+    const createFamilyForm = document.getElementById("create-family-form");
     if (createFamilyForm) {
         createFamilyForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
             const formData = new FormData(createFamilyForm);
-            // DjangoのURLパターンに合わせたURLを指定
-            fetch("/families/create_family/", {  // ✅ 直接パスを指定
+            fetch("/families/create_family/", {
                 method: "POST",
                 headers: {
-                    "X-CSRFToken": getCsrfToken(), // ✅ CSRFトークンを取得する関数を作る
+                    "X-CSRFToken": getCsrfToken(),
                 },
                 body: formData,
             })
@@ -79,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log("家族情報が登録されました");
                     location.reload();
 
-                    // ✅ 表示を切り替える
                     const leaveFamilyButton = document.getElementById("leave-family-button");
                     if (leaveFamilyButton) {
                         leaveFamilyButton.disabled = false;
@@ -104,11 +106,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 家族を抜ける処理を行う（フォーム送信など）
+    // 家族を抜ける処理
     const leaveFamilyButton = document.querySelector('.getout form');
     if (leaveFamilyButton) {
         leaveFamilyButton.addEventListener('submit', function (event) {
-            event.preventDefault(); // フォーム送信のデフォルト動作を防ぐ
+            event.preventDefault();
 
             const formData = new FormData(leaveFamilyButton);
             fetch(leaveFamilyButton.action, {
@@ -130,23 +132,27 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-    
-    const childModalForm = document.getElementById("child-modal-form"); // フォームのIDを指定
+    // 子供情報登録する処理
+    const childModalForm = document.getElementById("child-modal-form");
     if (childModalForm) {
         childModalForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
             const formData = new FormData(childModalForm);
-            // DjangoのURLパターンに合わせたURLを指定
-            fetch("/accounts/add_child/", {  // ✅ 直接パスを指定
+            fetch("/accounts/add_child/", {
                 method: "POST",
                 headers: {
-                    "X-CSRFToken": getCsrfToken(), // ✅ CSRFトークンを取得する関数を作る
+                    "X-CSRFToken": getCsrfToken(),
                 },
                 body: formData,
             })
             
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('ネットワークエラー');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     console.log("子ども情報が登録されました");
@@ -161,4 +167,81 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("通信エラーが発生しました。");
             });
         });
-    }})
+    }
+    
+    // 子供情報編集処理
+    const editChildLinks = document.querySelectorAll('.edit-child');
+
+    editChildLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const childId = this.getAttribute('data-id');
+            
+            fetch(`/accounts/get_child_data/${childId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        editChildModal.style.display = "flex";
+
+                        document.getElementById('edit_child_id').value = data.child.id;
+                        document.getElementById('edit_child_name').value = data.child.child_name;
+                        document.getElementById('edit_birth_date').value = data.child.birth_date;
+                    } else {
+                        alert("データの取得に失敗しました");
+                    }
+                })
+                .catch(error => {
+                    console.error("エラー:", error);
+                    alert("通信エラーが発生しました。");
+                });
+            });
+        });
+        
+        closeEditChildModal.addEventListener("click", function () {
+            editChildModal.style.display = "none";
+        });
+
+        window.addEventListener("click", function (event) {
+            if (event.target === editChildModal) {
+                editChildModal.style.display = "none";
+            }
+        });
+
+        if (editChildModalForm) {
+            editChildModalForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+        
+                const formData = new FormData(editChildModalForm);
+
+                fetch(`/accounts/edit_child/${childId}/`, {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": getCsrfToken(),
+                    },
+                    body: formData,
+                })
+
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('ネットワークエラー');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        console.log("子ども情報が更新されました");
+                        editChildModal.style.display = "none";
+                        location.reload();
+                    } else {
+                        console.log("エラー:", data.errors);
+                    }
+                })
+                .catch(error => {
+                    console.error("エラー:", error);
+                    alert("通信エラーが発生しました。");
+                });
+            });
+        }
+    }
+)

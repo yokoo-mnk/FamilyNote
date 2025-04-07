@@ -13,6 +13,7 @@ urlpatterns = [
     path("user_edit/<int:pk>/", UserUpdateView.as_view(template_name='accounts/user_update.html'), name="user_edit"),
     path('password_change/', PasswordChangeView.as_view(template_name = 'accounts/password_change.html'), name='password_change'),
     path("add_child/", views.add_child, name="add_child"),
+    path('get_child_data/<int:child_id>/', views.get_child_data, name='get_child_data'),
     path("edit_child/<int:child_id>/", views.edit_child, name="edit_child"),
     path("delete_child/<int:child_id>/", views.delete_child, name="delete_child"),
 ]

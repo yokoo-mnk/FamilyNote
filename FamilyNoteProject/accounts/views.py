@@ -15,6 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, get_user_model
 from django.contrib import messages
 from datetime import datetime
+from django.views.decorators.csrf import csrf_exempt
 
 User = get_user_model()
 
@@ -79,7 +80,6 @@ def add_child(request):
         child = Child(
             child_name=child_name,
             birth_date=birth_date,
-            parent=request.user,  # ユーザーに関連付け
             family=request.user.family,
         )
         child.save()
@@ -94,35 +94,33 @@ def add_child(request):
 
 
 @login_required
-def edit_child(request, child_id):
+def get_child_data(request, child_id):
     child = get_object_or_404(Child, id=child_id)
-    
-    if request.user.family != child.family:
-        return HttpResponseForbidden("この子供情報を編集する権限がありません。")
-    
-    if request.method == "POST":
-        # フォームデータを取得
+    return JsonResponse({
+        'success': True,
+        'child': {
+            'id': child.id,
+            'child_name': child.child_name,
+            'birth_date': child.birth_date,
+        }
+    })
+
+
+@login_required
+@csrf_exempt
+def edit_child(request, child_id):
+    if request.method == 'POST':
+        child_id = request.POST.get('child_id')
         child_name = request.POST.get('child_name')
         birth_date = request.POST.get('birth_date')
         
-        if child_name and birth_date:
-            # 子供の情報を更新
-            child.child_name = child_name
-            child.birth_date = birth_date
-            child.save()
-            
-            return JsonResponse({
-                "status": "success",
-                "child_name": child.child_name,
-                "birth_date": child.birth_date.strftime("%Y-%m-%d")
-            })
-        else:
-            return JsonResponse({
-                "status": "error",
-                "message": "名前と生年月日は必須です。"
-            }, status=400)
-            
-    return render(request, "accounts/edit_child_modal.html", {"child": child})
+        child = get_object_or_404(Child, id=child_id)
+        child.child_name = child_name
+        child.birth_date = birth_date
+        child.save()
+        
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False, 'error': 'POST method required'})
 
 
 @login_required
