@@ -21,11 +21,6 @@ class CustomUser(AbstractUser):
 class Child(models.Model):
     child_name = models.CharField(max_length=100)
     birth_date = models.DateField()
-    parent = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
-        on_delete=models.CASCADE, 
-        related_name="children"
-    )
     family = models.ForeignKey(
         "families.Family",
         on_delete=models.CASCADE,

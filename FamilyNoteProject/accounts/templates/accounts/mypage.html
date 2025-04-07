@@ -26,10 +26,10 @@
 
   <div class="family-box">
     <div class="family-container">
-      <h3>{{ user.family.family_name|default:"-" }} 家族情報</h3>
-      {% if members %}
+      <h3>{{ user.family.family_name|default:"-" }} メンバー一覧</h3>
+      {% if family_members %}
         <ul>
-          {% for member in family.family_members %}
+          {% for member in family_members %}
             <li>{{ member.full_name }} ({{ member.nickname }})</li>
           {% endfor %}
         </ul>
@@ -41,12 +41,11 @@
         <a href="#" id="open-family-modal">家族を作成する</a>
       {% endif %}
 
-      <form method="post" action="{% url 'families:leave_family' %}" class=getout>
-        {% csrf_token %}
-        <button type="submit" id="leave-family-button"
-          {% if not user.family %}disabled class="disabled"{% endif %}>家族を抜ける</button>
-      </form>
-
+      <a href="{% url 'families:leave_family' %}" 
+         class="btn"
+         {% if not user.family %}class="disabled-link"{% endif %}>
+         家族を抜ける
+      </a>
       <a href="{% url 'families:invite_family' %}" id="family-invite-link"
         {% if not user.family %}class="disabled-link" onclick="return false;"{% endif %}>
         家族を招待する
@@ -75,7 +74,7 @@
 
   <div class="child-box">
     <div class="child-container">
-      <h3>{{ user.family.family_name|default:"-" }} こども情報</h3>
+      <h3>{{ user.family.family_name|default:"-" }} こども一覧</h3>
       {% if children %}
         <ul id="child-list">
           {% for child in children %}

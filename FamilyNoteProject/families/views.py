@@ -62,15 +62,5 @@ def leave_family(request):
         request.user.family = None
         request.user.save()
         return redirect("accounts:mypage")
-    
-    return redirect("accounts:mypage")
 
-
-@login_required
-def confirm_leave_family(request):
-    if request.method == "POST":
-        request.user.family = None
-        request.user.save()
-        return redirect("accounts:mypage")
-
-    return render(request, "families/confirm_leave_family.html")
+    return render(request, "families/leave_family.html")

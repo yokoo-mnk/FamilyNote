@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views.generic import UpdateView
-from .models import Child
+from .models import  CustomUser, Child
 from .forms import (
     CustomUserCreationForm, CustomLoginForm, UserUpdateForm,
 )
@@ -46,7 +46,7 @@ class CustomLogoutView(LogoutView):
 @login_required
 def mypage(request):
     user = request.user
-    family_members = user.families.all() if user.family else []
+    family_members = CustomUser.objects.filter(family=user.family) if user.family else []
     children = Child.objects.filter(family=user.family) if user.family else []
    
     context = {
