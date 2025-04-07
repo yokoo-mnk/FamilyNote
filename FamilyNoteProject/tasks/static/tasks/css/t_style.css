@@ -71,12 +71,23 @@ header h1 {
   
 .category-filter select {
     padding: 5px;
+    cursor: pointer;
 }
   
 .favorite-filter input {
     margin-right: 5px;
+    
 }
-
+button.filter{
+    width: 40%;
+    padding: 6px;
+    background-color: #add9f6;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid rgb(172, 170, 170);
+    margin-left: 10px;
+}
 /* ナビゲーションバーのスタイル */
 .custom-navbar {
     background-color: #add9f6;
@@ -358,8 +369,9 @@ input.task-checkbox {
 
 /* ページ移動のスタイル */
 .pagination {
-    text-align: left;
+    text-align: center;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
   
 .step-links a {
@@ -377,7 +389,7 @@ input.task-checkbox {
     font-weight: bold;
 }
 
-/* 削除ボタン */
+/* ToDo追加・削除ボタン */
 .footer-container {
     display: flex;
     justify-content: space-between; /* 左右に要素を配置 */
@@ -386,7 +398,7 @@ input.task-checkbox {
     width: 100%; /* 親要素の幅いっぱいに広げる */
 }
 .delete-btn {
-    margin-top: 20px;
+    margin-top: 0px;
     margin-bottom: 10px;
     padding: 8px 15px;
     background-color: red;
@@ -400,19 +412,16 @@ input.task-checkbox {
     background-color: gray;
     cursor: not-allowed;
 }
-
 .todobtn {
     margin-top: 0px;
     margin-bottom: 10px;
     padding: 8px 15px;
-    background-color: rgb(241, 241, 128);
+    background-color: rgb(235, 235, 76);
     color: black;
     border: none;
     cursor: pointer;
-    margin-left: auto;
+    margin-right: auto;
     font-size: 12px;
-    display: flex;
-    justify-content: flex-end;
     border-radius: 5px;
 }
 

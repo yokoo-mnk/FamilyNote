@@ -36,16 +36,24 @@
       {% else %}
         <p>家族が登録されていません。</p>
       {% endif %}
-      <div id="family-status"></div>
-      {% if user.family %}
-        <form method="post" action="{% url 'families:leave_family' %}" class=getout>
-          {% csrf_token %}
-          <button type="submit" id="leave-family-button" style="display: none;">家族を抜ける</button>
-        </form>
-        <a href="{% url 'families:invite_family' %}"  style="display: none;">家族を招待する</a>
-      {% else %}
+
+      {% if not user.family %}
         <a href="#" id="open-family-modal">家族を作成する</a>
-      {% endif %} 
+      {% endif %}
+
+      <form method="post" action="{% url 'families:leave_family' %}" class=getout>
+        {% csrf_token %}
+        <button type="submit" id="leave-family-button"
+          {% if not user.family %}disabled class="disabled"{% endif %}>家族を抜ける</button>
+      </form>
+
+      <a href="{% url 'families:invite_family' %}" id="family-invite-link"
+        {% if not user.family %}class="disabled-link" onclick="return false;"{% endif %}>
+        家族を招待する
+      </a>
+      {% if not user.family %}
+        <p class="notice">※ 家族を作成することで、招待や抜けるボタンが有効になります</p>
+      {% endif %}
     </div>
   </div>
   

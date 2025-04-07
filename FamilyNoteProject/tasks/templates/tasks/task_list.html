@@ -64,15 +64,14 @@
     </div>
 
     <div class="filter-item">
-      <label for="is_favorite">お気に入りのみ表示</label>
+      <label for="is_favorite">お気に入りのみ表示:</label>
       <input type="checkbox" name="is_favorite" id="id_is_favorite" {% if request.GET.is_favorite == 'on' %}checked{% endif %}>
-      <button type="submit">フィルタ</button>
+      <button type="submit" class="filter">フィルタ</button>
     </div>
   </form>
 
   <form method="post" action="{% url 'tasks:task_list' %}">
     {% csrf_token %}
-    <button type="submit" name="action" value="show_on_home" class="todobtn">チェックした項目を<br>ToDoリストへ追加</button>
     <table>
       <colgroup>
         <col style="width: 30px;">  <!-- チェックボックス -->
@@ -181,9 +180,9 @@
       {% endif %}
       </span>
     </div>
-
+    <input type="checkbox" id="select-all"> 全ての項目を選択
     <div class="footer-container">
-      <input type="checkbox" id="select-all"> 全ての項目を選択
+      <button type="submit" name="action" value="show_on_home" class="todobtn">チェックした項目を<br>ToDoリストへ追加</button>
       <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を削除</button>
     </div>
   </form>

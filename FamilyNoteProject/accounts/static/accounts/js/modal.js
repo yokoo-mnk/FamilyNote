@@ -15,17 +15,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const childForm = document.querySelector("#child-modal-form");
     
 
-    // 家族モーダルの要素が正しく取得できているか確認
-    if (!openFamilyModal) console.error("openFamilyModalが見つかりません！");
-    if (!familyModal) console.error("familyModalが見つかりません！");
-    if (!closeFamilyModal) console.error("closeFamilyModalが見つかりません！");
-    if (!familyForm) console.error("createFamilyFormが見つかりません！");
+    // // 家族モーダルの要素が正しく取得できているか確認
+    // if (!openFamilyModal) console.error("openFamilyModalが見つかりません！");
+    // if (!familyModal) console.error("familyModalが見つかりません！");
+    // if (!closeFamilyModal) console.error("closeFamilyModalが見つかりません！");
+    // if (!familyForm) console.error("createFamilyFormが見つかりません！");
 
-    // 子どもモーダルの要素が正しく取得できているか確認
-    if (!openChildModal) console.error("openChildModalが見つかりません！");
-    if (!childModal) console.error("childModalが見つかりません！");
-    if (!closeChildModal) console.error("closeChildModalが見つかりません！");
-    if (!childForm) console.error("childFormが見つかりません！");
+    // // 子どもモーダルの要素が正しく取得できているか確認
+    // if (!openChildModal) console.error("openChildModalが見つかりません！");
+    // if (!childModal) console.error("childModalが見つかりません！");
+    // if (!closeChildModal) console.error("closeChildModalが見つかりません！");
+    // if (!childForm) console.error("childFormが見つかりません！");
 
     // モーダルを開く
     openFamilyModal.addEventListener("click", function (event) {
@@ -75,51 +75,53 @@ document.addEventListener("DOMContentLoaded", function () {
             
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-
                 if (data.success) {
                     console.log("家族情報が登録されました");
-                    
-                    const familyModal = document.getElementById('family-modal');
-                    if (familyModal) {
-                        familyModal.style.display = "none"; // モーダルを非表示にする
-                    }
-                     // 家族状態を更新
-                    document.querySelector("#family-status").innerHTML = "現在、家族に所属しています。";
-                    
-                    const openFamilyModalLink = document.getElementById("open-family-modal");
-                    if (openFamilyModalLink) {
-                        openFamilyModalLink.style.display = "none"; // リンクを非表示
-                    }
+                    location.reload();
 
-                    const leaveFamilyButton = document.querySelector("#leave-family-button");
+                    // ✅ 表示を切り替える
+                    const leaveFamilyButton = document.getElementById("leave-family-button");
                     if (leaveFamilyButton) {
-                        leaveFamilyButton.style.display = "block"; // ボタンを表示
+                        leaveFamilyButton.disabled = false;
+                        leaveFamilyButton.classList.remove("disabled");
                     }
-                    
-
-                    // // もし家族が作成されていれば、もう一度家族リンクの表示状態を確認
-                    // const familyDiv = document.querySelector('.family-status');  // 家族の状態を表示している要素を指定（仮にfamily-statusとしています）
-                    // if (familyDiv) {
-                    //     familyDiv.style.display = 'none'; // 例えば、ユーザーが家族に所属している場合はその情報を非表示にするなど
-                    // }
-
-                    const familyName = data.family.family_name;  // サーバーから返される家族の名前
-                    document.querySelector(".family-box h3").innerHTML = familyName + " 家族情報";
-                    
-                    const familyInviteLink = document.querySelector("#family-invite-link");
+                   
+                    const familyInviteLink = document.getElementById("family-invite-link");
                     if (familyInviteLink) {
-                        familyInviteLink.style.display = "inline";
+                        familyInviteLink.classList.remove("disabled-link");
+                        familyInviteLink.onclick = null;
                     }
-                    // const familyStatusElement = document.querySelector("#family-status");
-                    // if (familyStatusElement) {
-                    //     familyStatusElement.innerHTML = "現在、家族に所属しています。";
-                    // } else {
-                    //     console.error("#family-status 要素が見つかりません。");
-                    // }
-
+                    location.reload();
+                    
                 } else {
                     console.log("エラー:", data.errors);
+                }
+            })
+            .catch(error => {
+                console.error("エラー:", error);
+                alert("通信エラーが発生しました。");
+            });
+        });
+    }
+
+    // 家族を抜ける処理を行う（フォーム送信など）
+    const leaveFamilyButton = document.querySelector('.getout form');
+    if (leaveFamilyButton) {
+        leaveFamilyButton.addEventListener('submit', function (event) {
+            event.preventDefault(); // フォーム送信のデフォルト動作を防ぐ
+
+            const formData = new FormData(leaveFamilyButton);
+            fetch(leaveFamilyButton.action, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCsrfToken(),
+                },
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log("家族から抜けました");
                 }
             })
             .catch(error => {
@@ -129,45 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     
-    // 家族を抜けるボタンが押されたときに「家族を作成する」リンクを再表示する処理
-    const leaveFamilyButton = document.querySelector('.getout form');
-    if (leaveFamilyButton) {
-        leaveFamilyButton.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            // 「家族を作成する」リンクを再表示
-            const openFamilyModalLink = document.getElementById("open-family-modal");
-            if (openFamilyModalLink) {
-                openFamilyModalLink.style.display = "block"; // リンクを再表示
-            }
-
-            // 「家族を抜ける」ボタンを非表示
-            leaveFamilyButton.style.display = "none"; // ボタンを非表示
-
-            // 家族を抜ける処理を行う（フォーム送信など）
-            const formData = new FormData(leaveFamilyButton);
-            fetch(leaveFamilyButton.action, {
-                method: "POST",
-                headers: {
-                "X-CSRFToken": getCsrfToken(),
-                },
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log("家族から抜けました");
-                    location.reload(); // 必要ならページをリロード
-                } else {
-                    console.log("エラー:", data.errors);
-                }
-            })
-            .catch(error => {
-                console.error("エラー:", error);
-                alert("通信エラーが発生しました。");
-            });
-        });
-    }
     const childModalForm = document.getElementById("child-modal-form"); // フォームのIDを指定
     if (childModalForm) {
         childModalForm.addEventListener('submit', function (event) {
@@ -198,5 +161,4 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("通信エラーが発生しました。");
             });
         });
-    }
-});
+    }})

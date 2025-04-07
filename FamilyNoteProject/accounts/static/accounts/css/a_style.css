@@ -157,7 +157,9 @@ h2 {
     font-size: 15px;
     align-items: center;
 }
-
+.hidden-button {
+    display: none;
+}
 h2.update {
     text-align: center;
     font-size: 1.8em;
@@ -270,6 +272,7 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
 /* モーダル全体のスタイル */
 .modal-overlay {
     position: fixed;
