@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from families.models import Family
+from django.conf import settings
 
 User = get_user_model()
 
@@ -26,6 +27,13 @@ class Task(models.Model):
     show_on_home = models.BooleanField(default=False)
     is_favorite = models.BooleanField(default=False)
     is_completed = models.BooleanField(default=False)
+    assigned_to = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='assigned_tasks'
+    )
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -157,3 +157,31 @@ document.addEventListener("DOMContentLoaded", function() {
         return sortOrderSelect ? sortOrderSelect.value : "newest";  // デフォルトは新しい順
     }
 });
+
+document.querySelectorAll('.assign-member').forEach(select => {
+    select.addEventListener('change', function () {
+        const taskId = this.dataset.taskId;
+        const userId = this.value;
+
+        fetch('/tasks/task_assign/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken()
+            },
+            body: JSON.stringify({ task_id: taskId, user_id: userId })
+        })
+
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert("担当者の更新に失敗しました: " + (data.error || ""));
+            }
+        })
+        .catch(error => {
+            console.error("エラー:", error);
+            alert("通信エラーが発生しました");
+        });
+    });
+});
+      

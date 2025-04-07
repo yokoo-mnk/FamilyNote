@@ -1,4 +1,6 @@
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,7 +13,9 @@ from .models import Task, Family
 from .forms import TaskForm
 from django.urls import reverse, reverse_lazy
 from datetime import date
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class HomeTaskListView(LoginRequiredMixin, ListView):
     model = Task
@@ -55,6 +59,9 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         context["categories"] = Task.CATEGORY_CHOICES
         context["selected_sort_order"] = self.request.GET.get('sort_order', 'newest')
         context["today"] = date.today()
+        
+        family = self.request.user.families.first()
+        context["family_members"] = family.members.all()
         return context
 
 class HomeTaskRemoveView(LoginRequiredMixin, View):
@@ -69,6 +76,27 @@ class HomeTaskRemoveView(LoginRequiredMixin, View):
             return JsonResponse({"success": True})
         return JsonResponse({"success": False, "error": "削除するToDoが選択されていません。"})   
 
+
+@csrf_exempt
+def assign_task_member(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        task_id = data.get("task_id")
+        user_id = data.get("user_id")
+        
+        try:
+            task = Task.objects.get(id=task_id)
+            user = User.objects.get(id=user_id) if user_id else None
+
+            if user and user not in request.user.family.members.all():
+                return JsonResponse({"success": False, "error": "権限がありません"})
+            
+            task.assigned_to = user
+            task.save()
+            return JsonResponse({"success": True})
+        except Task.DoesNotExist:
+            return JsonResponse({"success": False, "error": "タスクが存在しません"})
+    return JsonResponse({"success": False, "error": "無効なリクエスト"})
 
 @require_POST
 def toggle_task_completion(request):

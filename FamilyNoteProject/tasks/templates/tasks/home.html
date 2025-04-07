@@ -35,6 +35,7 @@
       <col style="width: 150px;"> <!-- タイトル -->
       <col style="width: 300px;"> <!-- メモ -->
       <col style="width: 120px;"> <!-- 画像 -->
+      <col style="width: 80px;"> <!-- 担当者 -->
     </colgroup>
     <thead>
       <tr>
@@ -44,6 +45,7 @@
         <th>タイトル</th>
         <th>メモ</th>
         <th>画像</th>
+        <th>担当者</th>
       </tr>
     </thead>
     <tbody>
@@ -83,6 +85,17 @@
             {% else %}
               -
             {% endif %}
+          </td>
+          <td>
+            <select class="assign-member" data-task-id="{{ task.id }}">
+              <option value="">-- 担当者を選択 --</option>
+              {% for member in family_members %}
+                <option value="{{ member.id }}"
+                        {% if task.assigned_to and task.assigned_to.id == member.id %}selected{% endif %}>
+                  {{ member.nickname }}  {# ←ニックネームを表示 #}
+                </option>
+              {% endfor %}
+            </select>
           </td>
         </tr>
       {% empty %}
