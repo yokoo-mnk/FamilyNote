@@ -5,7 +5,6 @@
 <h2>マイページ</h2>
 <div class="box-container">
   <div class="profile-box">
-    {% comment %} <div class="profile-container"> {% endcomment %}
       {% if user.profile_image %}
         <img src="{{ user.profile_image.url }}" alt="" class="profile-image">
       {% else %}
@@ -17,7 +16,6 @@
         <p class="profile">ニックネーム: {{ user.nickname }}</p>
         <p class="profile">あなたの家族: {{ user.family.family_name|default:"未所属" }}</p>
       </div>
-    {% comment %} </div> {% endcomment %}
     <br>
     <a href="{% url 'accounts:user_edit' pk=user.id %}">📝 プロフィールを編集</a>
     <br>
@@ -28,11 +26,20 @@
     <div class="family-container">
       <h3>{{ user.family.family_name|default:"-" }} メンバー一覧</h3>
       {% if family_members %}
-        <ul>
-          {% for member in family_members %}
-            <li>{{ member.full_name }} ({{ member.nickname }})</li>
-          {% endfor %}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>名前 / ニックネーム</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for member in family_members %}
+              <tr>
+                <td>{{ member.full_name }} / {{ member.nickname }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       {% else %}
         <p>家族が登録されていません。</p>
       {% endif %}
@@ -40,16 +47,18 @@
       {% if not user.family %}
         <a href="#" id="open-family-modal">家族を作成する</a>
       {% endif %}
-
-      <a href="{% url 'families:leave_family' %}" 
-         class="btn"
-         {% if not user.family %}class="disabled-link"{% endif %}>
-         家族を抜ける
-      </a>
-      <a href="{% url 'families:invite_family' %}" id="family-invite-link"
-        {% if not user.family %}class="disabled-link" onclick="return false;"{% endif %}>
-        家族を招待する
-      </a>
+      
+      <div class="link-container">
+        <a href="{% url 'families:leave_family' %}" 
+           class="btn"
+           {% if not user.family %}class="disabled-link"{% endif %}>
+           家族を抜ける
+        </a>
+        <a href="{% url 'families:invite_family' %}" id="family-invite-link"
+          {% if not user.family %}class="disabled-link" onclick="return false;"{% endif %}>
+          家族を招待する
+        </a>
+      </div>
       {% if not user.family %}
         <p class="notice">※ 家族を作成することで、招待や抜けるボタンが有効になります</p>
       {% endif %}
@@ -75,18 +84,29 @@
   <div class="child-box">
     <div class="child-container">
       <h3>{{ user.family.family_name|default:"-" }} こども一覧</h3>
-      {% if children %}
-        <ul id="child-list">
-          {% for child in children %}
-            <li>
-              <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.child_name }} ({{ child.birth_date|date:"Y年m月d日" }})生まれ</a>
-              <button class="delete-child" data-id="{{ child.id }}">削除</button>
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>こどもが登録されていません。</p>
-      {% endif %}
+        {% if children %}
+          <ul id="child-list">
+          <table>
+            <thead>
+              <tr>
+                <th>名前 / 生年月日</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for child in children %}
+              <tr>
+                <td>
+                  <a href="#" class="edit-child" data-id="{{ child.id }}">{{ child.child_name }} / {{ child.birth_date|date:"Y年m月d日" }}生まれ</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+            <button class="delete-child" data-id="{{ child.id }}">削除</button>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>こどもが登録されていません。</p>
+        {% endif %}
       <a href="#" id="open-child-modal"
          {% if not user.family %}
             class="disabled-link"
