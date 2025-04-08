@@ -3,6 +3,19 @@
 {% block title %}マイページ - FamilyNote{% endblock %}
 {% block content %}
 <h2>マイページ</h2>
+
+
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+          {{ message|safe }}
+        </div>
+      {% endfor %}
+     </div>
+  {% endif %}
+
+
 <div class="box-container">
   <div class="profile-box">
       {% if user.profile_image %}
@@ -17,7 +30,7 @@
         <p class="profile">あなたの家族: {{ user.family.family_name|default:"未所属" }}</p>
       </div>
     <br>
-    <a href="{% url 'accounts:user_edit' pk=user.id %}">📝 プロフィールを編集</a>
+    <a href="{% url 'accounts:user_edit' pk=user.id %}">📝 アカウント情報を変更する</a>
     <br>
     <a href="{% url 'accounts:password_change' %}">🔑 パスワードを変更する</a>
   </div>
@@ -43,12 +56,10 @@
       {% else %}
         <p>家族が登録されていません。</p>
       {% endif %}
-
+      <div class="link-container">
       {% if not user.family %}
         <a href="#" id="open-family-modal">家族を作成する</a>
       {% endif %}
-      
-      <div class="link-container">
         <a href="{% url 'families:leave_family' %}" 
           class="btn"
           {% if not user.family %}class="disabled-link"{% endif %}>
@@ -120,7 +131,7 @@
             class="disabled-link"
             onclick="alert('こどもを登録するには家族を作成してください。'); return false;"
           {% endif %}
-        >こどもを登録</a>
+        >こどもを登録する</a>
       </div>
     </div>
   </div>

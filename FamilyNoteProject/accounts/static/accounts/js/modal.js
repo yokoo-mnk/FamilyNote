@@ -284,5 +284,5 @@ document.addEventListener("DOMContentLoaded", function () {
     
     document.getElementById('close-delete-modal').addEventListener('click', function () {
         document.getElementById('delete-child-modal').style.display = 'none';
-    });   
+    });
 });

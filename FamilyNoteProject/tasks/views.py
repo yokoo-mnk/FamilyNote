@@ -196,7 +196,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         family = Family.objects.filter(members=self.request.user).first()
         
         if not family:
-            messages.error(self.request, "先に Family を作成してください。")
+            messages.error(self.request, "先に下記の家族を作成するリンクから<br>家族の名前を登録してください。")
             return redirect("accounts:mypage")
         
         form.instance.family = family
@@ -205,6 +205,11 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
         form.instance.show_on_home = self.request.POST.get('show_on_home') == 'on'
 
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_name'] = self.__class__.__name__
+        return context
     
     def get_initial(self):
         """ クエリパラメータから初期値を取得 """

@@ -236,6 +236,20 @@ form .errorlist li {
     font-size: 12px;
     font-weight: bold;
 }
+div.alert.success {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+div.alert.error {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
 
 .logout-btn {
     width: auto; /* 自動幅 */
@@ -367,6 +381,11 @@ button.delete-child:hover {
 
 /* 閉じるボタン */
 span#close-child-modal.close {
+    cursor: pointer;
+    float: right;
+    font-size: 25px;
+}
+span#close-family-modal.close {
     cursor: pointer;
     float: right;
     font-size: 25px;

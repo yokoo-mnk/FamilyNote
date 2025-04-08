@@ -1,7 +1,21 @@
 {% extends 'accounts/a_base.html' %}
+{% load static %}
 {% block title %}アカウント情報変更 - FamilyNote{% endblock %}
 {% block content %}
 <h2 class="update">～アカウント情報を変更してください～</h2>
+
+{% if view_name == "UserUpdateView" %}
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+     </div>
+  {% endif %}
+{% endif %}
+
 <div class="form-container">
   <form method="post" enctype="multipart/form-data" class="namechange">
     {% csrf_token %}
@@ -10,4 +24,8 @@
   </form>
 </div>
   <a class="password" href="{% url 'accounts:password_change' %}">パスワード変更</a>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'accounts/js/modal.js' %}"></script>
 {% endblock %}

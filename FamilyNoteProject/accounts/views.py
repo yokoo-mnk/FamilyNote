@@ -144,9 +144,15 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return get_object_or_404(User, pk=self.kwargs['pk'])
     
-    def get_success_url(self):
-        return reverse_lazy("accounts:mypage")
-
+    def form_valid(self, form):
+        self.object = form.save()
+        messages.success(self.request, "※ アカウント情報の変更が完了しました！")
+        return self.render_to_response(self.get_context_data(form=form))
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_name'] = self.__class__.__name__
+        return context
+    
 
 class CustomPasswordChangeView(LoginRequiredMixin, FormView):
     form_class = CustomPasswordChangeForm
