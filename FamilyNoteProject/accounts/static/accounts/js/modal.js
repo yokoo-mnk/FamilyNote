@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const editChildModal = document.getElementById('edit-child-modal');
     const closeEditChildModal = document.getElementById('close-edit-child-modal');
     const editChildModalForm = document.getElementById("edit-child-modal-form");
-    
+    const confirmDelete = document.getElementById("confirm-delete");
 
     // モーダルを開く
     if (openFamilyModal && familyModal) {
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     
-    document.getElementById('confirm-delete-button').addEventListener('click', function () {
+    document.getElementById('confirm-delete').addEventListener('click', function () {
         if (selectedChildId) {
             fetch(`/accounts/delete_child/${selectedChildId}/`, {
                 method: 'POST',
@@ -278,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         document.getElementById('delete-child-modal').style.display = 'none';
     });
-    document.getElementById('cancel-delete-button').addEventListener('click', function () {
+    document.getElementById('cancel-delete').addEventListener('click', function () {
         document.getElementById('delete-child-modal').style.display = 'none';
     });
     

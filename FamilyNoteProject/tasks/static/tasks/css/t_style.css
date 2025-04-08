@@ -276,7 +276,9 @@ form.notesakusei button {
     border-radius: 5px;
     border: none;
     cursor: pointer;
-
+}
+form.notesakusei button:hover {
+    background-color: #0056b3;
 }
 form.notesakusei textarea {
     width: 100%;
@@ -449,9 +451,9 @@ td.select {
     margin-left: auto;
     border-radius: 5px;
 }
-#delete-btn:disabled {
-    background-color: gray;
-    cursor: not-allowed;
+.delete-btn:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
 }
 .todobtn {
     margin-top: 0px;
@@ -464,6 +466,9 @@ td.select {
     margin-right: auto;
     font-size: 12px;
     border-radius: 5px;
+}
+.todobtn:hover {
+    background-color: rgb(181, 181, 82);
 }
 
 /* モーダル */
@@ -492,6 +497,21 @@ td.select {
 #selected-tasks-list {
     list-style-type: none;  /* デフォルトのリストスタイルを削除 */
     padding: 0;  /* 左側の余白をなくす */
+}
+button#confirm-delete {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+button#confirm-delete:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
 }
 /* 閉じるボタン */
 #close-modal {

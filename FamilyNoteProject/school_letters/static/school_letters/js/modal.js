@@ -69,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function() {
             formData.append("delete_letter", letter.id);
         });
 
+        console.log("CSRF Token:", getCsrfToken());
+
         fetch("/school_letters/delete_letter/", {
             method: "POST",
             body: formData,
@@ -100,6 +102,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function getCsrfToken() {
-        return document.querySelector("[name=csrfmiddlewaretoken]").value;
+        return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     }
 });

@@ -22,11 +22,10 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
     path('families/', include('families.urls')),
     path('tasks/', include('tasks.urls')),
     path('school_letters/', include('school_letters.urls')),
-    
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:

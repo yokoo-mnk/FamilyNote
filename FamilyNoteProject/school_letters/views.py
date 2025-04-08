@@ -36,7 +36,7 @@ class SchoolLetterUpdateView(LoginRequiredMixin, UpdateView):
     
     def form_valid(self, form):
         # ユーザーが家族メンバーであることを確認
-        if form.instance.family not in self.request.user.family:
+        if form.instance.family != self.request.user.family:
             return redirect('school_letters:list')
         return super().form_valid(form)
     
@@ -66,12 +66,9 @@ class SchoolLetterListView(LoginRequiredMixin, ListView):
 class SchoolLetterDeleteView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         letter_ids = request.POST.getlist("delete_letter")
-        # if letter_ids:
-        #     SchoolLetter.objects.filter(id__in=letter_ids, family=request.user.family).delete()
-        #     return JsonResponse({"success": True})
-        # return JsonResponse({"success": False, "error": "削除するタスクが選択されていません。"})
+        
         deleted_count, _ = SchoolLetter.objects.filter(
-            id__in=letter_ids, child__family__members=request.user
+            id__in=letter_ids
         ).delete()
         
         if deleted_count > 0:

@@ -111,11 +111,9 @@ main {
 .join-box {
     display: flex;
     flex-direction: column; /* 子要素を縦に並べる */
-    align-items: center;
+    align-items: center !important;
     justify-content: center;
     width: 500px;
-    margin-top: 30px;
-    margin-bottom: 30px;
     margin: 0 auto;
     padding: 20px 30px;
     border-radius: 10px; /* 角を丸くする */
@@ -126,24 +124,28 @@ main {
     text-align: center;
 }
 .join-box h2 {
-    margin-bottom: 20px; /* 見出しの下に余白を設定 */
+    margin-bottom: 20px !important; /* 見出しの下に余白を設定 */
 }
   
 .join-box form {
-    margin-bottom: 20px; /* フォームの下に余白を設定 */
+    margin-bottom: 20px !important; /* フォームの下に余白を設定 */
 }
-.join-box button{
-    display: inline-block;
-    white-space: nowrap;
-    width: 100%;
-    padding: 10px 20px;
+button.join-button {
+    display: block;
+    width: 150%;
+    height: 45px;
+    padding: 10px;
     background-color: #007bff;
     color: white;
     border-radius: 5px;
     border: none;
     cursor: pointer;
     font-size: 1em;
-} 
+    margin: 10px auto;
+}
+button.join-button:hover {
+    background-color: #0056b3;
+}
 .join-box a {
     color: #007bff !important; /* リンクの色 */
     text-decoration: none !important; /* 下線を除去 */
@@ -160,8 +162,6 @@ div.invite-box {
     align-items: center;
     justify-content: center;
     width: 500px;
-    margin-top: 30px;
-    margin-bottom: 30px;
     margin: 0 auto;
     padding: 20px 30px;
     border-radius: 10px; /* 角を丸くする */
@@ -171,11 +171,9 @@ div.invite-box {
     box-sizing: border-box;
     text-align: center;
 }
-div.invite-box button {
-    display: inline-block;
-    white-space: nowrap;
+button.invite-button {
     width: 30%;
-    padding: 10px 20px;
+    padding: 10px;
     background-color: #007bff;
     color: white;
     border-radius: 5px;
@@ -183,6 +181,9 @@ div.invite-box button {
     cursor: pointer;
     font-size: 1em;
     margin-top: 20px;
+}
+button.invite-button:hover {
+    background-color: #0056b3;
 }
 input#invite_url {
     width: 100%;
@@ -225,6 +226,8 @@ div.leave-box button:hover {
     background-color: rgb(132, 27, 27); /* ホバー時の背景色を変更 */
     color: #ffffff; /* ホバー時のテキスト色 */
 }
+
+
 a {
     color: #007bff;
     text-decoration: none;

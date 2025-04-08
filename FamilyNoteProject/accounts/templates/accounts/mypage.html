@@ -21,7 +21,7 @@
       {% if user.profile_image %}
         <img src="{{ user.profile_image.url }}" alt="" class="profile-image">
       {% else %}
-        <p>プロフィール画像が<br>設定されていません。</p>
+        <p class="profile-noimage"></p>
       {% endif %}
 
       <div class="profile-info">
@@ -60,9 +60,8 @@
       {% if not user.family %}
         <a href="#" id="open-family-modal">家族を作成する</a>
       {% endif %}
-        <a href="{% url 'families:leave_family' %}" 
-          class="btn"
-          {% if not user.family %}class="disabled-link"{% endif %}>
+        <a href="{% url 'families:leave_family' %}" id="leave-family-button" class="btn"
+          {% if not user.family %}class="disabled-link" onclick="return false;"{% endif %}>
           家族を抜ける
         </a>
         <a href="{% url 'families:invite_family' %}" id="family-invite-link"
@@ -86,7 +85,7 @@
         <label for="family_name">家族の名前:</label>
         <input type="text" id="family_name" name="family.family_name" required>
         <br><br>
-        <button type="submit">作成</button>
+        <button type="submit" class="family-regist">作成</button>
       </form>
     </div>
   </div>
@@ -149,7 +148,7 @@
         <label for="birth_date">生年月日:</label>
         <input type="date" id="birth_date" name="birth_date" required>
         <br><br>
-        <button type="submit">登録</button>
+        <button type="submit" class="child-regist">登録</button>
       </form>
     </div>
   </div>
@@ -177,8 +176,9 @@
       <span id="close-delete-modal" class="close">&times;</span>
       <h3>こども情報の削除</h3>
       <p>このこども情報を本当に削除しますか？<br>登録したおたよりも一緒に削除されます</p>
-      <button id="confirm-delete-button">削除する</button>
-      <button id="cancel-delete-button">キャンセル</button>
+      <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+      <button id="confirm-delete" type="button">削除する</button>
+      <button id="cancel-delete" type="button">キャンセル</button>
     </div>
   </div>
 </div>

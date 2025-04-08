@@ -3,7 +3,7 @@
 {% block title %}おたより一覧 - FamilyNote{% endblock %}
 {% block content %}
 <h2>{{ family.family.name }} ～園や学校のおたより一覧～</h2>
-
+<meta name="csrf-token" content="{{ csrf_token }}">
 <form method="GET" action="" class="child-filter">
   <label for="child_filter">こどもの名前:</label>
   <select name="child_id" id="child_filter" onchange="this.form.submit()">
@@ -60,7 +60,7 @@
 
   <div class="footer-container">
     <input type="checkbox" id="select-all"> 全ての項目を選択
-    <button id="delete-btn" disabled>選択した項目を削除</button>
+    <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を削除</button>
   </div>
 </form>
 
@@ -69,6 +69,7 @@
     <span id="close-modal" class="close">&times;</span>
     <h3>以下のおたよりを削除しますか？</h3>
     <ul id="selected-letters-list"></ul>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     <button id="confirm-delete">削除</button>
   </div>
 </div>   
