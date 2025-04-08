@@ -19,7 +19,7 @@ class SchoolLetterCreateView(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         form.instance.created_by = self.request.user
-        form.instance.family = self.request.user.families.first()  # ユーザーの最初の家族を設定（例）
+        form.instance.family = self.request.user.family
         return super().form_valid(form)
     
     def get_context_data(self, **kwargs):
@@ -36,7 +36,7 @@ class SchoolLetterUpdateView(LoginRequiredMixin, UpdateView):
     
     def form_valid(self, form):
         # ユーザーが家族メンバーであることを確認
-        if form.instance.family not in self.request.user.families.all():
+        if form.instance.family not in self.request.user.family:
             return redirect('school_letters:list')
         return super().form_valid(form)
     
@@ -45,21 +45,23 @@ class SchoolLetterUpdateView(LoginRequiredMixin, UpdateView):
         context['title'] = 'おたより編集'
         return context
     
+    
 class SchoolLetterListView(LoginRequiredMixin, ListView):
     model = SchoolLetter
     template_name = 'school_letters/letter_list.html'
     context_object_name = 'letters'
-    # paginate_by = 4
+    paginate_by = 8
     
     def get_queryset(self):
-        family_ids = self.request.user.families.values_list('id', flat=True)
-        return SchoolLetter.objects.filter(family__id__in=family_ids)
+        family = self.request.user.family
+        return SchoolLetter.objects.filter(family=family)
     
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     user = self.request.user
-    #     context['children'] = Child.objects.filter(family__in=user.families.all())  # 家族の子供一覧
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['children'] = Child.objects.filter(family=user.family)
+        return context
+    
     
 class SchoolLetterDeleteView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):

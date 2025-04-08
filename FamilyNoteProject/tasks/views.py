@@ -1,8 +1,8 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 import json
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.http import require_POST
 from django.views.generic import (
@@ -60,8 +60,12 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         context["selected_sort_order"] = self.request.GET.get('sort_order', 'newest')
         context["today"] = date.today()
         
-        family = self.request.user.families.first()
-        context["family_members"] = family.members.all()
+        family = self.request.user.family
+        if family:
+            context["family_members"] = family.members.all()
+        else:
+            context["family_members"] = []
+
         return context
 
 class HomeTaskRemoveView(LoginRequiredMixin, View):
@@ -77,28 +81,39 @@ class HomeTaskRemoveView(LoginRequiredMixin, View):
         return JsonResponse({"success": False, "error": "削除するToDoが選択されていません。"})   
 
 
-@csrf_exempt
+@require_POST
+@login_required
 def assign_task_member(request):
-    if request.method == "POST":
+    try:
         data = json.loads(request.body)
         task_id = data.get("task_id")
         user_id = data.get("user_id")
-        
-        try:
-            task = Task.objects.get(id=task_id)
-            user = User.objects.get(id=user_id) if user_id else None
 
-            if user and user not in request.user.family.members.all():
+        task = Task.objects.get(id=task_id)
+        
+        if user_id:
+            user = User.objects.get(id=user_id)
+
+            if user.family != request.user.family:
                 return JsonResponse({"success": False, "error": "権限がありません"})
             
             task.assigned_to = user
-            task.save()
-            return JsonResponse({"success": True})
-        except Task.DoesNotExist:
-            return JsonResponse({"success": False, "error": "タスクが存在しません"})
-    return JsonResponse({"success": False, "error": "無効なリクエスト"})
-
+        else:
+            task.assigned_to = None
+            
+        task.save()
+        return JsonResponse({"success": True})
+            
+    except Task.DoesNotExist:
+        return JsonResponse({"success": False, "error": "タスクが存在しません"})
+    except User.DoesNotExist:
+        return JsonResponse({"success": False, "error": "ユーザーが存在しません"})
+    except Exception as e:
+        return JsonResponse({"success": False, "error": str(e)})
+            
+            
 @require_POST
+@login_required
 def toggle_task_completion(request):
     task_id = request.POST.get("task_id")
     is_completed = request.POST.get("is_completed") == "true"

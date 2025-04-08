@@ -86,9 +86,9 @@
               -
             {% endif %}
           </td>
-          <td>
+          <td class=select>
             <select class="assign-member" data-task-id="{{ task.id }}">
-              <option value="">-- 担当者を選択 --</option>
+              <option value="">選択</option>
               {% for member in family_members %}
                 <option value="{{ member.id }}"
                         {% if task.assigned_to and task.assigned_to.id == member.id %}selected{% endif %}>
