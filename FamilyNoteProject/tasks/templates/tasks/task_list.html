@@ -52,7 +52,7 @@
   <form method="GET" action="{% url 'tasks:task_list' %}" class="category-filter">
     <div class="filter-item">
       <h2>Note～我が家の記録～</h2>
-      <label for="category">カテゴリで絞り込む:</label>
+      <label for="category">カテゴリ:</label>
       <select name="category" id="category" onchange="this.form.submit()">
         <option value="">すべて</option>
         {% for value, label in categories %}

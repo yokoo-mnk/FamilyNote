@@ -6,7 +6,7 @@ app_name = "accounts"
 urlpatterns = [
     path("register/", views.register, name="register"),
     path('accounts/login/', views.CustomLoginView.as_view(), name='login'),
-    path('logout/', views.LogoutView.as_view(next_page='accounts/accounts/login'), name='logout'),
+    path('logout/', views.LogoutView.as_view(), name='logout'),
     path("mypage/", views.mypage, name="mypage"),
     path("user_edit/<int:pk>/", views.UserUpdateView.as_view(), name="user_edit"),
     path('password_change/', views.CustomPasswordChangeView.as_view(), name='password_change'),

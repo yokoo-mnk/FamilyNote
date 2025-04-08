@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views.generic import UpdateView, FormView
@@ -26,7 +26,9 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            next_url = request.GET.get('next', 'accounts:mypage')
+            next_url = request.GET.get('next')
+            if not next_url:
+                next_url = reverse('accounts:mypage')
             return redirect(next_url)
 
     else:
@@ -37,11 +39,11 @@ def register(request):
 class CustomLoginView(LoginView):
     authentication_form = CustomLoginForm
     template_name = "accounts/login.html"
-    success_url = reverse_lazy('accounts:mypage')
+    success_url = reverse_lazy('tasks:home')
 
     
 class CustomLogoutView(LogoutView):
-    next_page = "accounts/accounts/login"
+    next_page = reverse_lazy("accounts:login")
 
 
 @login_required

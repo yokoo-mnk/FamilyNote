@@ -6,7 +6,7 @@
 <form method="GET" action="{% url 'tasks:home' %}" class="category-filter">
   <div class="filter-item">
     <h2>～ToDoリスト～</h2>
-    <label for="category">カテゴリで絞り込む:</label>
+    <label for="category">カテゴリ:</label>
     <select name="category" id="category" onchange="this.form.submit()">
       <option value="">すべて</option>
       {% for value, label in categories %}
@@ -141,7 +141,7 @@
 
   <div class="footer-container">
     <input type="checkbox" id="select-all"> 全ての項目を選択
-    <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を削除</button>
+    <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を<bt>ToDoリストから削除</button>
   </div>
 </form>
 

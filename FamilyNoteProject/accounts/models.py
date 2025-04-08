@@ -8,7 +8,9 @@ class CustomUser(AbstractUser):
     full_name = models.CharField(max_length=100, blank=True)
     nickname = models.CharField(max_length=30)
     profile_image = models.ImageField(upload_to="profile_images/", blank=True, null=True)
-    family = models.ForeignKey('families.Family', on_delete=models.CASCADE, related_name='members')
+    family = models.ForeignKey(
+        'families.Family', on_delete=models.CASCADE, null=True, blank=True, related_name='members'
+    )
     
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["nickname"]

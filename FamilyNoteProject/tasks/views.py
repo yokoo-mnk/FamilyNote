@@ -110,7 +110,7 @@ def assign_task_member(request):
         return JsonResponse({"success": False, "error": "ユーザーが存在しません"})
     except Exception as e:
         return JsonResponse({"success": False, "error": str(e)})
-            
+          
             
 @require_POST
 @login_required
