@@ -264,7 +264,7 @@ form.child_filter {
     width: 100%; /* 親要素の幅いっぱいに広げる */
 }
 #delete-btn {
-    margin-top: 20px;
+    margin-top: 0px;
     margin-bottom: 10px;
     padding: 8px 15px;
     background-color: red;
@@ -277,6 +277,25 @@ form.child_filter {
 #delete-btn:disabled {
     background-color: gray;
     cursor: not-allowed;
+}
+
+/* ページ移動のスタイル */
+div.pagination {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+span.step-links a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+} 
+span.step-links a:hover {
+    text-decoration: underline;
+}
+span.current {
+    margin: 0 10px;
+    font-weight: bold;
 }
 
 /* モーダル */

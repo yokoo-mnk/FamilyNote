@@ -30,6 +30,34 @@
       <p>おたよりがまだ登録されていません。</p>
     {% endfor %}
     </div>
+  
+    <!-- ページネーション -->
+    <div class="pagination">
+      <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?page=1
+          {% if request.GET.child_id %}&child_id={{ request.GET.child_id }}{% endif %}">≪最初
+        </a>
+        <a href="?page={{ page_obj.previous_page_number }}
+          {% if request.GET.child_id %}&child_id={{ request.GET.child_id }}{% endif %}">＜前へ
+        </a>
+      {% endif %}
+
+      <span class="current">
+        ページ{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}
+          {% if request.GET.child_id %}&child_id={{ request.GET.child_id }}{% endif %}">次へ＞
+        </a>
+        <a href="?page={{ page_obj.paginator.num_pages }}
+          {% if request.GET.child_id %}&child_id={{ request.GET.child_id }}{% endif %}">最後≫
+        </a>
+      {% endif %}
+    </span>
+  </div>
+
   <div class="footer-container">
     <input type="checkbox" id="select-all"> 全ての項目を選択
     <button id="delete-btn" disabled>選択した項目を削除</button>

@@ -152,12 +152,12 @@
       {% if page_obj.has_previous %}
         <a href="?page=1
           {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
-          {% if request.GET.favorite %}&favorite=on{% endif %}
+          {% if request.GET.is_favorite %}&is_favorite=on{% endif %}
           {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">≪最初
         </a>
         <a href="?page={{ page_obj.previous_page_number }}
           {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
-          {% if request.GET.favorite %}&favorite=on{% endif %}
+          {% if request.GET.is_favorite %}&is_favorite=on{% endif %}
           {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">＜前へ
         </a>
       {% endif %}
@@ -169,12 +169,12 @@
       {% if page_obj.has_next %}
         <a href="?page={{ page_obj.next_page_number }}
           {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
-          {% if request.GET.favorite %}&favorite=on{% endif %}
+          {% if request.GET.is_favorite %}&is_favorite=on{% endif %}
           {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">次へ＞
         </a>
         <a href="?page={{ page_obj.paginator.num_pages }}
           {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
-          {% if request.GET.favorite %}&favorite=on{% endif %}
+          {% if request.GET.is_favorite %}&is_favorite=on{% endif %}
           {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">最後≫
         </a>
       {% endif %}
