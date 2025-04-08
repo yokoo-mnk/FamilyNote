@@ -17,6 +17,17 @@
     </select>
   </div>
   <div class="filter-item">
+    <label for="assignee">担当者:</label>
+    <select name="assignee" id="assignee" onchange="this.form.submit()">
+      <option value="">すべて</option>
+      {% for member in family_members %}
+        <option value="{{ member.id }}" {% if selected_assignee == member.id|stringformat:"s" %}selected{% endif %}>
+          {{ member.nickname }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="filter-item">
     <label for="sort-order">並び順:</label>
     <select class="sort-order" name="sort_order" onchange="this.form.submit()">
       <option value="newest" {% if request.GET.sort_order == 'newest' %}selected{% endif %}>新しい順</option>

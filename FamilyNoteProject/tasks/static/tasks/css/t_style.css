@@ -250,6 +250,15 @@ select#category {
     box-sizing: border-box;
     background-color: #fff;
 }
+select#assignee {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+}
 select.sort-order {
     width: 80%;
     padding: 10px;
@@ -304,6 +313,7 @@ input[type="checkbox"] {
     align-items: center; /* 高さを揃える */
     gap: 20px; /* フィルタ項目の間にスペースを設定 */
 }
+
 h4 {
     margin-bottom: 0px
 }

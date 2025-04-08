@@ -243,5 +243,46 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
         }
-    }
-)
+    let selectedChildId = null;
+
+    document.querySelectorAll('.delete-child').forEach(function (button) {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            selectedChildId = this.getAttribute('data-id');
+            document.getElementById('delete-child-modal').style.display = 'flex';
+        });
+    });
+    
+    document.getElementById('confirm-delete-button').addEventListener('click', function () {
+        if (selectedChildId) {
+            fetch(`/accounts/delete_child/${selectedChildId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCsrfToken(),
+                }
+            })
+
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'deleted') {
+                    alert("削除しました！");
+                    location.reload();  // ページを更新して削除反映
+                } else {
+                    alert("削除に失敗しました。");
+                }
+            })
+            .catch(error => {
+                console.error("エラー:", error);
+                alert("通信エラーが発生しました。");
+            });
+        }
+        document.getElementById('delete-child-modal').style.display = 'none';
+    });
+    document.getElementById('cancel-delete-button').addEventListener('click', function () {
+        document.getElementById('delete-child-modal').style.display = 'none';
+    });
+    
+    document.getElementById('close-delete-modal').addEventListener('click', function () {
+        document.getElementById('delete-child-modal').style.display = 'none';
+    });   
+});

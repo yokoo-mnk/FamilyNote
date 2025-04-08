@@ -32,7 +32,11 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         category = self.request.GET.get("category")
         if category:
             queryset = queryset.filter(category=category)
-
+        
+        assignee_id = self.request.GET.get("assignee")
+        if assignee_id:
+            queryset = queryset.filter(assigned_to__id=assignee_id)
+        
         sort_order = self.request.GET.get('sort_order', 'newest')
         
         if sort_order == 'newest':
@@ -57,6 +61,7 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         
         context["selected_category"] = self.request.GET.get("category", "")
         context["categories"] = Task.CATEGORY_CHOICES
+        context["selected_assignee"] = self.request.GET.get("assignee", "")
         context["selected_sort_order"] = self.request.GET.get('sort_order', 'newest')
         context["today"] = date.today()
         
