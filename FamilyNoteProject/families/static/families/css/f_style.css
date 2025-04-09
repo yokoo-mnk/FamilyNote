@@ -155,6 +155,33 @@ button.join-button:hover {
     text-decoration: underline !important; /* ホバー時に下線を表示 */
 }
 
+/* 家族参加エラーhtmlのスタイル */
+div.joinerror-box {
+    display: flex;
+    flex-direction: column; /* 子要素を縦に並べる */
+    align-items: center !important;
+    justify-content: center;
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border-radius: 10px; /* 角を丸くする */
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+div.joinerror-box h2 {
+    margin-bottom: 20px !important; /* 見出しの下に余白を設定 */
+}
+div.joinerror-box a {
+    color: #007bff !important; /* リンクの色 */
+    text-decoration: none !important; /* 下線を除去 */
+}
+div.joinerror-box a:hover {
+    text-decoration: underline !important; /* ホバー時に下線を表示 */
+}
+
 /* 家族招待URL発行htmlのスタイル */
 div.invite-box {
     display: flex;
