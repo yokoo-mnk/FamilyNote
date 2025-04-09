@@ -26,6 +26,11 @@ class SchoolLetterCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = '新しいおたより作成'
         return context
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class SchoolLetterUpdateView(LoginRequiredMixin, UpdateView):
@@ -45,6 +50,10 @@ class SchoolLetterUpdateView(LoginRequiredMixin, UpdateView):
         context['title'] = 'おたより編集'
         return context
     
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
     
 class SchoolLetterListView(LoginRequiredMixin, ListView):
     model = SchoolLetter

@@ -18,7 +18,6 @@ class SchoolLetterForm(forms.ModelForm):
         user = kwargs.pop('user', None) 
         super().__init__(*args, **kwargs)
         
-        if user:
-            family_ids = user.families.values_list('id', flat=True)
-            self.fields['child'].queryset = Child.objects.filter(family__id__in=family_ids)
+        if user and user.family:
+            self.fields['child'].queryset = Child.objects.filter(family=user.family)
             self.fields['child'].label_from_instance = lambda obj: obj.child_name
