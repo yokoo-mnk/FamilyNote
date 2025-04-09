@@ -5,7 +5,7 @@
 
 <div class="edit-container">
   <div class="letter-image">
-    {% if form.instance.image %}
+    {% if form.instance.image and form.instance.image.name %}
       <img src="{{ form.instance.image.url }}" alt="おたより画像">
     {% else %}
       <p>画像がありません</p>

@@ -212,6 +212,24 @@ form.notesakusei input[type="date"] {
 form.notesakusei input[type="time"] {
     width: 30%;
 }
+.image-field {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.image-field a {
+    margin-right: 10px;  /* <a>と<input>の間にスペース */
+}
+
+p input#image-clear_id {
+    margin-left: 10px !important;  /* <input>と<label>の間にスペース */
+}
+#image-clear_id, label[for="image-clear_id"] {
+    display: inline-block !important;
+    vertical-align: middle;  /* 縦の位置を合わせる */
+    margin-right: 10px;
+}
 .form-check {
     display: flex;
     align-items: left;

@@ -35,10 +35,29 @@ class TaskForm(forms.ModelForm):
             'memo': 'メモ（任意）',
             'image': '写真（任意）',
         }
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class': 'image-field'}),
+        }
         
-    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        if not self.instance or not self.instance.image:
+            self.fields['image'].required = False
+            
     def clean_start_time(self):
         start_time = self.cleaned_data.get('start_time')
         if start_time is None or start_time == '':
             return None
         return start_time
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if instance.image and not instance.image.name:
+            instance.image.delete(save=False)
+            instance.image = None
+
+        if commit:
+            instance.save()
+
+        return instance
