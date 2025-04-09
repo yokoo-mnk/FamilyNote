@@ -50,12 +50,31 @@ class UserUpdateForm(forms.ModelForm):
     full_name = forms.CharField(label="名前", max_length=50)
     nickname = forms.CharField(label='ニックネーム（続柄）',max_length=30)
     email = forms.EmailField(label="メールアドレス")
-    profile_image = forms.ImageField(label="プロフィール画像")
+    
     class Meta:
         model = User
-        fields = ["full_name", "nickname", "email", "profile_image"]
-  
-  
+        fields = ["full_name", "nickname", "email", "image"]
+        widgets = {
+            'image': forms.ClearableFileInput(attrs={'class': 'image-field'}),
+        }
+        labels = {
+            "image": "プロフィール画像",
+        }
+        
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        
+        if self.cleaned_data.get('image') is None and self.files.get('image') is None:
+            if self.data.get('image-clear') == 'on':
+                if instance.image:
+                    instance.image.delete(save=False)
+                    instance.image = None 
+        
+        if commit:
+            instance.save()
+
+        return instance
+
 class CustomPasswordChangeForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput, label="現在のパスワード")
     new_password = forms.CharField(widget=forms.PasswordInput, label="新しいパスワード")

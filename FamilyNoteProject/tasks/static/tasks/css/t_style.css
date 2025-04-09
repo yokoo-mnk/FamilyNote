@@ -221,7 +221,6 @@ form.notesakusei input[type="time"] {
 .image-field a {
     margin-right: 10px;  /* <a>と<input>の間にスペース */
 }
-
 p input#image-clear_id {
     margin-left: 10px !important;  /* <input>と<label>の間にスペース */
 }

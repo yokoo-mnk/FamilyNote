@@ -40,14 +40,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     deleteBtn.addEventListener("click", function() {
         selectedLetters = Array.from(document.querySelectorAll(".letter-checkbox:checked"))
-        .map(c => ({ id: c.value, title: c.dataset.title }));
+        .map(c => ({
+            id: c.value,
+            title: c.dataset.title,
+            child: c.dataset.child
+        }));
 
         console.log(selectedLetters);
 
         selectedList.innerHTML = "";
         selectedLetters.forEach(letter => {
             const li = document.createElement("li");
-            li.textContent = letter.title;
+            li.textContent = `${letter.title} / ${letter.child}`;
             selectedList.appendChild(li);
         });
         modal.style.display = "flex";

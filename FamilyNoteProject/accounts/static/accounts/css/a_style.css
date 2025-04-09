@@ -186,7 +186,7 @@ div.form-container {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     margin-top: 30px;
     margin-bottom: 30px;
     margin: 0 auto;
@@ -209,7 +209,7 @@ div.form-container input {
     box-sizing: border-box;
 }
 div.form-container button {
-    width: 100%;
+    width: 30%;
     padding: 10px;
     background-color: #007bff;
     color: white;
@@ -219,6 +219,24 @@ div.form-container button {
 }
 div.form-container button:hover {
     background-color: #0056b3;
+}
+.image-field {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.image-field a {
+    margin-right: 10px;  /* <a>と<input>の間にスペース */
+}
+p input#image-clear_id {
+    margin-left: 10px !;
+    width: 15px;
+    margin: 0;
+}
+#image-clear_id, label[for="image-clear_id"] {
+    display: inline-block !important;
+    vertical-align: middle;  /* 縦の位置を合わせる */
+    margin-right: 10px;
 }
 
 /* エラーメッセージのスタイル */
@@ -404,6 +422,21 @@ button.child-regist:hover {
     background-color: rgb(132, 27, 27);
     color: #ffffff;
 }
+button#confirm-delete {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+button#confirm-delete:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
+}
 button#submit-edit-button {
     padding: 4px 12px;
     border: none;
@@ -445,6 +478,11 @@ span#close-family-modal.close {
     font-size: 25px;
 }
 span#close-edit-child-modal.close {
+    cursor: pointer;
+    float: right;
+    font-size: 25px;
+}
+span#close-delete-modal.close {
     cursor: pointer;
     float: right;
     font-size: 25px;

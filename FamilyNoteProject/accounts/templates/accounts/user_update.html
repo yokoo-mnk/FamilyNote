@@ -19,7 +19,20 @@
 <div class="form-container">
   <form method="post" enctype="multipart/form-data" class="namechange">
     {% csrf_token %}
-    {{ form.as_p }}
+    <p>{{ form.full_name.label_tag }} {{ form.full_name }}</p>
+    <p>{{ form.nickname.label_tag }} {{ form.nickname }}</p>
+    <p>{{ form.email.label_tag }} {{ form.email }}</p>
+
+    <p>
+      {{ form.image.label_tag }}
+      {{ form.image }}
+      {% if form.image.value %}
+        <label for="{{ form.image.clear_checkbox_id }}">
+          {{ form.image.clear_checkbox_tag }} クリア
+        </label>
+      {% endif %}
+    </p>
+
     <button type="submit">変更</button>
   </form>
 </div>
@@ -29,3 +42,4 @@
 {% block extra_js %}
   <script src="{% static 'accounts/js/modal.js' %}"></script>
 {% endblock %}
+

@@ -5,17 +5,37 @@ document.addEventListener("DOMContentLoaded", function () {
         return tokenElement ? tokenElement.value : "";
     }
 
+    function closeModal(modal) {
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function setupModalClose(modalId, closeButtonId) {
+        const modal = document.getElementById(modalId);
+        const closeButton = document.getElementById(closeButtonId);
+    
+        if (closeButton) {
+            closeButton.addEventListener("click", () => closeModal(modal));
+        }
+    
+        window.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                closeModal(modal);
+            }
+        });
+    }
+    setupModalClose('family-modal', 'close-family-modal');
+    setupModalClose('child-modal', 'close-child-modal');
+    setupModalClose('edit-child-modal', 'close-edit-child-modal');
+    setupModalClose('delete-child-modal', 'close-delete-modal');
+
     const openFamilyModal = document.getElementById('open-family-modal');
     const familyModal = document.getElementById('family-modal');
-    const closeFamilyModal = document.getElementById('close-family-modal');
-    
     const openChildModal = document.getElementById('open-child-modal');
     const childModal = document.getElementById('child-modal');
-    const closeChildModal = document.getElementById('close-child-modal');
     const editChildModal = document.getElementById('edit-child-modal');
-    const closeEditChildModal = document.getElementById('close-edit-child-modal');
-    const editChildModalForm = document.getElementById("edit-child-modal-form");
-    const confirmDelete = document.getElementById("confirm-delete");
+    
 
     // モーダルを開く
     if (openFamilyModal && familyModal) {
@@ -35,32 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
       
-    if (closeChildModal) {
-        closeChildModal.addEventListener("click", function () {
-            if (childModal) {
-                childModal.style.display = "none";
-            }
-        });
-    }
-
-    // モーダルを閉じる
-    closeFamilyModal.addEventListener("click", function () {
-        familyModal.style.display = "none";
-    });
-    closeChildModal.addEventListener("click", function () {
-        childModal.style.display = "none";
-    });
-
-    // モーダル外をクリックしたら閉じる
-    window.addEventListener("click", function (event) {
-        if (event.target === familyModal) {
-            familyModal.style.display = "none";
-        }
-        if (event.target === childModal) {
-            childModal.style.display = "none";
-        }
-    });
-    
     // 家族作成処理
     const createFamilyForm = document.getElementById("create-family-form");
     if (createFamilyForm) {
@@ -171,7 +165,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // 子供情報編集処理
     const editChildLinks = document.querySelectorAll('.edit-child');
-
     editChildLinks.forEach(link => {
         link.addEventListener('click', function (event) {
             event.preventDefault();
@@ -197,21 +190,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             });
         });
-        
-        closeEditChildModal.addEventListener("click", function () {
-            editChildModal.style.display = "none";
-        });
-
-        window.addEventListener("click", function (event) {
-            if (event.target === editChildModal) {
-                editChildModal.style.display = "none";
-            }
-        });
-
+        const editChildModalForm = document.getElementById("edit-child-modal-form");    
         if (editChildModalForm) {
             editChildModalForm.addEventListener('submit', function (event) {
                 event.preventDefault();
         
+                const childId = document.getElementById('edit_child_id').value;
                 const formData = new FormData(editChildModalForm);
 
                 fetch(`/accounts/edit_child/${childId}/`, {
@@ -278,10 +262,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         document.getElementById('delete-child-modal').style.display = 'none';
     });
-    document.getElementById('cancel-delete').addEventListener('click', function () {
-        document.getElementById('delete-child-modal').style.display = 'none';
-    });
-    
     document.getElementById('close-delete-modal').addEventListener('click', function () {
         document.getElementById('delete-child-modal').style.display = 'none';
     });

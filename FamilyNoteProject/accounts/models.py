@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.templatetags.static import static
 
 
 class CustomUser(AbstractUser):
@@ -7,7 +8,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     full_name = models.CharField(max_length=100, blank=True)
     nickname = models.CharField(max_length=30)
-    profile_image = models.ImageField(upload_to="profile_images/", blank=True, null=True)
+    image = models.ImageField(upload_to="profile_images/", blank=True, null=True)
     family = models.ForeignKey(
         'families.Family', on_delete=models.CASCADE, null=True, blank=True, related_name='members'
     )
@@ -18,6 +19,11 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
     
+    @property
+    def profile_image_url(self):
+        if self.image:
+            return self.image.url
+        return static('images/default.png')
     
 class Child(models.Model):
     child_name = models.CharField(max_length=100)

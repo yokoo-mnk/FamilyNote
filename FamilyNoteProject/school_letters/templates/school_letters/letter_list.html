@@ -21,7 +21,14 @@
     <div class="letter-container">
     {% for letter in letters %}
       <a href="{% url 'school_letters:update_letter' letter.pk %}" class="letter-card">
-        <input type="checkbox" class="letter-checkbox" name="school_letters" value="{{ letter.id }}" data-title="{{ letter.title }}">
+        <input
+          type="checkbox"
+          class="letter-checkbox"
+          name="school_letters"
+          value="{{ letter.id }}"
+          data-title="{{ letter.title }}"
+          data-child="{{ letter.child.child_name }}"
+        >
         <img src="{{ letter.image.url }}" alt="{{ letter.title }}">
         <h3>{{ letter.title }}</h3>
         <p>{{ letter.child.child_name }}</p>

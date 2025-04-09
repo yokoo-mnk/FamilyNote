@@ -154,7 +154,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         if self.request.GET.get('is_favorite') == 'on':
             queryset = queryset.filter(is_favorite=True)
             
-        return queryset   
+        return queryset.order_by('-created_at')   
     
     def post(self, request, *args, **kwargs):
         task_ids = request.POST.getlist('tasks')
