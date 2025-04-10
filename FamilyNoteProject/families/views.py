@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import get_user_model
 from .models import Family
-
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -55,6 +55,11 @@ def join_family(request, invite_code):
     
     return render(request, "families/join_family.html", {"family": family})
 
+def invite_register_redirect(request, invite_code):
+    request.session['from_family_invite'] = True
+    request.session['invite_code'] = invite_code
+    
+    return redirect('accounts:register')
 
 @login_required
 def leave_family(request):

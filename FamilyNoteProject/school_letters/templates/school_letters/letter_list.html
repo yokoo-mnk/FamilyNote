@@ -9,7 +9,7 @@
   <select name="child_id" id="child_filter" onchange="this.form.submit()">
     <option value="">すべて</option>   
     {% for child in children %}
-      <option value="{{ child.id }}" {% if request.GET.child_id|default:'' == child.id|slugify %}selected{% endif %}>
+    <option value="{{ child.id }}" {% if request.GET.child_id == child.id|stringformat:"s" %}selected{% endif %}>
         {{ child.child_name }}
       </option>
     {% endfor %}

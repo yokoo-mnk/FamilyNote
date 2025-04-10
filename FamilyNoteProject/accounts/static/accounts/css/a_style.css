@@ -279,7 +279,13 @@ div.alert.error {
     text-align: center;
     margin-bottom: 10px;
 }
-
+p.message {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
 .logout-btn {
     width: auto; /* 自動幅 */
     background-color: #007bff;

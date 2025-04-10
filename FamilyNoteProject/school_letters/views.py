@@ -63,7 +63,13 @@ class SchoolLetterListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         family = self.request.user.family
-        return SchoolLetter.objects.filter(family=family)
+        queryset = SchoolLetter.objects.filter(family=family)
+    
+        child_id = self.request.GET.get('child_id')
+        if child_id:
+            queryset = queryset.filter(child_id=child_id)
+
+        return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

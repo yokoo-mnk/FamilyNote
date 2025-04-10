@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.http import JsonResponse, HttpResponseForbidden
 from django.views.generic import UpdateView, FormView
 from .models import  CustomUser, Child
+from families.models import Family
 from .forms import (
     CustomUserCreationForm, CustomLoginForm, UserUpdateForm,
 )
@@ -27,18 +28,28 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            next_url = request.GET.get('next')
-            if not next_url:
-                next_url = reverse('accounts:mypage')
-            return redirect(next_url)
+            
+            from_invite = request.session.pop('from_family_invite', False)
+            
+            if from_invite:
+                invite_code = request.session.pop('invite_code', None)
+                if invite_code:
+                    try:
+                        family = Family.objects.get(invite_code=invite_code)
+                        user.family = family
+                        user.save()
+                    except Family.DoesNotExist:
+                        messages.warning(request, "招待された家族が見つかりませんでした。")
+            
+            else:
+                request.session['show_post_register_message'] = True
+            
+            return redirect('accounts:mypage')
         
-        messages.success(request, "アカウントが作成されました！<br>まずは、マイページで家族を作成してください。")
-        return redirect(reverse('my_page'))
-    
     else:
         form = CustomUserCreationForm()
     return render(request, "accounts/register.html", {"form": form})
-
+            
 
 class CustomLoginView(LoginView):
     authentication_form = CustomLoginForm
@@ -61,6 +72,10 @@ def mypage(request):
         "family_members": family_members,
         "children": children,
     }
+    
+    if request.session.pop('show_post_register_message', False):
+        messages.success(request, "アカウントが作成されました！<br>まずは、マイページで家族を作成してください。<br>他の家族メンバーがすでに家族を作成済みであれば、招待URLを発行してもらいましょう。<br>（その場合、家族作成は不要です。）")
+        
     return render(request, "accounts/mypage.html", context)
 
 
