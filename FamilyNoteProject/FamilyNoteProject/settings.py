@@ -14,9 +14,8 @@ from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates'),
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates/accounts'),
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates/tasks'),
+
+TEMPLATE_DIRS = [ os.path.join(BASE_DIR, 'templates') ] 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -60,7 +59,7 @@ ROOT_URLCONF = 'FamilyNoteProject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR, 'templates'],
+        'DIRS':TEMPLATE_DIRS,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,9 +123,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'accounts/static', 'tasks/static', 'families/static'
-]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -149,3 +145,21 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 CACHE_MIDDLEWARE_SECONDS = 0
 SESSION_COOKIE_SECURE = False#ローカル開発環境のみ
 CSRF_COOKIE_SECURE = False#ローカル開発環境のみ
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}

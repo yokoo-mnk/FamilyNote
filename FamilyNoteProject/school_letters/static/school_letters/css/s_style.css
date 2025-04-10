@@ -235,19 +235,19 @@ form.child_filter {
 
 .edit-container {
     display: flex;
-    align-items: flex-start; /* 上端を揃える */
-    gap: 20px; /* 画像とフォームの間隔 */
+    align-items: flex-start;
+    gap: 20px;
 }
 
 .letter-image img {
-    max-width: 700px; /* 画像を大きめに表示 */
+    max-width: 700px;
     height: auto;
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .letter-form {
-    flex: 1; /* フォームを広げる */
+    flex: 1;
     max-width: 500px;
 }
 .letter-checkbox{
@@ -258,10 +258,10 @@ form.child_filter {
 /* 削除ボタン */
 .footer-container {
     display: flex;
-    justify-content: space-between; /* 左右に要素を配置 */
-    align-items: center; /* 高さを揃える */
+    justify-content: space-between;
+    align-items: center;
     padding: 10px;
-    width: 100%; /* 親要素の幅いっぱいに広げる */
+    width: 100%;
 }
 #delete-btn {
     margin-top: 0px;
@@ -301,7 +301,7 @@ span.current {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5); /* 背景を半透明に */
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -318,8 +318,8 @@ span.current {
     position: relative;
 }
 #selected-letters-list {
-    list-style-type: none;  /* デフォルトのリストスタイルを削除 */
-    padding: 0;  /* 左側の余白をなくす */
+    list-style-type: none;
+    padding: 0;
 }
 button#confirm-delete {
     padding: 4px 12px;

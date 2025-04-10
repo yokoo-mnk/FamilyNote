@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 if (data.status === 'deleted') {
                     alert("削除しました！");
-                    location.reload();  // ページを更新して削除反映
+                    location.reload();
                 } else {
                     alert("削除に失敗しました。");
                 }

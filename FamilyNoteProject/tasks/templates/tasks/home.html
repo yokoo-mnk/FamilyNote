@@ -103,7 +103,7 @@
               {% for member in family_members %}
                 <option value="{{ member.id }}"
                         {% if task.assigned_to and task.assigned_to.id == member.id %}selected{% endif %}>
-                  {{ member.nickname }}  {# ←ニックネームを表示 #}
+                  {{ member.nickname }}
                 </option>
               {% endfor %}
             </select>
@@ -152,7 +152,7 @@
 
   <div class="footer-container">
     <input type="checkbox" id="select-all"> 全ての項目を選択
-    <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を<bt>ToDoリストから削除</button>
+    <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を<br>ToDoリストから削除</button>
   </div>
 </form>
 

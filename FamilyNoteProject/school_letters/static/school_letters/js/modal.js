@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 selectAllCheckbox.checked = true; // 全部チェックされたら全選択をオン
             }
 
-            updateSelectedLetters(); // 状態を更新
+            updateSelectedLetters();
         });
     });
 

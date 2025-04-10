@@ -2,7 +2,28 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.templatetags.static import static
 
+from django.contrib.auth.models import BaseUserManager
 
+class CustomUserManager(BaseUserManager):
+    def create_user(self, email, nickname, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, nickname=nickname, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, nickname, password=None, **extra_fields):
+        """
+        Create and return a superuser with an email, nickname, and password.
+        """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(email, nickname, password, **extra_fields)
+    
+    
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
@@ -12,6 +33,7 @@ class CustomUser(AbstractUser):
     family = models.ForeignKey(
         'families.Family', on_delete=models.CASCADE, null=True, blank=True, related_name='members'
     )
+    objects = CustomUserManager()
     
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["nickname"]

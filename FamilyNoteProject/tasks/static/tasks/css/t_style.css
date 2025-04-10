@@ -1,5 +1,5 @@
  /* 全体のスタイル */
- body {
+body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     margin: 0;
@@ -32,8 +32,8 @@ header h1 {
 }
 .header {
     display: flex;
-    align-items: center;        /* 縦方向中央揃え */
-    justify-content: space-between;  /* スペースを均等に配置 */
+    align-items: center;
+    justify-content: space-between;
     padding: 10px 30px;
     background-color: #add9f6;
     color: gray;
@@ -50,30 +50,25 @@ header h1 {
 .search-bar {
     margin-bottom: 10px;
 }
-  
 .search-bar input {
     width: 300px;
     padding: 5px;
     margin-top: 15px;
     box-sizing: border-box;
-}
-  
+} 
 .search-bar button {
     padding: 5px;
     cursor: pointer;
 }
-  
 .category-filter,
 .favorite-filter {
     margin-top: 5px;
     margin-bottom: 10px;
-}
-  
+} 
 .category-filter select {
     padding: 5px;
     cursor: pointer;
 }
-  
 .favorite-filter input {
     margin-right: 5px;
     
@@ -217,16 +212,15 @@ form.notesakusei input[type="time"] {
     align-items: center;
     margin-top: 10px;
 }
-
 .image-field a {
-    margin-right: 10px;  /* <a>と<input>の間にスペース */
+    margin-right: 10px;
 }
 p input#image-clear_id {
-    margin-left: 10px !important;  /* <input>と<label>の間にスペース */
+    margin-left: 10px !important;
 }
 #image-clear_id, label[for="image-clear_id"] {
     display: inline-block !important;
-    vertical-align: middle;  /* 縦の位置を合わせる */
+    vertical-align: middle;
     margin-right: 10px;
 }
 .form-check {
@@ -307,17 +301,15 @@ form.notesakusei textarea {
 }
 .checkbox-wrapper {
     display: flex;
-    gap: 2rem; /* チェックボックスの間隔 */
+    gap: 2rem;
     align-items: center;
 }
-  
 .checkbox-wrapper label {
     white-space: nowrap;
     display: flex;
     align-items: center;
     gap: 0.4rem;
 }
-
 input[type="checkbox"] {
     margin-left: 6px !important;
     width: auto !important;
@@ -326,13 +318,11 @@ input[type="checkbox"] {
     margin: 0 !important;
     cursor: pointer;
 }
-
 .category-filter{
     display: flex;
-    align-items: center; /* 高さを揃える */
-    gap: 20px; /* フィルタ項目の間にスペースを設定 */
+    align-items: center;
+    gap: 20px;
 }
-
 h4 {
     margin-bottom: 0px
 }
@@ -346,8 +336,8 @@ h4 {
 }
 .filter-item label {
     margin-right: 10px;
-    white-space: nowrap;  /* 折り返しを防ぐ */
-  }
+    white-space: nowrap;
+}
 .no-box-form {
     display: contents;
 }
@@ -355,30 +345,30 @@ h4 {
 /* テーブルのスタイル */
 table {
     width: 100% !important;
-    table-layout: fixed !important; /* 列の幅を固定 */
+    table-layout: fixed !important;
     background-color: white !important;
     border: 1px solid #ddd !important;
     border-radius: 10px !important;
     box-sizing: border-box !important;
-    border-collapse: collapse !important; /* セルの枠線を統合 */
+    border-collapse: collapse !important;
     margin-top: 20px !important;
-    margin-bottom: 20px !important; /* テーブルとページネーションの間に余白 */
+    margin-bottom: 20px !important;
     padding: 0px !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
 }
 td {
-    border: 1px solid #ddd; /* セルの枠線を追加 */
-    padding: 8px; /* セル内の余白 */
-    text-align: left !important; /* 左寄せ */
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left !important;
 }
 td.check {
     text-align: center !important;
 }
 td.memo {
-    word-wrap: break-word;      /* 単語の途中で折り返し */
-    overflow-wrap: break-word;  /* 長い単語を途中で折り返し */
-    max-width: 3%;           /* 必要に応じて最大幅を設定（調整可能） */
-    text-overflow: ellipsis;    /* 文字が多すぎる場合、省略して表示 */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 3%;
+    text-overflow: ellipsis;
     white-space: normal; 
 }
 td.edit {
@@ -388,20 +378,20 @@ td.copy {
     text-align: center !important;
 }
 th {
-    background-color: #f2f2f2; /* ヘッダーの背景色 */
+    background-color: #f2f2f2;
     font-weight: bold;
-    border: 1px solid #ddd; /* セルの枠線を追加 */
-    padding: 8px; /* セル内の余白 */
-    text-align: center !important; /* 左寄せ */
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center !important;
 }
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* 偶数行の背景色 */
+    background-color: #f9f9f9;
 }
 tr:hover {
-    background-color: #f1f1f1; /* 行にマウスオーバーした時の背景色 */
+    background-color: #f1f1f1;
 }
 td img {
-    max-width: 100px; /* 画像の最大幅を指定 */
+    max-width: 100px;
 }
 input.task-checkbox {
     text-align: center;
@@ -411,10 +401,10 @@ tr.completed td:not(:first-child) {
     color: gray;
 }
 tr.due-today {
-    background-color: #fff9c4 !important; /* 薄い黄色 */
+    background-color: #fff9c4 !important;
 }
 tr.overdue {
-    background-color: #ffcdd2 !important; /* 薄い赤 */
+    background-color: #ffcdd2 !important;
 }
 select.assign-member {
     width: 80%;
@@ -452,10 +442,10 @@ td.select {
 /* ToDo追加・削除ボタン */
 .footer-container {
     display: flex;
-    justify-content: space-between; /* 左右に要素を配置 */
-    align-items: center; /* 高さを揃える */
+    justify-content: space-between;
+    align-items: center;
     padding: 10px;
-    width: 100%; /* 親要素の幅いっぱいに広げる */
+    width: 100%;
 }
 .delete-btn {
     margin-top: 0px;
@@ -495,7 +485,7 @@ td.select {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5); /* 背景を半透明に */
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -512,8 +502,8 @@ td.select {
     position: relative;
 }
 #selected-tasks-list {
-    list-style-type: none;  /* デフォルトのリストスタイルを削除 */
-    padding: 0;  /* 左側の余白をなくす */
+    list-style-type: none;
+    padding: 0;
 }
 button#confirm-delete {
     padding: 4px 12px;

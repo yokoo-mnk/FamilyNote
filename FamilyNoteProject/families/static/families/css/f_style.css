@@ -18,8 +18,8 @@ header {
     background-color: #add9f6;
     color: gray;
     width: 100%;
-    padding: 10px 30px; /* 上下の余白を小さくする（20px → 10px） */
-    height: auto; /* 必要なら高さを自動調整 */
+    padding: 10px 30px;
+    height: auto;
     position: fixed;
     top: 0;
     left: 0;
@@ -103,20 +103,20 @@ header h1 {
 }
 
 main {
-    margin-top: 40px; /* ヘッダーの高さ分だけ下げる */
-    padding: 20px; /* 適度な余白を追加 */
+    margin-top: 40px;
+    padding: 20px;
 }
 
 /* 家族参加htmlのスタイル */
 .join-box {
     display: flex;
-    flex-direction: column; /* 子要素を縦に並べる */
+    flex-direction: column;
     align-items: center !important;
     justify-content: center;
     width: 500px;
     margin: 0 auto;
     padding: 20px 30px;
-    border-radius: 10px; /* 角を丸くする */
+    border-radius: 10px;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -124,11 +124,11 @@ main {
     text-align: center;
 }
 .join-box h2 {
-    margin-bottom: 20px !important; /* 見出しの下に余白を設定 */
+    margin-bottom: 20px !important;
 }
   
 .join-box form {
-    margin-bottom: 20px !important; /* フォームの下に余白を設定 */
+    margin-bottom: 20px !important;
 }
 button.join-button {
     display: block;
@@ -147,24 +147,24 @@ button.join-button:hover {
     background-color: #0056b3;
 }
 .join-box a {
-    color: #007bff !important; /* リンクの色 */
-    text-decoration: none !important; /* 下線を除去 */
+    color: #007bff !important;
+    text-decoration: none !important;
 }
   
 .join-box a:hover {
-    text-decoration: underline !important; /* ホバー時に下線を表示 */
+    text-decoration: underline !important;
 }
 
 /* 家族参加エラーhtmlのスタイル */
 div.joinerror-box {
     display: flex;
-    flex-direction: column; /* 子要素を縦に並べる */
+    flex-direction: column;
     align-items: center !important;
     justify-content: center;
     width: 600px;
     margin: 0 auto;
     padding: 20px 30px;
-    border-radius: 10px; /* 角を丸くする */
+    border-radius: 10px;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -172,26 +172,26 @@ div.joinerror-box {
     text-align: center;
 }
 div.joinerror-box h2 {
-    margin-bottom: 20px !important; /* 見出しの下に余白を設定 */
+    margin-bottom: 20px !important;
 }
 div.joinerror-box a {
-    color: #007bff !important; /* リンクの色 */
-    text-decoration: none !important; /* 下線を除去 */
+    color: #007bff !important;
+    text-decoration: none !important;
 }
 div.joinerror-box a:hover {
-    text-decoration: underline !important; /* ホバー時に下線を表示 */
+    text-decoration: underline !important;
 }
 
 /* 家族招待URL発行htmlのスタイル */
 div.invite-box {
     display: flex;
-    flex-direction: column; /* 子要素を縦に並べる */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 500px;
     margin: 0 auto;
     padding: 20px 30px;
-    border-radius: 10px; /* 角を丸くする */
+    border-radius: 10px;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -220,7 +220,7 @@ input#invite_url {
 /* 家族キャンセル確認htmlのスタイル */
 div.leave-box {
     display: flex;
-    flex-direction: column; /* 子要素を縦に並べる */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 500px;
@@ -228,7 +228,7 @@ div.leave-box {
     margin-bottom: 30px;
     margin: 0 auto;
     padding: 20px 30px;
-    border-radius: 10px; /* 角を丸くする */
+    border-radius: 10px;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -250,8 +250,8 @@ div.leave-box button {
     margin-bottom: 20px;
 }
 div.leave-box button:hover {
-    background-color: rgb(132, 27, 27); /* ホバー時の背景色を変更 */
-    color: #ffffff; /* ホバー時のテキスト色 */
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
 }
 
 

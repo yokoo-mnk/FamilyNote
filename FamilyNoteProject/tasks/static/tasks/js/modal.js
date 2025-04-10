@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 .catch(error => {
                     console.error("完了状態の保存エラー:", error);
                 });
-            if (isHomePage) {
-                const row = this.closest("tr");            
+            const row = this.closest("tr");
+            if (isHomePage) {            
                 if (this.checked) {
                     row.classList.add("completed"); // チェックされたら線を引く
                 } else {
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
 
-            updateSelectedTasks(); // タスク選択状態を更新
+            updateSelectedTasks();
         }});
     });
     
@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", function() {
         checkbox.addEventListener('change', function() {
             const taskId = this.value;
     
-            // `is_completed` を変更しないように、show_on_home のみを変更
             fetch('/tasks/toggle_show_on_home/', {
                 method: 'POST',
                 headers: {
@@ -172,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function getSortOrder() {
         const sortOrderSelect = document.querySelector("[name=sort_order]");
-        return sortOrderSelect ? sortOrderSelect.value : "newest";  // デフォルトは新しい順
+        return sortOrderSelect ? sortOrderSelect.value : "newest";
     }
 
     

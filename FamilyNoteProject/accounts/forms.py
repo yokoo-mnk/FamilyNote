@@ -43,7 +43,15 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ["full_name", "nickname", "email", "password1", "password2"]
 
 class CustomLoginForm(AuthenticationForm):
-    username = forms.CharField(label='メールアドレス',)
+    username = forms.CharField(
+        label='メールアドレス',
+    )
+    password = forms.CharField(
+        label="パスワード",
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        help_text="8文字以上のパスワードを入力してください。",
+    )
 
 
 class UserUpdateForm(forms.ModelForm):
