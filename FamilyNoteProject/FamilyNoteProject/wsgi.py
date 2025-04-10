@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/5.1/howto/deployment/wsgi/
 import os
 import sys
 
-sys.path.append('/home/minakoyokoo/FamilyNote/FamilyNoteProject')
+sys.path.append('/home/minakoyokoo/FamilyNote/FamilyNoteProject/FamilyNoteProject')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'FamilyNoteProject.settings'
 
