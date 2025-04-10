@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Note一覧 - FamilyNote{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'tasks/css/t_style.css' %}">
+</head>
+<body class="task-list-page">
+  <header>
+    <div class="header">
+      <h1>～FamilyNote～</h1>
+
+      <form method="GET" action="{% url 'tasks:task_list' %}" class="search-bar">
+        <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Noteタイトルまたはメモを検索">
+        <button type="submit">🔍</button>
+      </form>
+
+      <nav class="custom-navbar">
+        <a href="{% url 'tasks:home' %}">ホーム</a>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">Note ▼</a>
+          <div class="dropdown-content">
+            <a href="{% url 'tasks:task_list' %}">Note一覧</a>
+            <a href="{% url 'tasks:task_create' %}">Note登録</a>
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">おたより ▼</a>
+          <div class="dropdown-content">      
+            <a href="{% url 'school_letters:letter_list' %}">おたより一覧</a>
+            <a href="{% url 'school_letters:create_letter' %}">おたより登録</a>
+          </div>
+        </li>
+        <a href="{% url 'accounts:mypage' %}">マイページ</a>
+        {% if user.is_authenticated %}
+          <form action="{% url 'accounts:logout' %}" method="post" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">ログアウト</button>
+          </form>
+        {% else %}
+          <p>ログインしてください。</p>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main>
+    <h4>{{ user.nickname }}さん、今日もお疲れさまです。</h4>
+    
+
+  <form method="GET" action="{% url 'tasks:task_list' %}" class="category-filter">
+    <div class="filter-item">
+      <h2>Note～我が家の記録～</h2>
+      <label for="category">カテゴリ:</label>
+      <select name="category" id="category" onchange="this.form.submit()">
+        <option value="">すべて</option>
+        {% for value, label in categories %}
+          <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>
+            {{ label }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="filter-item">
+      <label for="is_favorite">お気に入りのみ表示:</label>
+      <input type="checkbox" name="is_favorite" id="id_is_favorite" {% if request.GET.is_favorite == 'on' %}checked{% endif %}>
+      <button type="submit" class="filter">フィルタ</button>
+    </div>
+  </form>
+
+  <form method="post" action="{% url 'tasks:task_list' %}">
+    <input type="hidden" id="home-task-remove-endpoint" value="/tasks/task_list_toggle_completion/">
+    {% csrf_token %}
+    <table>
+      <colgroup>
+        <col style="width: 30px;">  <!-- チェックボックス -->
+        <col style="width: 60px;"> <!-- 日付 -->
+        <col style="width: 60px;"> <!-- 時間 -->
+        <col style="width: 30px;">  <!-- お気に入り -->
+        <col style="width: 150px;"> <!-- タイトル -->
+        <col style="width: 300px;"> <!-- メモ -->
+        <col style="width: 120px;"> <!-- 画像 -->
+        <col style="width: 50px;">  <!-- 編集 -->
+        <col style="width: 50px;">  <!-- コピー -->
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th>日付</th>
+          <th>時間</th>
+          <th></th>
+          <th>タイトル</th>
+          <th>メモ</th>
+          <th>画像</th>
+          <th>編集</th>
+          <th>コピー</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td class="check">
+              <input type="checkbox" class="task-checkbox" name="tasks" value="{{ task.id }}" data-title="{{ task.title }}">
+            </td>
+            <td>{{ task.formatted_due_date }}</td>
+            <td>
+              {% if task.start_time %}
+                {{ task.start_time }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              {% if task.is_favorite %}
+                  ⭐
+              {% endif %}
+            </td>
+            <td>{{ task.title }}</td>
+            <td class=memo>
+              {% if task.memo %}
+                {{ task.memo }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              {% if task.image %}
+                <img src="{{ task.image.url }}" alt="Task image" width="100">
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td class="edit">
+              <a href="{% url 'tasks:task_edit' task.pk %}">📝</a>
+            </td>
+            <td class="copy">
+              <a href="{% url 'tasks:task_copy' task.id %}">📄</a>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="9">Noteがありません。</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- ページネーション -->
+    <div class="pagination">
+      <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?page=1
+          {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+          {% if request.GET.is_favorite %}&is_favorite=on{% endif %}
+          {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">≪最初
+        </a>
+        <a href="?page={{ page_obj.previous_page_number }}
+          {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+          {% if request.GET.is_favorite %}&is_favorite=on{% endif %}
+          {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">＜前へ
+        </a>
+      {% endif %}
+
+      <span class="current">
+        ページ{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}
+          {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+          {% if request.GET.is_favorite %}&is_favorite=on{% endif %}
+          {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">次へ＞
+        </a>
+        <a href="?page={{ page_obj.paginator.num_pages }}
+          {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+          {% if request.GET.is_favorite %}&is_favorite=on{% endif %}
+          {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">最後≫
+        </a>
+      {% endif %}
+      </span>
+    </div>
+    <input type="checkbox" id="select-all"> 全ての項目を選択
+    <div class="footer-container">
+      <button type="submit" name="action" value="show_on_home" class="todobtn">チェックした項目を<br>ToDoリストへ追加</button>
+      <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を削除</button>
+    </div>
+  </form>
+
+    <div id="delete-modal" class="modal-overlay" style="display: none;">
+      <div class="modal-content">
+        <span id="close-modal" class="close">&times;</span>
+        <h3>以下のNoteを削除しますか？</h3>
+        <ul id="selected-tasks-list"></ul>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <input type="hidden" id="task-delete-endpoint" value="{% url 'tasks:task_delete' %}">
+        <button id="confirm-delete">削除</button>
+      </div>
+    </div>
+  </main> 
+</body>
+</html>
+
+
+<script src="{% static 'tasks/js/modal.js' %}"></script>

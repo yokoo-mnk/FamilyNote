@@ -1,0 +1,173 @@
+{% extends 'tasks/t_base.html' %}
+{% load static %}
+{% block title %}ホーム - FamilyNote{% endblock %}
+{% block body_class %}home-page{% endblock %}
+{% block content %}
+<form method="GET" action="{% url 'tasks:home' %}" class="category-filter">
+  <div class="filter-item">
+    <h2>～ToDoリスト～</h2>
+    <label for="category">カテゴリ:</label>
+    <select name="category" id="category" onchange="this.form.submit()">
+      <option value="">すべて</option>
+      {% for value, label in categories %}
+        <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>
+          {{ label }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="filter-item">
+    <label for="assignee">担当者:</label>
+    <select name="assignee" id="assignee" onchange="this.form.submit()">
+      <option value="">すべて</option>
+      {% for member in family_members %}
+        <option value="{{ member.id }}" {% if selected_assignee == member.id|stringformat:"s" %}selected{% endif %}>
+          {{ member.nickname }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="filter-item">
+    <label for="sort-order">並び順:</label>
+    <select class="sort-order" name="sort_order" onchange="this.form.submit()">
+      <option value="newest" {% if request.GET.sort_order == 'newest' %}selected{% endif %}>新しい順</option>
+      <option value="oldest" {% if request.GET.sort_order == 'oldest' %}selected{% endif %}>古い順</option>
+    </select>
+  </div>
+</form>
+
+<form method="post" action="{% url 'tasks:home' %}">
+  {% csrf_token %}
+  <table class="task-table">
+    <colgroup>
+      <col style="width: 30px;">
+      <col style="width: 60px;"> <!-- 日付 -->
+      <col style="width: 60px;"> <!-- 時間 -->
+      <col style="width: 150px;"> <!-- タイトル -->
+      <col style="width: 300px;"> <!-- メモ -->
+      <col style="width: 120px;"> <!-- 画像 -->
+      <col style="width: 80px;"> <!-- 担当者 -->
+    </colgroup>
+    <thead>
+      <tr>
+        <th></th>
+        <th>日付</th>
+        <th>時間</th>
+        <th>タイトル</th>
+        <th>メモ</th>
+        <th>画像</th>
+        <th>担当者</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr class="{% if task.is_completed %}completed{% endif %}
+                   {% if task.is_today %}due-today {% endif %}
+                   {% if task.is_overdue %}overdue{% endif %}">
+          <td class="check">
+            <input type="checkbox" class="task-checkbox"
+                   name="tasks" value="{{ task.id }}"
+                   data-title="{{ task.title }}"
+                   {% if task.is_completed %}checked{% endif %}>
+          </td>
+          <td>
+            {% if task.due_date %}
+              {{ task.due_date|date:"m/d" }}
+            {% endif %}
+          </td>
+          <td>
+            {% if task.start_time %}
+              {{ task.start_time }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>{{ task.title }}</td>
+          <td class=memo>
+            {% if task.memo %}
+              {{ task.memo }}
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td>
+            {% if task.image %}
+              <img src="{{ task.image.url }}" alt="Task image" width="100">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td class=select>
+            <select class="assign-member" data-task-id="{{ task.id }}">
+              <option value="">選択</option>
+              {% for member in family_members %}
+                <option value="{{ member.id }}"
+                        {% if task.assigned_to and task.assigned_to.id == member.id %}selected{% endif %}>
+                  {{ member.nickname }}
+                </option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">表示するToDoがありません。</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- ページネーション -->
+  <div class="pagination">
+    <span class="step-links">
+    {% if page_obj.has_previous %}
+      <a href="?page=1
+        {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+        {% if request.GET.sort_order %}&sort_order={{ request.GET.sort_order }}{% endif %}">≪最初
+      </a>
+      <a href="?page={{ page_obj.previous_page_number }}
+        {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+        {% if request.GET.sort_order %}&sort_order={{ request.GET.sort_order }}{% endif %}">＜前へ
+      </a>
+    {% endif %}
+
+    <span class="current">
+      ページ{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}
+        {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+        {% if request.GET.favorite %}&favorite=on{% endif %}
+        {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">次へ＞
+      </a>
+      <a href="?page={{ page_obj.paginator.num_pages }}
+        {% if request.GET.category %}&category={{ request.GET.category }}{% endif %}
+        {% if request.GET.favorite %}&favorite=on{% endif %}
+        {% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">最後≫
+      </a>
+    {% endif %}
+    </span>
+  </div>
+
+  <div class="footer-container">
+    <input type="checkbox" id="select-all"> 全ての項目を選択
+    <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を<br>ToDoリストから削除</button>
+  </div>
+</form>
+
+  <div id="delete-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <span id="close-modal" class="close">&times;</span>
+      <h3>以下のToDoを削除しますか？</h3>
+      <ul id="selected-tasks-list"></ul>
+      <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+      <input type="hidden" id="home-task-remove-endpoint" value="{% url 'tasks:home_task_remove' %}">
+      <button id="confirm-delete">削除</button>
+    </div>
+  </div>
+{% endblock %}
+</body>
+{% block extra_js %}
+  <script src="{% static 'tasks/js/modal.js' %}"></script>
+{% endblock %}

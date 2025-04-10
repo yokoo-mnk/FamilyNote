@@ -1,0 +1,87 @@
+{% extends 'school_letters/s_base.html' %}
+{% load static %}
+{% block title %}おたより一覧 - FamilyNote{% endblock %}
+{% block content %}
+<h2>{{ family.family.name }} ～園や学校のおたより一覧～</h2>
+<meta name="csrf-token" content="{{ csrf_token }}">
+<form method="GET" action="" class="child-filter">
+  <label for="child_filter">こどもの名前:</label>
+  <select name="child_id" id="child_filter" onchange="this.form.submit()">
+    <option value="">すべて</option>   
+    {% for child in children %}
+    <option value="{{ child.id }}" {% if request.GET.child_id == child.id|stringformat:"s" %}selected{% endif %}>
+        {{ child.child_name }}
+      </option>
+    {% endfor %}
+  </select>
+</form>
+
+<form method="post" action="{% url 'school_letters:letter_list' %}">
+  {% csrf_token %}
+    <div class="letter-container">
+    {% for letter in letters %}
+      <a href="{% url 'school_letters:update_letter' letter.pk %}" class="letter-card">
+        <input
+          type="checkbox"
+          class="letter-checkbox"
+          name="school_letters"
+          value="{{ letter.id }}"
+          data-title="{{ letter.title }}"
+          data-child="{{ letter.child.child_name }}"
+        >
+        <img src="{{ letter.image.url }}" alt="{{ letter.title }}">
+        <h3>{{ letter.title }}</h3>
+        <p>{{ letter.child.child_name }}</p>
+      </a>
+    {% empty %}
+      <p>おたよりがまだ登録されていません。</p>
+    {% endfor %}
+    </div>
+  
+    <!-- ページネーション -->
+    <div class="pagination">
+      <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?page=1
+          {% if request.GET.child_id %}&child_id={{ request.GET.child_id }}{% endif %}">≪最初
+        </a>
+        <a href="?page={{ page_obj.previous_page_number }}
+          {% if request.GET.child_id %}&child_id={{ request.GET.child_id }}{% endif %}">＜前へ
+        </a>
+      {% endif %}
+
+      <span class="current">
+        ページ{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}
+          {% if request.GET.child_id %}&child_id={{ request.GET.child_id }}{% endif %}">次へ＞
+        </a>
+        <a href="?page={{ page_obj.paginator.num_pages }}
+          {% if request.GET.child_id %}&child_id={{ request.GET.child_id }}{% endif %}">最後≫
+        </a>
+      {% endif %}
+    </span>
+  </div>
+
+  <div class="footer-container">
+    <input type="checkbox" id="select-all"> 全ての項目を選択
+    <button type="button" id="delete-btn" name="action" value="delete" class="delete-btn">選択した項目を削除</button>
+  </div>
+</form>
+
+<div id="delete-modal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <span id="close-modal" class="close">&times;</span>
+    <h3>以下のおたよりを削除しますか？</h3>
+    <ul id="selected-letters-list"></ul>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <button id="confirm-delete">削除</button>
+  </div>
+</div>   
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'school_letters/js/modal.js' %}"></script>
+{% endblock %}
