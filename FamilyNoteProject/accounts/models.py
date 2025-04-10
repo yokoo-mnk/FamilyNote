@@ -23,7 +23,7 @@ class CustomUser(AbstractUser):
     def profile_image_url(self):
         if self.image:
             return self.image.url
-        return static('images/default.png')
+        return static('accounts/images/default.png')
     
 class Child(models.Model):
     child_name = models.CharField(max_length=100)

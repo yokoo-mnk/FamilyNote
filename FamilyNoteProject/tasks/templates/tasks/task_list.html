@@ -71,6 +71,7 @@
   </form>
 
   <form method="post" action="{% url 'tasks:task_list' %}">
+    <input type="hidden" id="home-task-remove-endpoint" value="/tasks/task_list_toggle_completion/">
     {% csrf_token %}
     <table>
       <colgroup>

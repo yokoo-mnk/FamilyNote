@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const selectAllCheckbox = document.getElementById("select-all");
     const isHomePage = document.body.classList.contains("home-page");
+    const isTaskListPage = document.body.classList.contains("task-list-page");
     const checkboxes = document.querySelectorAll(".task-checkbox");
     const deleteBtn = document.getElementById("delete-btn");
     const modal = document.getElementById("delete-modal");
@@ -20,24 +21,9 @@ document.addEventListener("DOMContentLoaded", function() {
         updateSelectedTasks();
     });
 
-    checkboxes.forEach(checkbox => {
+    document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener("change", function() {
-            if (!this.checked) {
-                selectAllCheckbox.checked = false; // 1つでも外れたら全選択をオフ
-            } else if (Array.from(checkboxes).every(c => c.checked)) {
-                selectAllCheckbox.checked = true; // 全部チェックされたら全選択をオン
-            }
             
-            const row = this.closest("tr");
-            if (isHomePage) {
-                // ホーム画面の場合、チェックボックスの状態に基づいて行に線を引く
-                if (this.checked) {
-                    row.classList.add("completed"); // チェックされたら線を引く
-                } else {
-                    row.classList.remove("completed"); // チェックが外れたら線を外す
-                }
-            }
-
             fetch("/tasks/toggle_completion/", {
                 method: "POST",
                 headers: {
@@ -49,14 +35,50 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => response.json())
             .then(data => {
                 if (!data.success) {
-                    alert("チェック状態の保存に失敗しました：" + (data.error || ""));
+                    alert("完了状態の保存に失敗しました：" + (data.error || ""));
                 }
             })
             .catch(error => {
-                console.error("チェック状態の保存エラー:", error);
+                console.error("完了状態の保存エラー:", error);
             });
-        
-            updateSelectedTasks(); // 状態を更新
+
+            const row = this.closest("tr");
+            if (isHomePage) {
+            // 完了状態に基づいて行に線を引く/外す
+                if (this.checked) {
+                    row.classList.add("completed"); // チェックされたら線を引く
+                } else {
+                    row.classList.remove("completed"); // チェックが外れたら線を外す
+               }
+            }
+
+            updateSelectedTasks(); // タスク選択状態を更新
+        });
+    });
+    
+    document.querySelectorAll('.show-on-home-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const taskId = this.value;
+    
+            // `is_completed` を変更しないように、show_on_home のみを変更
+            fetch('/tasks/toggle_show_on_home/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCsrfToken()
+                },
+                body: `task_id=${taskId}&show_on_home=${this.checked}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    alert('ホーム画面表示設定の保存に失敗しました: ' + (data.error || ''));
+                }
+            })
+            .catch(error => {
+                console.error('エラー:', error);
+                alert('通信エラーが発生しました');
+            });
         });
     });
 
@@ -107,8 +129,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         
         // 削除処理を行う
-        console.log("エンドポイント:", endpoint);
-
         const formData = new FormData();
         selectedTasks.forEach(task => {
             formData.append("tasks", task.id);

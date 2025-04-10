@@ -20,6 +20,7 @@ from .forms import CustomPasswordChangeForm
 User = get_user_model()
 
 
+
 def register(request):
     if request.method == "POST":
         form = CustomUserCreationForm(request.POST)
@@ -30,7 +31,10 @@ def register(request):
             if not next_url:
                 next_url = reverse('accounts:mypage')
             return redirect(next_url)
-
+        
+        messages.success(request, "アカウントが作成されました！<br>まずは、マイページで家族を作成してください。")
+        return redirect(reverse('my_page'))
+    
     else:
         form = CustomUserCreationForm()
     return render(request, "accounts/register.html", {"form": form})

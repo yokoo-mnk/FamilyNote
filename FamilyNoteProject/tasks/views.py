@@ -120,16 +120,31 @@ def assign_task_member(request):
 @require_POST
 @login_required
 def toggle_task_completion(request):
-    task_id = request.POST.get("task_id")
-    is_completed = request.POST.get("is_completed") == "true"
+   if request.method == "POST":
+        task_id = request.POST.get("task_id")
+        is_completed = request.POST.get("is_completed") == "true"
 
-    try:
-        task = Task.objects.get(id=task_id)
-        task.is_completed = is_completed
-        task.save()
-        return JsonResponse({"success": True})
-    except Task.DoesNotExist:
-        return JsonResponse({"success": False, "error": "Task not found"})
+        try:
+            task = Task.objects.get(id=task_id)
+            task.is_completed = is_completed
+            task.save()
+            return JsonResponse({"success": True})
+        except Task.DoesNotExist:
+            return JsonResponse({"success": False, "error": "Task not found"})
+
+
+def toggle_show_on_home(request):
+    if request.method == "POST":
+        task_id = request.POST.get("task_id")
+        show_on_home = request.POST.get("show_on_home") == "true"
+        
+        try:
+            task = Task.objects.get(id=task_id)
+            task.show_on_home = show_on_home
+            task.save()
+            return JsonResponse({"success": True})
+        except Task.DoesNotExist:
+            return JsonResponse({"success": False, "error": "タスクが見つかりません"})
 
 
 class TaskListView(LoginRequiredMixin, ListView):
