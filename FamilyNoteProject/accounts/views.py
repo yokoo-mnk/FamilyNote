@@ -205,10 +205,10 @@ def portfolio(request):
         'title': 'FamilyNote',
         'description': 'FamilyNoteは、仕事・育児・家事に忙しい共働き家庭のための、スケジュール・ToDo・記録の一元管理アプリです。\nこのアプリを使うことで、夫婦間の役割分担を明確にし、必要なToDoや子どもの予定を漏れなく管理できます。\n家庭の情報が分散せず、夫婦がリアルタイムで更新・確認できる仕組みを提供します。',
         'images': [
-            'accounts/images/todolist-image.png',
-            'accounts/images/note-image.png',
-            'accounts/images/schoolletter-image.png',
-            'accounts/images/mypage-image.png',
+            'accounts/images/todolist-image1.png',
+            'accounts/images/note-image1.png',
+            'accounts/images/schoolletter-image1.png',
+            'accounts/images/mypage-image1.png',
         ],
         'documents': [
             {'name': '企画書', 'path': '/media/portfolio_docs/FamilyNote-企画書.pdf'},

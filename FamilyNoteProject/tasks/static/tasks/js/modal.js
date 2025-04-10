@@ -23,37 +23,35 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener("change", function() {
-            
-            fetch("/tasks/toggle_completion/", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-CSRFToken": getCsrfToken()
-                },
-                body: `task_id=${this.value}&is_completed=${this.checked}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (!data.success) {
-                    alert("完了状態の保存に失敗しました：" + (data.error || ""));
-                }
-            })
-            .catch(error => {
-                console.error("完了状態の保存エラー:", error);
-            });
-
-            const row = this.closest("tr");
+            if (isHomePage) {   
+                fetch("/tasks/toggle_completion/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": getCsrfToken()
+                    },
+                    body: `task_id=${this.value}&is_completed=${this.checked}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert("完了状態の保存に失敗しました：" + (data.error || ""));
+                    }
+                })
+                .catch(error => {
+                    console.error("完了状態の保存エラー:", error);
+                });
             if (isHomePage) {
-            // 完了状態に基づいて行に線を引く/外す
+                const row = this.closest("tr");            
                 if (this.checked) {
                     row.classList.add("completed"); // チェックされたら線を引く
                 } else {
                     row.classList.remove("completed"); // チェックが外れたら線を外す
-               }
+                }
             }
 
             updateSelectedTasks(); // タスク選択状態を更新
-        });
+        }});
     });
     
     document.querySelectorAll('.show-on-home-checkbox').forEach(checkbox => {

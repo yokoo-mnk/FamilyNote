@@ -7,7 +7,7 @@
   <title>{% block title %}ホーム - FamilyNote{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'tasks/css/t_style.css' %}">
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
   <header>
     <h1>～FamilyNote～</h1>
     <nav class="custom-navbar">
