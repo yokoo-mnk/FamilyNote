@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ホーム - FamilyNote{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'school_letters/css/s_style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>～FamilyNote～</h1>
+        <nav class="custom-navbar">
+            <a href="{% url 'tasks:home' %}">ホーム</a>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">Note ▼</a>
+                <div class="dropdown-content">
+                    <a href="{% url 'tasks:task_list' %}">Note一覧</a>
+                    <a href="{% url 'tasks:task_create' %}">Note登録</a>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn">おたより ▼</a>
+                <div class="dropdown-content">      
+                    <a href="{% url 'school_letters:letter_list' %}">おたより一覧</a>
+                    <a href="{% url 'school_letters:create_letter' %}">おたより登録</a>
+                </div>
+            </li>
+            <a href="{% url 'accounts:mypage' %}">マイページ</a>
+            {% if user.is_authenticated %}
+                <form action="{% url 'accounts:logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">ログアウト</button>
+                </form>
+            {% else %}
+                <p>ログインしてください。</p>
+            {% endif %}
+        </nav>
+    </header>
+    <main>
+        <h4>{{ user.nickname }}さん、今日もお疲れさまです。</h4>
+    {% block content %} 
+    {% endblock %}
+    </main>
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>

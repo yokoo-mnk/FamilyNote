@@ -1,0 +1,16 @@
+{% extends "families/f_base.html" %}
+{% block title %}家族脱退確認 - FamilyNote{% endblock %}
+{% block content %}
+<div class="leave-box">
+  <h2>家族を抜けますか？</h2>
+  <p>再度同じ家族に参加するには、<br>家族メンバーからの招待URLが必要です。</p>
+  <p>招待URLからログインし、家族にご参加ください。</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">抜ける</button>
+  </form>
+
+  <a href="{% url 'accounts:mypage' %}">キャンセル</a>
+</div>
+{% endblock %}

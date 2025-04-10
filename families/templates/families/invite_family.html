@@ -1,0 +1,20 @@
+{% extends 'families/f_base.html' %}
+{% block title %}家族招待URL発行 - FamilyNote{% endblock %}
+{% block content %}
+<div class="invite-box">
+  <h2>家族を招待する</h2>
+  <p>以下のURLを家族に共有してください。</p>
+
+  <input type="text" value="{{ invite_url }}" id="invite_url" readonly>
+  <button onclick="copyToClipboard()" class="invite-button">URLをコピー</button>
+</div>
+
+<script>
+  function copyToClipboard() {
+    var copyText = document.getElementById("invite_url");
+    copyText.select();
+    document.execCommand("copy");
+    alert("招待URLをコピーしました！");
+  }
+</script>
+{% endblock %}

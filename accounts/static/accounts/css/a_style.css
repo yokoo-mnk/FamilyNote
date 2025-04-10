@@ -1,0 +1,495 @@
+ /* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+/* ヘッダーのスタイル */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #add9f6;
+    color: gray;
+    width: 100%;
+    padding: 10px 30px;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    flex: 1;
+}
+
+/* ナビゲーションバーのスタイル */
+.custom-navbar {
+    background-color: #add9f6;
+    padding: 10px 30px;
+    margin-left: auto;
+    text-align: center;
+}
+/* ナビゲーションリンクのスタイル */
+.custom-navbar a {
+    color: gray;
+    padding: 0 10px;
+    font-size: 1em;
+    text-decoration: none;
+}
+.custom-navbar a:hover {
+    text-decoration: underline !important;
+}
+
+/* ドロップダウンメニューのスタイル */
+.custom-navbar li {
+    display: inline-block;
+    position: relative;
+}
+.custom-navbar .dropdown .dropbtn {
+    color: gray;
+    padding: 10px 15px;
+    font-size: 1em;
+    text-decoration: none;
+    background-color: #add9f6;
+    border: none;
+    cursor: pointer;
+}
+.custom-navbar .dropdown:hover .dropdown-content {
+    display: block;
+}
+.custom-navbar .dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #add9f6;
+    min-width: 160px;
+    z-index: 1;
+}
+.custom-navbar .dropdown .dropdown-content a {
+    color: gray;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+.custom-navbar .dropdown .dropdown-content a:hover {
+    background-color: #a4c8e0;
+    text-decoration: underline;
+}
+/* ログアウトボタン */
+.logout-form {
+    display: inline;
+    background-color: #add9f6;
+    border: 1px solid #add9f6;
+    box-shadow: none;
+    padding: 0px 0px;
+    border-radius: 5px;
+}
+.logout-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+.logout-btn:hover {
+    background-color: rgb(5, 5, 106);
+}
+
+/* メイン部分のタイトルのスタイル */
+main {
+    margin-top: 40px;
+    padding: 20px;
+}
+h2 {
+    padding: 0px 30px;
+}
+
+/* プロフィールのスタイル */
+.box-container {
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+}
+.profile-box, .family-box, .child-box {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 30px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+}
+.profile-image {
+    width: 200px !important;
+    height: 200px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    border: 2px solid #ccc !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+p.profile-noimage {
+    width: 200px !important;
+    height: 200px !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    border: 2px solid #ccc !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+#text {
+    text-align: center !important;
+}
+div.profile-info {
+    text-align: center;
+    gap: 15px;
+}
+.profile, .family, .child {
+    margin-top: 10px;
+    font-size: 15px;
+    align-items: center !important;
+}
+.hidden-button {
+    display: none;
+}
+h2.update {
+    text-align: center;
+    font-size: 1.8em;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+h2.password {
+    text-align: center;
+    font-size: 1.8em;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* フォームのスタイル */
+div.form-container {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+}
+div.form-container p {
+    margin-bottom: 15px;
+}
+div.form-container label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+div.form-container input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+div.form-container button {
+    width: 30%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+div.form-container button:hover {
+    background-color: #0056b3;
+}
+.image-field {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.image-field a {
+    margin-right: 10px;
+}
+p input#image-clear_id {
+    margin-left: 10px !;
+    width: 15px;
+    margin: 0;
+}
+#image-clear_id, label[for="image-clear_id"] {
+    display: inline-block !important;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+/* エラーメッセージのスタイル */
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+li {
+    text-align: left;
+    margin-bottom: 5px;
+}
+ul.helptext li {
+    color: gray;
+    font-size: 12px;
+    display: block;
+    
+}
+.helptext {
+    color: gray;
+    font-size: 12px;
+    display: block;
+    text-align: left;
+}
+form .errorlist li {
+    color: red;
+    font-size: 12px;
+    font-weight: bold;
+}
+div.alert.success {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+div.alert.error {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+p.message {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.logout-btn {
+    width: auto;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+button:hover {
+    background-color: #0056b3;
+}
+
+/* リンクのスタイル */
+a.password {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #007bff !important;
+    text-decoration: none !important;
+}
+a.password:hover {
+    text-decoration: underline !important;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+a.btn {
+    display: inline-block;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+a.btn:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
+}
+
+/* テーブルのスタイル */
+table {
+    width: 100% !important;
+    table-layout: fixed !important;
+    background-color: white !important;
+    border: 1px solid #ddd !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+    border-collapse: collapse !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    padding: 0px !important;
+}
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center !important;
+}
+th {
+    background-color: rgb(240, 236, 236);
+    font-weight: bold;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center !important;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+div.link-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+button.delete-child{
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 10px;
+    cursor: pointer;
+}
+button.delete-child:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
+}
+
+/* モーダル全体のスタイル */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
+}
+
+/* モーダル内のコンテンツ */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    text-align: center;
+    position: relative;
+}
+button.child-regist {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+button.child-regist:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
+}
+button#confirm-delete {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+button#confirm-delete:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
+}
+button#submit-edit-button {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+button#submit-edit-button:hover {
+    background-color: #0056b3;
+}
+button.family-regist {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+button.family-regist:hover {
+    background-color: #0056b3;
+}
+
+/* 閉じるボタン */
+span#close-child-modal.close {
+    cursor: pointer;
+    float: right;
+    font-size: 25px;
+}
+span#close-family-modal.close {
+    cursor: pointer;
+    float: right;
+    font-size: 25px;
+}
+span#close-edit-child-modal.close {
+    cursor: pointer;
+    float: right;
+    font-size: 25px;
+}
+span#close-delete-modal.close {
+    cursor: pointer;
+    float: right;
+    font-size: 25px;
+}
