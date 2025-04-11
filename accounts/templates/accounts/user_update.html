@@ -36,7 +36,7 @@
     <button type="submit">変更</button>
   </form>
 </div>
-  <a class="password" href="{% url 'accounts:password_change' %}">パスワード変更</a>
+  {% comment %} <a class="password" href="{% url 'accounts:password_change' %}">パスワード変更</a> {% endcomment %}
 {% endblock %}
 
 {% block extra_js %}

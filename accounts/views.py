@@ -166,7 +166,8 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         messages.success(self.request, "※ アカウント情報の変更が完了しました！")
-        return self.render_to_response(self.get_context_data(form=form))
+        return redirect('accounts:mypage')
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['view_name'] = self.__class__.__name__
