@@ -140,7 +140,7 @@
     <div class="modal-content">
     <span id="close-child-modal" class="close">&times;</span>
     <h3>こどもを登録</h3>
-      <form id="child-modal-form" method="POST">
+      <form id="child-modal-form" method="POST" >
         {% csrf_token %}
         <label for="child_name">こどもの名前:</label>
         <input type="text" id="child_name" name="child_name" required>

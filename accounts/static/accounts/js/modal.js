@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
 
             const formData = new FormData(childModalForm);
-            fetch("/accounts/add_child/", {
+            fetch("/add_child/", {
                 method: "POST",
                 headers: {
                     "X-CSRFToken": getCsrfToken(),
@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const childId = this.getAttribute('data-id');
             
-            fetch(`/accounts/get_child_data/${childId}/`)
+            fetch(`/get_child_data/${childId}/`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const childId = document.getElementById('edit_child_id').value;
                 const formData = new FormData(editChildModalForm);
 
-                fetch(`/accounts/edit_child/${childId}/`, {
+                fetch(`/edit_child/${childId}/`, {
                     method: "POST",
                     headers: {
                         "X-CSRFToken": getCsrfToken(),
@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     document.getElementById('confirm-delete').addEventListener('click', function () {
         if (selectedChildId) {
-            fetch(`/accounts/delete_child/${selectedChildId}/`, {
+            fetch(`/delete_child/${selectedChildId}/`, {
                 method: 'POST',
                 headers: {
                     'X-CSRFToken': getCsrfToken(),
