@@ -17,13 +17,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATE_DIRS = [ os.path.join(BASE_DIR, 'templates') ] 
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'accounts/static'),
-    os.path.join(BASE_DIR, 'families/static'),
-    os.path.join(BASE_DIR, 'school_letters/static'),
-    os.path.join(BASE_DIR, 'tasks/static'),
-]
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -130,14 +123,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/minakoyokoo/FamilyNote/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/home/minakoyokoo/FamilyNote/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
 LOGIN_URL = "/accounts/accounts/login/"
