@@ -4,6 +4,7 @@ from . import views
 app_name = "accounts"
 
 urlpatterns = [
+    path('', views.portfolio, name='portfolio'),
     path("register/", views.register, name="register"),
     path('accounts/login/', views.CustomLoginView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
@@ -14,5 +15,4 @@ urlpatterns = [
     path('get_child_data/<int:child_id>/', views.get_child_data, name='get_child_data'),
     path("edit_child/<int:child_id>/", views.edit_child, name="edit_child"),
     path("delete_child/<int:child_id>/", views.delete_child, name="delete_child"),
-    path('portfolio/', views.portfolio, name='portfolio'),
 ]
