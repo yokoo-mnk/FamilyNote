@@ -17,6 +17,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATE_DIRS = [ os.path.join(BASE_DIR, 'templates') ] 
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'accounts/static'),
+    os.path.join(BASE_DIR, 'families/static'),
+    os.path.join(BASE_DIR, 'school_letters/static'),
+    os.path.join(BASE_DIR, 'tasks/static'),
+]
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
