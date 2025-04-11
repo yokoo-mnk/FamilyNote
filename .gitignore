@@ -2,7 +2,7 @@ __pycache__
 db.sqlite3
 .env
 config.json
-# settings.py
+settings.py
 *.log
 session_data
 tokens
