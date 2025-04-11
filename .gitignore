@@ -10,8 +10,8 @@ user_data.json
 profile_pictures
 admin.py
 media
-images
-static
+# images
+# static
 .bash_history
 .conda/
 .gitconfig
