@@ -18,7 +18,11 @@
 
 <div class="box-container">
   <div class="profile-box">
-    <img src="{{ user.image_url }}" alt="プロフィール画像" class="profile-image">
+    {% if user.image %}
+      <img src="{{ user.image_url }}" alt="プロフィール画像" class="profile-image">
+    {% else %}
+      <img src="{% static 'accounts/images/default.png' %}" alt="デフォルト画像">
+    {% endif %}
       <div class="profile-info">
         <p class="profile">名前: {{ user.full_name }}</p>
         <p class="profile">ニックネーム: {{ user.nickname }}</p>
