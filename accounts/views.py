@@ -216,5 +216,5 @@ def portfolio(request):
             {'name': '画面遷移図', 'path': '/media/portfolio_docs/FamilyNote-画面遷移図.svg'},
             {'name': 'ER図', 'path': '/media/portfolio_docs/FamilyNote-ER図.svg'},
         ],
-        'login_link': '/accounts/accounts/login/',
+        'login_link': '/accounts/login/',
     })
