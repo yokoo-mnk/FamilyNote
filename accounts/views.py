@@ -44,10 +44,15 @@ def register(request):
             else:
                 request.session['show_post_register_message'] = True
             
-            return redirect('families:join_family', invite_code=invite_code)
+            return redirect('accounts:mypage')
         
     else:
+        invite_code = request.GET.get("invite_code")  # ✅ GETパラメータから取得！
+        if invite_code:
+            request.session['from_family_invite'] = True
+            request.session['invite_code'] = invite_code
         form = CustomUserCreationForm()
+        
     return render(request, "accounts/register.html", {"form": form})
             
 
