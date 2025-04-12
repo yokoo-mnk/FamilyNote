@@ -76,7 +76,7 @@ def mypage(request):
     if request.session.pop('show_post_register_message', False):
         messages.success(request, "アカウントが作成されました！<br>まずは、マイページで家族を作成してください。<br>他の家族メンバーがすでに家族を作成済みであれば、招待URLを発行してもらいましょう。<br>（その場合、家族作成は不要です。）")
         
-    return render(request, "accounts:mypage.html", context)
+    return render(request, "accounts/mypage.html", context)
 
 
 @login_required
