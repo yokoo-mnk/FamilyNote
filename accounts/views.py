@@ -29,22 +29,18 @@ def register(request):
             user = form.save()
             login(request, user)
             
-            from_invite = request.session.pop('from_family_invite', False)
-            
-            if from_invite:
-                invite_code = request.session.pop('invite_code', None)
-                if invite_code:
-                    try:
-                        family = Family.objects.get(invite_code=invite_code)
-                        user.family = family
-                        user.save()
-                    except Family.DoesNotExist:
-                        messages.warning(request, "招待された家族が見つかりませんでした。")
-            
-            else:
-                request.session['show_post_register_message'] = True
-            
-            return redirect('accounts:mypage')
+            invite_code = request.session.get('invite_code')
+            if invite_code:
+                try:
+                    family = Family.objects.get(invite_code=invite_code)
+                    user.family = family
+                    user.save()
+                    del request.session['invite_code']
+                    del request.session['from_family_invite']
+                    return redirect("accounts:mypage")
+                except Family.DoesNotExist:
+                    pass
+            return redirect("accounts:mypage")
         
     else:
         form = CustomUserCreationForm()
