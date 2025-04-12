@@ -24,7 +24,7 @@ TEMPLATE_DIRS = [ os.path.join(BASE_DIR, 'templates') ]
 SECRET_KEY = 'django-insecure-6m13m=n&y$zi((!5hvipl25_d6&&)(y&t+*rnk*pol^*_ii6@r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['minakoyokoo.pythonanywhere.com']
 
@@ -133,10 +133,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
-LOGIN_URL = "/accounts/accounts/login/"
+LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = '/tasks/home/'
 
-LOGOUT_REDIRECT_URL = '/accounts/accounts/login/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 
 SESSION_COOKIE_AGE = 1209600
