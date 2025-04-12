@@ -14,36 +14,54 @@ document.addEventListener("DOMContentLoaded", function() {
     let selectedTasks = [];
 
     // 常に最新のチェックボックス一覧が取れる
-    function getTaskCheckboxes() {
-        return document.querySelectorAll(".task-checkbox");
-    }
+    // function getTaskCheckboxes() {
+    //     return document.querySelectorAll(".task-checkbox");
+    // }
     // 現在チェックされている .task-checkbox を見て、selectedTasks 配列を作る
-    function updateSelectedTasks() {
-        const checkboxes = getTaskCheckboxes();
-        const selectedTasks = Array.from(checkboxes)
-            .filter(c => c.checked)
-            .map(c => ({ id: c.value, title: c.dataset.title }));
-        deleteBtn.disabled = selectedTasks.length === 0;
-    };
+    // function updateSelectedTasks() {
+    //     const checkboxes = getTaskCheckboxes();
+    //     const selectedTasks = Array.from(checkboxes)
+    //         .filter(c => c.checked)
+    //         .map(c => ({ id: c.value, title: c.dataset.title }));
+    //     deleteBtn.disabled = selectedTasks.length === 0;
+    // };
     // 全体のチェック状況を見て、「全選択」チェックボックスの状態を更新する
-    function updateSelectAllCheckbox() {
-        const checkboxes = getTaskCheckboxes(); // ← ここで使える
-        const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
-        const totalCount = checkboxes.length;
+    // function updateSelectAllCheckbox() {
+    //     const checkboxes = getTaskCheckboxes(); // ← ここで使える
+    //     const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
+    //     const totalCount = checkboxes.length;
 
-        selectAllCheckbox.checked = checkedCount === totalCount;
-        selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCount;
-    }
+    //     selectAllCheckbox.checked = checkedCount === totalCount;
+    //     selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCount;
+    // }
     // 全選択チェックボックスが変更された時の処理
+    // selectAllCheckbox.addEventListener("change", function() {
+    //     checkboxes.forEach(checkbox => {
+    //         checkbox.checked = selectAllCheckbox.checked;
+    //         checkbox.dispatchEvent(new Event("change"));
+    //     });
+    //     updateSelectedTasks();
+    //     updateSelectAllCheckbox();
+    // });
+    
     selectAllCheckbox.addEventListener("change", function() {
-        const checkboxes = getTaskCheckboxes();
         checkboxes.forEach(checkbox => {
             checkbox.checked = selectAllCheckbox.checked;
-            checkbox.dispatchEvent(new Event("change"));
         });
 
         updateSelectedTasks();
-        updateSelectAllCheckbox();
+    });
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", function() {
+            if (!this.checked) {
+                selectAllCheckbox.checked = false; // 1つでも外れたら全選択をオフ
+            } else if (Array.from(checkboxes).every(c => c.checked)) {
+                selectAllCheckbox.checked = true; // 全部チェックされたら全選択をオン
+            }
+
+            updateSelectedLetters();
+        });
     });
     
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
@@ -102,8 +120,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error('エラー:', error);
                 alert('通信エラーが発生しました');
             });
-        updateSelectedTasks();
-        updateSelectAllCheckbox();
+
+            updateSelectedTasks();
+            updateSelectAllCheckbox();
         });
     });
 
@@ -218,8 +237,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error("エラー:", error);
                 alert("通信エラーが発生しました");
             });
-        updateSelectedTasks();
-        updateSelectAllCheckbox();
+            updateSelectedTasks();
+            updateSelectAllCheckbox();
         });
     });
 });
