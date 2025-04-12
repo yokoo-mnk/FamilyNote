@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const selectAllCheckbox = document.getElementById("select-all");
     const isHomePage = document.body.classList.contains("home-page");
     const isTaskListPage = document.body.classList.contains("task-list-page");
-    // const checkboxes = document.querySelectorAll(".task-checkbox");
+    const checkboxes = document.querySelectorAll(".task-checkbox");
     const deleteBtn = document.getElementById("delete-btn");
     const modal = document.getElementById("delete-modal");
     const selectedList = document.getElementById("selected-tasks-list");
@@ -12,19 +12,20 @@ document.addEventListener("DOMContentLoaded", function() {
     const homeTaskRemoveEndpoint = document.getElementById("home-task-remove-endpoint");
 
     let selectedTasks = [];
-    
+
+    // 常に最新のチェックボックス一覧が取れる
     function getTaskCheckboxes() {
         return document.querySelectorAll(".task-checkbox");
     }
-
+    // 現在チェックされている .task-checkbox を見て、selectedTasks 配列を作る
     function updateSelectedTasks() {
-        const checkboxes = getTaskCheckboxes(); // ← ここで使える
+        const checkboxes = getTaskCheckboxes();
         const selectedTasks = Array.from(checkboxes)
             .filter(c => c.checked)
             .map(c => ({ id: c.value, title: c.dataset.title }));
         deleteBtn.disabled = selectedTasks.length === 0;
     };
-
+    // 全体のチェック状況を見て、「全選択」チェックボックスの状態を更新する
     function updateSelectAllCheckbox() {
         const checkboxes = getTaskCheckboxes(); // ← ここで使える
         const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
         selectAllCheckbox.checked = checkedCount === totalCount;
         selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCount;
     }
-
+    // 全選択チェックボックスが変更された時の処理
     selectAllCheckbox.addEventListener("change", function() {
         const checkboxes = getTaskCheckboxes();
         checkboxes.forEach(checkbox => {
