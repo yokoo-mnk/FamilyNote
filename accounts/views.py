@@ -50,7 +50,7 @@ class CustomLoginView(LoginView):
 
     
 class CustomLogoutView(LogoutView):
-    next_page = "/accounts/login/"
+    next_page = "/login/"
 
 @login_required
 def mypage(request):
