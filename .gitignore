@@ -9,7 +9,7 @@ tokens
 user_data.json
 profile_pictures
 # admin.py
-media
+# media
 # images
 # static
 .bash_history
