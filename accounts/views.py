@@ -50,8 +50,7 @@ class CustomLoginView(LoginView):
 
     
 class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy("accounts:login")
-
+    next_page = "/accounts/login/"
 
 @login_required
 def mypage(request):
