@@ -189,6 +189,29 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         
+        // 完了→未完了に
+        if (isHomePage) {
+            selectedTasks.forEach(task => {
+                fetch("/tasks/toggle_completion/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": getCsrfToken()
+                    },
+                    body: `task_id=${task.id}&is_completed=false`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        console.error("完了状態の解除に失敗:", data.error || "不明なエラー");
+                    }
+                })
+                .catch(error => {
+                    console.error("完了状態解除の通信エラー:", error);
+                });
+            });
+        }
+
         // 削除処理を行う
         const formData = new FormData();
         selectedTasks.forEach(task => {
