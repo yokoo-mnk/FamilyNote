@@ -50,7 +50,7 @@ class CustomLoginView(LoginView):
 
     
 class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy("accounts:accounts/login")
+    next_page = reverse_lazy("accounts:login")
 
 
 @login_required
@@ -209,5 +209,5 @@ def portfolio(request):
             {'name': '画面遷移図', 'path': '/media/portfolio_docs/FamilyNote-画面遷移図.svg'},
             {'name': 'ER図', 'path': '/media/portfolio_docs/FamilyNote-ER図.svg'},
         ],
-        'login_link': '/accounts/login/',
+        'login_link': '/login/',
     })
