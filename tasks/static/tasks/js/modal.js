@@ -50,6 +50,32 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         updateSelectedTasks();
+        
+        if (isHomePage) {
+            const taskIds = Array.from(checkboxes)
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+
+            taskIds.forEach(taskId => {
+                fetch("/tasks/toggle_completion/", {    
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "X-CSRFToken": getCsrfToken()
+                    },
+                    body: `task_id=${taskId}&is_completed=true`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert("完了状態の保存に失敗しました：" + (data.error || ""));
+                    }
+                })
+                .catch(error => {
+                    console.error("完了状態の保存エラー:", error);
+                });
+           });
+        }
     });
 
     checkboxes.forEach(checkbox => {
@@ -60,10 +86,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 selectAllCheckbox.checked = true; // 全部チェックされたら全選択をオン
             }
 
-            updateSelectedLetters();
+            updateSelectedTasks();
         });
     });
-    
+
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener("change", function() {
             if (isHomePage) {   
