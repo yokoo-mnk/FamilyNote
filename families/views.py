@@ -33,7 +33,7 @@ def invite_family(request):
     if not family:
         return redirect("accounts:mypage")
     
-    invite_path = reverse("families:join_family", args=[family.invite_code])
+    invite_path = reverse("families:invite-register", args=[family.invite_code])
     invite_url = request.build_absolute_uri(invite_path)
     return render(request, "families/invite_family.html", {"invite_url": invite_url})
 
@@ -57,6 +57,9 @@ def join_family(request, invite_code):
     return render(request, "families/join_family.html", {"family": family})
 
 def invite_register_redirect(request, invite_code):
+    print("✅ invite_register_redirect に入りました！")  # ←これ追加！
+    print("👉 invite_code:", invite_code)
+    
     request.session['from_family_invite'] = True
     request.session['invite_code'] = invite_code
     
