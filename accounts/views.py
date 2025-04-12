@@ -44,7 +44,7 @@ def register(request):
             else:
                 request.session['show_post_register_message'] = True
             
-            return redirect('accounts:mypage')
+            return redirect('families:join_family', invite_code=invite_code)
         
     else:
         form = CustomUserCreationForm()
