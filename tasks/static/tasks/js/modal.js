@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const allChecked = Array.from(checkboxes).every(c => c.checked);
         selectAllCheckbox.checked = allChecked;
     }
-    
+
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener("change", function() {
             if (isHomePage) {   
@@ -91,6 +91,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error('エラー:', error);
                 alert('通信エラーが発生しました');
             });
+        updateSelectedTasks();
+        updateSelectAllCheckbox();
         });
     });
 
@@ -205,6 +207,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error("エラー:", error);
                 alert("通信エラーが発生しました");
             });
+        updateSelectedTasks();
+        updateSelectAllCheckbox();
         });
     });
 });
