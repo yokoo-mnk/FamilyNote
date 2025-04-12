@@ -42,7 +42,7 @@ def user_is_authenticated(user):
     return user.is_authenticated
 
 
-@user_passes_test(user_is_authenticated, login_url='/accounts/login/?next={{ request.path }}')
+@user_passes_test(user_is_authenticated, login_url='/login/?next={{ request.path }}')
 def join_family(request, invite_code):
     family = get_object_or_404(Family, invite_code=invite_code)
     
