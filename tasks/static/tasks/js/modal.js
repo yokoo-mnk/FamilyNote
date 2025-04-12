@@ -26,23 +26,23 @@ document.addEventListener("DOMContentLoaded", function() {
     //     deleteBtn.disabled = selectedTasks.length === 0;
     // };
     // 全体のチェック状況を見て、「全選択」チェックボックスの状態を更新する
-    // function updateSelectAllCheckbox() {
-    //     const checkboxes = getTaskCheckboxes(); // ← ここで使える
-    //     const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
-    //     const totalCount = checkboxes.length;
+    function updateSelectAllCheckbox() {
+        const checkboxes = getTaskCheckboxes(); // ← ここで使える
+        const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
+        const totalCount = checkboxes.length;
 
-    //     selectAllCheckbox.checked = checkedCount === totalCount;
-    //     selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCount;
-    // }
+        selectAllCheckbox.checked = checkedCount === totalCount;
+        selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCount;
+    }
     // 全選択チェックボックスが変更された時の処理
-    // selectAllCheckbox.addEventListener("change", function() {
-    //     checkboxes.forEach(checkbox => {
-    //         checkbox.checked = selectAllCheckbox.checked;
-    //         checkbox.dispatchEvent(new Event("change"));
-    //     });
-    //     updateSelectedTasks();
-    //     updateSelectAllCheckbox();
-    // });
+    selectAllCheckbox.addEventListener("change", function() {
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+            checkbox.dispatchEvent(new Event("change"));
+        });
+        updateSelectedTasks();
+        updateSelectAllCheckbox();
+    });
     
     selectAllCheckbox.addEventListener("change", function() {
         checkboxes.forEach(checkbox => {
