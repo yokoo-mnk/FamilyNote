@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     selectAllCheckbox.addEventListener("change", function() {
         checkboxes.forEach(checkbox => {
             checkbox.checked = selectAllCheckbox.checked;
+            checkbox.dispatchEvent(new Event("change"));
         });
 
         updateSelectedTasks();
@@ -31,8 +32,11 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     function updateSelectAllCheckbox() {
-        const allChecked = Array.from(checkboxes).every(c => c.checked);
-        selectAllCheckbox.checked = allChecked;
+        const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
+        const totalCount = checkboxes.length;
+
+        selectAllCheckbox.checked = checkedCount === totalCount;
+        selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCount;
     }
 
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
