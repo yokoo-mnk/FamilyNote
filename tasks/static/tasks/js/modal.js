@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const selectAllCheckbox = document.getElementById("select-all");
     const isHomePage = document.body.classList.contains("home-page");
     const isTaskListPage = document.body.classList.contains("task-list-page");
-    const checkboxes = document.querySelectorAll(".task-checkbox");
+    // const checkboxes = document.querySelectorAll(".task-checkbox");
     const deleteBtn = document.getElementById("delete-btn");
     const modal = document.getElementById("delete-modal");
     const selectedList = document.getElementById("selected-tasks-list");
@@ -12,26 +12,21 @@ document.addEventListener("DOMContentLoaded", function() {
     const homeTaskRemoveEndpoint = document.getElementById("home-task-remove-endpoint");
 
     let selectedTasks = [];
-
-    selectAllCheckbox.addEventListener("change", function() {
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = selectAllCheckbox.checked;
-            checkbox.dispatchEvent(new Event("change"));
-        });
-
-        updateSelectedTasks();
-    });
     
+    function getTaskCheckboxes() {
+        return document.querySelectorAll(".task-checkbox");
+    }
+
     function updateSelectedTasks() {
+        const checkboxes = getTaskCheckboxes(); // ← ここで使える
         const selectedTasks = Array.from(checkboxes)
             .filter(c => c.checked)
             .map(c => ({ id: c.value, title: c.dataset.title }));
-
-        const deleteBtn = document.getElementById("delete-btn");
         deleteBtn.disabled = selectedTasks.length === 0;
     };
 
     function updateSelectAllCheckbox() {
+        const checkboxes = getTaskCheckboxes(); // ← ここで使える
         const checkedCount = Array.from(checkboxes).filter(c => c.checked).length;
         const totalCount = checkboxes.length;
 
@@ -39,6 +34,17 @@ document.addEventListener("DOMContentLoaded", function() {
         selectAllCheckbox.indeterminate = checkedCount > 0 && checkedCount < totalCount;
     }
 
+    selectAllCheckbox.addEventListener("change", function() {
+        const checkboxes = getTaskCheckboxes();
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = selectAllCheckbox.checked;
+            checkbox.dispatchEvent(new Event("change"));
+        });
+
+        updateSelectedTasks();
+        updateSelectAllCheckbox();
+    });
+    
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.addEventListener("change", function() {
             if (isHomePage) {   
