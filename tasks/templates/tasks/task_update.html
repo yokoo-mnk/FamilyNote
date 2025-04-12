@@ -7,12 +7,14 @@
   {{ form.as_p }}
   <div class="checkbox-wrapper">
     <label for="show_on_home">
-      <input type="checkbox" id="show_on_home" name="show_on_home" checked>
+      <input type="checkbox" id="show_on_home" name="show_on_home"
+        {% if form.instance.show_on_home %}checked{% endif %}>
       ToDoリストに表示する
     </label>
   
     <label for="is_favorite">
-      <input type="checkbox" id="is_favorite" name="is_favorite">
+      <input type="checkbox" id="is_favorite" name="is_favorite"
+        {% if form.instance.is_favorite %}checked{% endif %}>
       お気に入りに登録
     </label>
   </div>
