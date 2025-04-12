@@ -51,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             updateSelectedTasks();
+            updateSelectAllCheckbox();
         }});
     });
     
@@ -87,6 +88,11 @@ document.addEventListener("DOMContentLoaded", function() {
         const deleteBtn = document.getElementById("delete-btn");
         deleteBtn.disabled = selectedTasks.length === 0;
     };
+
+    function updateSelectAllCheckbox() {
+        const allChecked = Array.from(checkboxes).every(c => c.checked);
+        selectAllCheckbox.checked = allChecked;
+    }
 
     deleteBtn.addEventListener("click", function() {
         selectedTasks = Array.from(document.querySelectorAll(".task-checkbox:checked"))
