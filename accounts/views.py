@@ -36,7 +36,7 @@ def register(request):
             if from_invite and invite_code:
                 try:
                     invite_uuid = UUID(invite_code.strip('/'))
-                    return redirect('families:join_family', invite_code=invite_code)
+                    return redirect('families:join_family', invite_code=invite_uuid)
                 except ValueError:
                     request.session['show_post_register_message'] = True
                     return redirect('accounts:mypage')
