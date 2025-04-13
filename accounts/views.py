@@ -17,6 +17,7 @@ from django.contrib import messages
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from .forms import CustomPasswordChangeForm
+from uuid import UUID
 
 User = get_user_model()
 
@@ -33,10 +34,12 @@ def register(request):
             invite_code = request.session.pop('invite_code', None)
             
             if from_invite and invite_code:
-                return redirect('families:join_family', invite_code=invite_code)
-            else:
-                request.session['show_post_register_message'] = True
-                return redirect('accounts:mypage')
+                try:
+                    invite_uuid = UUID(invite_code.strip('/'))
+                    return redirect('families:join_family', invite_code=invite_code)
+                except ValueError:
+                    request.session['show_post_register_message'] = True
+                    return redirect('accounts:mypage')
             
     else:
         form = CustomUserCreationForm()
