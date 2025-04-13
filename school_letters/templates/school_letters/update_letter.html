@@ -1,7 +1,7 @@
 {% extends 'school_letters/s_base.html' %}
-{% block title %}おたより登録 - FamilyNote{% endblock %}
+{% block title %}おたより変更 - FamilyNote{% endblock %}
 {% block content %}
-<h2>～おたよりを編集してください～</h2>
+<h2>～おたよりを変更してください～</h2>
 
 <div class="edit-container">
   <div class="letter-image">
@@ -17,7 +17,7 @@
       {% csrf_token %}
       {{ form.as_p }}
       <br>
-      <button type="submit">編集完了</button>
+      <button type="submit">変更完了</button>
     </form>
   </div>
 </div>

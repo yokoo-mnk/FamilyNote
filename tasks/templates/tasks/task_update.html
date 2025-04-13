@@ -1,7 +1,7 @@
 {% extends 'tasks/t_base.html' %}
-{% block title %}Note編集 - FamilyNote{% endblock %}
+{% block title %}Note変更 - FamilyNote{% endblock %}
 {% block content %}
-<h2>～タスク・ログ・スケジュールを編集してください～</h2>
+<h2>～タスク・ログ・スケジュールを変更してください～</h2>
 <form method="post" enctype="multipart/form-data" class="notesakusei">
   {% csrf_token %}
   {{ form.as_p }}
@@ -9,7 +9,7 @@
     <label for="show_on_home">
       <input type="checkbox" id="show_on_home" name="show_on_home"
         {% if form.instance.show_on_home %}checked{% endif %}>
-      ToDoリストに表示する
+      ToDoリストに表示
     </label>
   
     <label for="is_favorite">
@@ -18,6 +18,6 @@
       お気に入りに登録
     </label>
   </div>
-  <button type="submit">編集完了</button>
+  <button type="submit">変更</button>
 </form>
 {% endblock %}
