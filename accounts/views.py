@@ -40,6 +40,11 @@ def register(request):
             
     else:
         form = CustomUserCreationForm()
+        invite_code = request.GET.get('invite_code')
+        if invite_code:
+            request.session['from_family_invite'] = True
+            request.session['invite_code'] = str(invite_code)
+            
     return render(request, "accounts/register.html", {"form": form})
             
 
