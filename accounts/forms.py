@@ -13,6 +13,7 @@ class CustomUserCreationForm(UserCreationForm):
     password1 = forms.CharField(
         label="パスワード",
         strip=False,
+        min_length=8,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
         help_text="8文字以上のパスワードを入力してください。",
         error_messages={
