@@ -41,6 +41,9 @@ def register(request):
                     request.session['show_post_register_message'] = True
                     return redirect('accounts:mypage')
             
+            request.session['show_post_register_message'] = True
+            return redirect('accounts:mypage')
+        
     else:
         form = CustomUserCreationForm()
         invite_code = request.GET.get('invite_code')
