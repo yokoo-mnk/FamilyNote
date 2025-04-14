@@ -132,7 +132,7 @@ main {
 }
 button.join-button {
     display: block;
-    width: 300px;
+    width: 120px;
     height: 45px;
     padding: 10px;
     background-color: #007bff;
