@@ -20,6 +20,7 @@
     <label for="assignee">担当者:</label>
     <select name="assignee" id="assignee" onchange="this.form.submit()">
       <option value="">すべて</option>
+      <option value="all" {% if selected_assignee == "all" %}selected{% endif %}>全員</option>
       {% for member in family_members %}
         <option value="{{ member.id }}" {% if selected_assignee == member.id|stringformat:"s" %}selected{% endif %}>
           {{ member.nickname }}
@@ -108,6 +109,7 @@
           <td class=select>
             <select class="assign-member" data-task-id="{{ task.id }}">
               <option value="">選択</option>
+              <option value="all" {% if task.assigned_to is None %}selected{% endif %}>全員</option>
               {% for member in family_members %}
                 <option value="{{ member.id }}"
                         {% if task.assigned_to and task.assigned_to.id == member.id %}selected{% endif %}>

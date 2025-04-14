@@ -34,7 +34,7 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
             queryset = queryset.filter(category=category)
         
         assignee_id = self.request.GET.get("assignee")
-        if assignee_id:
+        if assignee_id and assignee_id != "all":
             queryset = queryset.filter(assigned_to__id=assignee_id)
         
         sort_order = self.request.GET.get('sort_order', 'newest')
