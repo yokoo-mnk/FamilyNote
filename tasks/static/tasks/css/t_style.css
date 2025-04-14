@@ -406,6 +406,34 @@ tr.due-today {
 tr.overdue {
     background-color: #ffcdd2 !important;
 }
+.color-legend {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin: 12px 0 16px;
+    font-size: 0.9em;
+    color: #333;
+    flex-wrap: wrap;
+} 
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+.legend-dot {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+    border: 1px solid #999;
+}
+.due-today-color {
+    background-color: #fff9c4;
+} 
+.overdue-color {
+    background-color: #ffcdd2;
+}
 select.assign-member {
     width: 80%;
     padding: 5px;

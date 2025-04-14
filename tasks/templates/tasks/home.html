@@ -38,6 +38,14 @@
 
 <form method="post" action="{% url 'tasks:home' %}">
   {% csrf_token %}
+  <div class="color-legend">
+    <span class="legend-item">
+      <span class="legend-dot due-today-color"></span> 本日が期限
+    </span>
+    <span class="legend-item">
+      <span class="legend-dot overdue-color"></span> 期限切れ
+    </span>
+  </div>
   <table class="task-table">
     <colgroup>
       <col style="width: 30px;">
