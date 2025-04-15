@@ -40,11 +40,11 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         sort_order = self.request.GET.get('sort_order', 'newest')
         
         if sort_order == 'newest':
-            queryset = queryset.order_by('-due_date')  # 新しい順
+            queryset = queryset.order_by('-due_date')
         elif sort_order == 'oldest':
-            queryset = queryset.order_by('due_date')  # 古い順
+            queryset = queryset.order_by('due_date')
         else:
-            queryset = queryset.order_by('-due_date')  # デフォルトで新しい順
+            queryset = queryset.order_by('due_date')
         
         for task in queryset:
             if task.due_date:
@@ -62,7 +62,7 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         context["selected_category"] = self.request.GET.get("category", "")
         context["categories"] = Task.CATEGORY_CHOICES
         context["selected_assignee"] = self.request.GET.get("assignee", "")
-        context["selected_sort_order"] = self.request.GET.get('sort_order', 'newest')
+        context["selected_sort_order"] = self.request.GET.get('sort_order', 'oldest')
         context["today"] = date.today()
         
         family = self.request.user.family
@@ -248,6 +248,18 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.is_favorite = self.request.POST.get('is_favorite') == 'on'
         form.instance.show_on_home = self.request.POST.get('show_on_home') == 'on'
+        
+        assignee_id = self.request.POST.get('assigned_to')
+        
+        if assignee_id == "all" or not assignee_id:
+            form.instance.assigned_to = None
+        else:
+            try:
+                form.instance.assigned_to = User.objects.get(id=assignee_id)
+            except User.DoesNotExist:
+                form.add_error('assigned_to', "担当者が見つかりません")
+                return self.form_invalid(form)
+        
         return super().form_valid(form)
     
     

@@ -31,8 +31,8 @@
   <div class="filter-item">
     <label for="sort-order">並び順:</label>
     <select class="sort-order" name="sort_order" onchange="this.form.submit()">
-      <option value="newest" {% if request.GET.sort_order == 'newest' %}selected{% endif %}>新しい順</option>
       <option value="oldest" {% if request.GET.sort_order == 'oldest' %}selected{% endif %}>古い順</option>
+      <option value="newest" {% if request.GET.sort_order == 'newest' %}selected{% endif %}>新しい順</option>
     </select>
   </div>
 </form>
@@ -109,13 +109,13 @@
           <td class=select>
             <select class="assign-member" data-task-id="{{ task.id }}">
               <option value="">選択</option>
-              <option value="all" {% if task.assigned_to is None %}selected{% endif %}>全員</option>
               {% for member in family_members %}
                 <option value="{{ member.id }}"
                         {% if task.assigned_to and task.assigned_to.id == member.id %}selected{% endif %}>
                   {{ member.nickname }}
                 </option>
               {% endfor %}
+              <option value="all" {% if task.assigned_to is None %}selected{% endif %}>全員</option>
             </select>
           </td>
         </tr>
