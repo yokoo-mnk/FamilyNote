@@ -97,6 +97,8 @@ def assign_task_member(request):
         task = Task.objects.get(id=task_id)
         
         if user_id == "all":
+            task.assigned_to = None
+        elif user_id:
             user = User.objects.get(id=user_id)
 
             if user.family != request.user.family:
