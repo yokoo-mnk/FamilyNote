@@ -37,7 +37,7 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         if assignee_id and assignee_id != "all":
             queryset = queryset.filter(assigned_to__id=assignee_id)
         
-        sort_order = self.request.GET.get('sort_order', 'newest')
+        sort_order = self.request.GET.get('sort_order', 'oldest')
         
         if sort_order == 'newest':
             queryset = queryset.order_by('-due_date')
@@ -96,7 +96,7 @@ def assign_task_member(request):
 
         task = Task.objects.get(id=task_id)
         
-        if user_id:
+        if user_id == "all":
             user = User.objects.get(id=user_id)
 
             if user.family != request.user.family:
