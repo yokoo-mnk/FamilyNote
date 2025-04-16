@@ -136,7 +136,7 @@
               <a href="{% url 'tasks:task_edit' task.pk %}">📝</a>
             </td>
             <td class="copy">
-              <a href="{% url 'tasks:task_copy' task.id %}">📄</a>
+              <a href="{% url 'tasks:task_copy_confirm' task.id %}">📄</a>
             </td>
           </tr>
         {% empty %}

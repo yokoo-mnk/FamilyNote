@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 import json
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -292,7 +292,7 @@ class TaskDeleteView(LoginRequiredMixin, View):
         return JsonResponse({"success": False, "error": "削除するタスクが選択されていません。"})
     
     
-class TaskCopyView(LoginRequiredMixin, View):
+class TaskCopyExecuteView(LoginRequiredMixin, View):
     def get(self, request, task_id):
         original_task = get_object_or_404(Task, id=task_id)
 
@@ -308,17 +308,19 @@ class TaskCopyView(LoginRequiredMixin, View):
         )
         
         if original_task.image:
-            try:
-                image_file = original_task.image
-                image_file.open()
-                copied_task.image.save(
-                    os.path.basename(image_file.name),
-                    ContentFile(image_file.read()),
-                    save=True
-                )
-                image_file.close()
-            except Exception as e:
-                print("画像のコピー中にエラー:", e)
-
+            image_file = original_task.image
+            image_file.open()
+            copied_task.image.save(
+                os.path.basename(image_file.name),
+                ContentFile(image_file.read()),
+                save=True
+            )
+            image_file.close()
 
         return redirect("tasks:task_edit", pk=copied_task.pk)
+    
+    
+class TaskCopyConfirmView(LoginRequiredMixin, View):
+    def get(self, request, task_id):
+        task = get_object_or_404(Task, id=task_id)
+        return render(request, 'tasks/task_copy_confirm.html', {"task": task})
