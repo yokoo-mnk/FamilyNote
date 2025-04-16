@@ -35,7 +35,7 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         
         assignee_id = self.request.GET.get("assignee")
         if assignee_id == "all":
-            queryset = queryset.filter(assigned_to__isnull=True)
+            queryset = queryset.filter(assigned_to__isnull=True, is_all_assigned=True)
         elif assignee_id:
             queryset = queryset.filter(assigned_to__id=assignee_id)
         
@@ -57,7 +57,10 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
                 task.is_overdue = False
         
             if task.assigned_to is None:
-                task.assigned_to_id_str = "all"
+                if task.is_all_assigned:
+                    task.assigned_to_id_str = "all"
+                else:
+                    task.assigned_to_id_str = ""
             else:
                 task.assigned_to_id_str = str(task.assigned_to.id)
         
@@ -108,6 +111,7 @@ def assign_task_member(request):
         
         if user_id == "all":
             task.assigned_to = None
+            task.is_all_assigned = True
         elif user_id:
             user = User.objects.get(id=user_id)
 
@@ -115,8 +119,10 @@ def assign_task_member(request):
                 return JsonResponse({"success": False, "error": "権限がありません"})
             
             task.assigned_to = user
+            task.is_all_assigned = False
         else:
             task.assigned_to = None
+            task.is_all_assigned = False
             
         task.save()
         return JsonResponse({"success": True})
