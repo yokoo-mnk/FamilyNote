@@ -14,6 +14,8 @@ from .forms import TaskForm
 from django.urls import reverse, reverse_lazy
 from datetime import date
 from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
+import os
 
 User = get_user_model()
 
@@ -303,7 +305,16 @@ class TaskCopyView(LoginRequiredMixin, View):
             category=original_task.category,
             is_favorite=original_task.is_favorite,
             show_on_home=original_task.show_on_home,
-            image=original_task.image
         )
+        
+        if original_task.image:
+            image_file = original_task.image
+            image_file.open()
+            copied_task.image.save(
+                os.path.basename(image_file.name),
+                ContentFile(image_file.read()),
+                save=True
+            )
+            image_file.close()
 
         return redirect("tasks:task_update", pk=copied_task.pk)
