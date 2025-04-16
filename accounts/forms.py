@@ -5,6 +5,7 @@ from django.contrib.auth.forms import (
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 
 
 User = get_user_model()
@@ -104,5 +105,10 @@ class CustomPasswordChangeForm(forms.Form):
 
         if new_password != confirm_password:
             raise ValidationError('新しいパスワードと確認用パスワードが一致しません。')
+
+        try:
+            validate_password(new_password, self.user)
+        except ValidationError as e:
+            raise ValidationError(e.messages)
 
         return cleaned_data          
