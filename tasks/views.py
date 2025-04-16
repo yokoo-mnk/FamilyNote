@@ -321,4 +321,4 @@ class TaskCopyView(LoginRequiredMixin, View):
                 print("画像のコピー中にエラー:", e)
 
 
-        return redirect("tasks:task_update", kwargs={"pk": copied_task.pk})
+        return redirect("tasks:task_edit", pk=copied_task.pk)
