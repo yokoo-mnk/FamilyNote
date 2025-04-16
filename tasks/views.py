@@ -63,7 +63,10 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         
         context["selected_category"] = self.request.GET.get("category", "")
         context["categories"] = Task.CATEGORY_CHOICES
-        context["selected_assignee"] = self.request.GET.get("assignee", "")
+        
+        assignee_param = self.request.GET.get("assignee")
+        context["selected_assignee"] = assignee_param if assignee_param is not None else ""
+        
         context["selected_sort_order"] = self.request.GET.get('sort_order', 'oldest')
         context["today"] = date.today()
         
