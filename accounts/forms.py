@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-
+from django.utils.translation import gettext as _
 
 User = get_user_model()
 
@@ -109,6 +109,9 @@ class CustomPasswordChangeForm(forms.Form):
         try:
             validate_password(new_password, self.user)
         except ValidationError as e:
+            messages = [msg for msg in e.messages if not msg.strip().startswith("This ")]
+            if not messages:
+                messages = [e.messages[0]]
             raise ValidationError(e.messages)
 
         return cleaned_data          
