@@ -112,6 +112,6 @@ class CustomPasswordChangeForm(forms.Form):
             messages = [msg for msg in e.messages if not msg.strip().startswith("This ")]
             if not messages:
                 messages = [e.messages[0]]
-            raise ValidationError(e.messages)
+            raise ValidationError(messages)
 
         return cleaned_data          
