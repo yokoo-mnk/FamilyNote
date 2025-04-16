@@ -293,7 +293,7 @@ class TaskDeleteView(LoginRequiredMixin, View):
     
     
 class TaskCopyExecuteView(LoginRequiredMixin, View):
-    def get(self, request, task_id):
+    def post(self, request, task_id):
         original_task = get_object_or_404(Task, id=task_id)
 
         copied_task = Task.objects.create(
