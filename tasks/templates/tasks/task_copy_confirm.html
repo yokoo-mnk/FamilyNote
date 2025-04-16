@@ -3,14 +3,14 @@
 {% block content %}
 <div class="copyconfirm-box">
   <h2>タスクをコピーして編集しますか？</h2>
-  <p>タイトル: {{ task.title }}</p>
-  <p>日付: {{ task.due_date }}</p>
-  <p>メモ: {{ task.memo }}</p>
+  <p class="copyconfirm">タイトル: {{ task.title }}</p>
+  <p class="copyconfirm">日付: {{ task.due_date }}</p>
+  <p class="copyconfirm">メモ: {{ task.memo }}</p>
 
   <form method="post" action="{% url 'tasks:task_copy_execute' task.id %}">
     {% csrf_token %}
-    <button type="submit">コピーして編集</button>
-    <a href="{% url 'tasks:task_list' %}">キャンセル</a>
+    <button type="submit" class="copyconfirm-button">コピーして編集</button>
+    <a href="{% url 'tasks:task_list' %}" class="copyconfirm-a">キャンセル</a>
   </form>
 </div>
 {% endblock %}
