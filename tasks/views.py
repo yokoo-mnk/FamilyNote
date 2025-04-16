@@ -292,18 +292,18 @@ class TaskDeleteView(LoginRequiredMixin, View):
     
 class TaskCopyView(LoginRequiredMixin, View):
     def get(self, request, task_id):
-        task = get_object_or_404(Task, id=task_id)
-        
-        query_params = {
-            "title": task.title,
-            "due_date": task.due_date.strftime("%Y-%m-%d") if task.due_date else "",
-            "start_time": task.start_time.strftime("%H:%M") if task.start_time else "",
-            "memo": task.memo,
-            "category": task.category,
-            "is_favorite": "on" if task.is_favorite else "",
-            "show_on_home": "on" if task.show_on_home else "",
-        }
-        
-        url = reverse("tasks:task_create") + "?" + "&".join(
-            [f"{key}={value}" for key, value in query_params.items() if value])
-        return redirect(url)
+        original_task = get_object_or_404(Task, id=task_id)
+
+        copied_task = Task.objects.create(
+            family=request.user.family,
+            title=original_task.title,
+            due_date=original_task.due_date,
+            start_time=original_task.start_time,
+            memo=original_task.memo,
+            category=original_task.category,
+            is_favorite=original_task.is_favorite,
+            show_on_home=original_task.show_on_home,
+            image=original_task.image
+        )
+
+        return redirect("tasks:task_update", pk=copied_task.pk)
