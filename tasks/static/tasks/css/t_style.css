@@ -556,7 +556,7 @@ button#confirm-delete:hover {
 }
 
 /* コピー確認htmlのスタイル */
-.copyconfirm-box {
+div.copyconfirm-box {
     display: flex;
     flex-direction: column;
     align-items: center !important;
@@ -571,14 +571,14 @@ button#confirm-delete:hover {
     box-sizing: border-box;
     text-align: center;
 }
-.copyconfirm-box h2 {
+div.copyconfirm-box h2 {
     margin-bottom: 20px !important;
 }
   
-.copyconfirm-box form {
+div.copyconfirm-box form {
     margin-bottom: 20px !important;
 }
-button.copyconfirm-button {
+button div.copyconfirm-button {
     display: block;
     width: 120px;
     height: 45px;
@@ -591,14 +591,14 @@ button.copyconfirm-button {
     font-size: 1em;
     margin: 10px auto;
 }
-button.copyconfirm-button:hover {
+button div.copyconfirm-button:hover {
     background-color: #0056b3;
 }
-.copyconfirm-box a {
+div.copyconfirm-box a {
     color: #007bff !important;
     text-decoration: none !important;
 }
   
-.copyconfirm-box a:hover {
+div.copyconfirm-box a:hover {
     text-decoration: underline !important;
 }
