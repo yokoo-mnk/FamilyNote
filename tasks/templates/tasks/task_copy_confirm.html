@@ -1,6 +1,7 @@
 {% extends 'tasks/t_base.html' %}
 {% block title %}Noteコピー確認 - FamilyNote{% endblock %}
 {% block content %}
+<div class="copyconfirm-box">
   <h2>タスクをコピーして編集しますか？</h2>
   <p>タイトル: {{ task.title }}</p>
   <p>日付: {{ task.due_date }}</p>
@@ -9,6 +10,7 @@
   <form method="post" action="{% url 'tasks:task_copy_execute' task.id %}">
     {% csrf_token %}
     <button type="submit">コピーして編集</button>
-    <a href="{% url 'tasks:home' %}">キャンセル</a>
+    <a href="{% url 'tasks:task_list' %}">キャンセル</a>
   </form>
+</div>
 {% endblock %}
