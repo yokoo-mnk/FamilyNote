@@ -108,14 +108,14 @@
           </td>
           <td class=select>
             <select class="assign-member" data-task-id="{{ task.id }}">
-              <option value="" {% if not task.assigned_to %}selected{% endif %}>選択</option>
+              <option value="" {% if task.assigned_to_id_str == "" %}selected{% endif %}>選択</option>
               {% for member in family_members %}
                 <option value="{{ member.id }}"
-                        {% if task.assigned_to and task.assigned_to.id == member.id %}selected{% endif %}>
+                        {% if task.assigned_to_id_str == member.id|stringformat:"s" %}selected{% endif %}>
                   {{ member.nickname }}
                 </option>
               {% endfor %}
-              <option value="all">全員</option>
+              <option value="all" {% if task.assigned_to_id_str == "all" %}selected{% endif %}>全員</option>
             </select>
           </td>
         </tr>

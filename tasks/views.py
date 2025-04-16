@@ -56,8 +56,13 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
                 task.is_today = False
                 task.is_overdue = False
         
+            if task.assigned_to is None:
+                task.assigned_to_id_str = "all"
+            else:
+                task.assigned_to_id_str = str(task.assigned_to.id)
+        
         return queryset
-    
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
