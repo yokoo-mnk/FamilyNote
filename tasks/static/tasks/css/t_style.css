@@ -561,7 +561,7 @@ div.copyconfirm-box {
     flex-direction: column;
     align-items: center !important;
     justify-content: center;
-    width: 500px;
+    width: 600px;
     margin: 0 auto;
     padding: 20px 30px;
     border-radius: 10px;
@@ -575,15 +575,15 @@ div.copyconfirm-box h2 {
     margin-bottom: 20px !important;
 }
 p.copycomfirm {
-    display: block;
-    margin: 6px 0px;
+    display: block !important;
+    margin: 6px 0px !important;
 }
 div.copyconfirm-box form {
     margin-bottom: 20px !important;
 }
 button.copyconfirm-button {
     display: block;
-    width: 120px;
+    width: 200px;
     height: 45px;
     padding: 10px;
     background-color: #007bff;
