@@ -308,13 +308,17 @@ class TaskCopyView(LoginRequiredMixin, View):
         )
         
         if original_task.image:
-            image_file = original_task.image
-            image_file.open()
-            copied_task.image.save(
-                os.path.basename(image_file.name),
-                ContentFile(image_file.read()),
-                save=True
-            )
-            image_file.close()
+            try:
+                image_file = original_task.image
+                image_file.open()
+                copied_task.image.save(
+                    os.path.basename(image_file.name),
+                    ContentFile(image_file.read()),
+                    save=True
+                )
+                image_file.close()
+            except Exception as e:
+                print("画像のコピー中にエラー:", e)
 
-        return redirect("tasks:task_update", pk=copied_task.pk)
+
+        return redirect("tasks:task_update", kwargs={"pk": copied_task.pk})
