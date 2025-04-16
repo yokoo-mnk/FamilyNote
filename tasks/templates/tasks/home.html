@@ -19,12 +19,13 @@
   <div class="filter-item">
     <label for="assignee">担当者:</label>
     <select name="assignee" id="assignee" onchange="this.form.submit()">
-      <option value="" {% if selected_assignee == "" %}selected{% endif %}>全員</option>
+      <option value="" {% if not selected_assignee %}selected{% endif %}>すべて</option>
       {% for member in family_members %}
         <option value="{{ member.id }}" {% if selected_assignee == member.id|stringformat:"s" %}selected{% endif %}>
           {{ member.nickname }}
         </option>
       {% endfor %}
+      <option value="all" {% if selected_assignee == "all" %}selected{% endif %}>全員</option>
     </select>
   </div>
   <div class="filter-item">
