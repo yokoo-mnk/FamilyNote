@@ -574,11 +574,14 @@ div.copyconfirm-box {
 div.copyconfirm-box h2 {
     margin-bottom: 20px !important;
 }
-  
+p.copycomfirm {
+    display: block;
+    margin: 6px 0px;
+}
 div.copyconfirm-box form {
     margin-bottom: 20px !important;
 }
-button div.copyconfirm-button {
+button.copyconfirm-button {
     display: block;
     width: 120px;
     height: 45px;
@@ -591,14 +594,14 @@ button div.copyconfirm-button {
     font-size: 1em;
     margin: 10px auto;
 }
-button div.copyconfirm-button:hover {
+button.copyconfirm-button:hover {
     background-color: #0056b3;
 }
-div.copyconfirm-box a {
+a.copyconfirm-a {
     color: #007bff !important;
     text-decoration: none !important;
 }
   
-div.copyconfirm-box a:hover {
+a.copyconfirm-a:hover {
     text-decoration: underline !important;
 }
