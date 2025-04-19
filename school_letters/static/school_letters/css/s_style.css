@@ -119,6 +119,7 @@ div.title-header {
     display: flex;
     align-items: baseline;
     gap: 1rem;
+    padding: 0px 30px;
 }
 
 div.title-header h2,
