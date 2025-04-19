@@ -1,0 +1,607 @@
+ /* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+/* ヘッダーのスタイル */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #add9f6;
+    color: gray;
+    width: 100%;
+    padding: 10px 30px;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    flex: 1;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    background-color: #add9f6;
+    color: gray;
+    width: 100%;
+    padding: 10px 30px;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+
+/* 検索画面のスタイル */
+.search-bar {
+    margin-bottom: 10px;
+}
+.search-bar input {
+    width: 300px;
+    padding: 5px;
+    margin-top: 15px;
+    box-sizing: border-box;
+} 
+.search-bar button {
+    padding: 5px;
+    cursor: pointer;
+}
+.category-filter,
+.favorite-filter {
+    margin-top: 5px;
+    margin-bottom: 10px;
+} 
+.category-filter select {
+    padding: 5px;
+    cursor: pointer;
+}
+.favorite-filter input {
+    margin-right: 5px;
+    
+}
+button.filter{
+    width: 40%;
+    padding: 6px;
+    background-color: #add9f6;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid rgb(172, 170, 170);
+    margin-left: 10px;
+}
+/* ナビゲーションバーのスタイル */
+.custom-navbar {
+    background-color: #add9f6;
+    padding: 10px 30px;
+    margin-left: auto;
+    text-align: center;
+}
+/* ナビゲーションリンクのスタイル */
+.custom-navbar a {
+    color: gray;
+    padding: 0 10px;
+    font-size: 1em;
+    text-decoration: none;
+}
+.custom-navbar a:hover {
+    text-decoration: underline !important;
+}
+a:-webkit-any-link {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* ドロップダウンメニューのスタイル */
+.custom-navbar li {
+    display: inline-block;
+    position: relative;
+}
+.custom-navbar .dropdown .dropbtn {
+    color: gray;
+    padding: 10px 15px;
+    font-size: 1em;
+    text-decoration: none;
+    background-color: #add9f6;
+    border: none;
+    cursor: pointer;
+}
+.custom-navbar .dropdown:hover .dropdown-content {
+    display: block;
+}
+.custom-navbar .dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #add9f6;
+    min-width: 160px;
+    z-index: 1;
+}
+.custom-navbar .dropdown .dropdown-content a {
+    color: gray;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+.custom-navbar .dropdown .dropdown-content a:hover {
+    background-color: #a4c8e0;
+    text-decoration: underline;
+}
+/* ログアウトボタン */
+.logout-form {
+    display: inline;
+    background-color: #add9f6;
+    border: 1px solid #add9f6;
+    box-shadow: none;
+    padding: 0px 0px;
+    border-radius: 5px;
+}
+.logout-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+.logout-btn:hover {
+    background-color: rgb(5, 5, 106);
+}
+
+/* メイン部分のタイトルのスタイル */
+main {
+    margin-top: 40px;
+    padding: 20px;
+}
+h2 {
+    padding: 0px 30px;
+}
+
+/* Noteフォームのスタイル */
+form.notesakusei {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+}
+form.notesakusei p {
+    margin-bottom: 15px;
+}
+form.notesakusei label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+form.notesakusei input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+form.notesakusei input[type="date"] {
+    width: 30%;
+}
+form.notesakusei input[type="time"] {
+    width: 30%;
+}
+.image-field {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.image-field a {
+    margin-right: 10px;
+}
+p input#image-clear_id {
+    margin-left: 10px !important;
+}
+#image-clear_id, label[for="image-clear_id"] {
+    display: inline-block !important;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.form-check {
+    display: flex;
+    align-items: left;
+}
+.form-check-input {
+    margin-right: 8px;
+}
+select {
+    width: 30%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+form.category_filter {
+    padding: 5px;
+    font-size: 16px;
+}
+select#category_filter {
+    width: 30%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-bottom: 15px
+}
+select#category {
+    width: 50%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+select#assignee {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+select.sort-order {
+    width: 80%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+form.notesakusei button {
+    width: 30%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+form.notesakusei button:hover {
+    background-color: #0056b3;
+}
+form.notesakusei textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.checkbox-wrapper {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+.checkbox-wrapper label {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+input[type="checkbox"] {
+    margin-left: 6px !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer;
+}
+.category-filter{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+h4 {
+    margin-bottom: 0px
+}
+.filter-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.filter-item label {
+    margin-right: 10px;
+    white-space: nowrap;
+}
+.no-box-form {
+    display: contents;
+}
+
+/* テーブルのスタイル */
+table {
+    width: 100% !important;
+    table-layout: fixed !important;
+    background-color: white !important;
+    border: 1px solid #ddd !important;
+    border-radius: 10px !important;
+    box-sizing: border-box !important;
+    border-collapse: collapse !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+    padding: 0px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left !important;
+}
+td.check {
+    text-align: center !important;
+}
+td.memo {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 3%;
+    text-overflow: ellipsis;
+    white-space: normal; 
+}
+td.edit {
+    text-align: center !important;
+}
+td.copy {
+    text-align: center !important;
+}
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center !important;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+tr:hover {
+    background-color: #f1f1f1;
+}
+td img {
+    max-width: 100px;
+}
+input.task-checkbox {
+    text-align: center;
+}
+tr.completed td:not(:first-child) {
+    text-decoration: line-through;
+    color: gray;
+}
+tr.due-today {
+    background-color: #fff9c4 !important;
+}
+tr.overdue {
+    background-color: #ffcdd2 !important;
+}
+.color-legend {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin: 12px 0 16px;
+    font-size: 0.9em;
+    color: #333;
+    flex-wrap: wrap;
+} 
+.legend-item {
+    display: flex;
+    align-items: center;
+}
+.legend-dot {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    margin-right: 6px;
+    vertical-align: middle;
+    border: 1px solid #999;
+}
+.due-today-color {
+    background-color: #fff9c4;
+} 
+.overdue-color {
+    background-color: #ffcdd2;
+}
+select.assign-member {
+    width: 80%;
+    padding: 5px;
+    font-size: 0.8em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+    cursor: pointer;
+}
+td.select {
+    text-align: center !important;
+}
+
+/* ページ移動のスタイル */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+} 
+.step-links a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+} 
+.step-links a:hover {
+    text-decoration: underline;
+} 
+.current {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+/* ToDo追加・削除ボタン */
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+.delete-btn {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    padding: 8px 15px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    border-radius: 5px;
+}
+.delete-btn:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
+}
+.todobtn {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    padding: 8px 15px;
+    background-color: rgb(235, 235, 76);
+    color: black;
+    border: none;
+    cursor: pointer;
+    margin-right: auto;
+    font-size: 12px;
+    border-radius: 5px;
+}
+.todobtn:hover {
+    background-color: rgb(181, 181, 82);
+}
+
+/* モーダル */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    max-width: 80%;
+    text-align: center;
+    position: relative;
+}
+#selected-tasks-list {
+    list-style-type: none;
+    padding: 0;
+}
+button#confirm-delete {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+button#confirm-delete:hover {
+    background-color: rgb(132, 27, 27);
+    color: #ffffff;
+}
+/* 閉じるボタン */
+#close-modal {
+    cursor: pointer;
+    float: right;
+    font-size: 25px;
+}
+
+/* コピー確認htmlのスタイル */
+div.copyconfirm-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+    justify-content: center;
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px 30px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    text-align: center;
+}
+div.copyconfirm-box h2 {
+    margin-bottom: 20px !important;
+}
+p.copycomfirm {
+    display: block !important;
+    margin: 6px 0px !important;
+}
+div.copyconfirm-box form {
+    margin-bottom: 20px !important;
+}
+button.copyconfirm-button {
+    display: block;
+    width: 200px;
+    height: 45px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 10px auto;
+}
+button.copyconfirm-button:hover {
+    background-color: #0056b3;
+}
+a.copyconfirm-a {
+    color: #007bff !important;
+    text-decoration: none !important;
+}
+  
+a.copyconfirm-a:hover {
+    text-decoration: underline !important;
+}
