@@ -218,7 +218,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         context["selected_is_favorite"] = self.request.GET.get("is_favorite", "")
         
         for task in context['tasks']:
-            task.formatted_due_date = task.due_date.strftime('%m/%d')
+            task.formatted_due_date = task.due_date.strftime('%y/%m/%d')
         return context
 
 
