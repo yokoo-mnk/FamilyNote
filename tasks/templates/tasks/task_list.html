@@ -75,6 +75,7 @@
   <form method="post" action="{% url 'tasks:task_list' %}">
     <input type="hidden" id="home-task-remove-endpoint" value="/tasks/task_list_toggle_completion/">
     {% csrf_token %}
+    <div class="table-wrapper">
     <table>
       <colgroup>
         <col style="width: 30px;">  <!-- チェックボックス -->
@@ -148,6 +149,7 @@
         {% endfor %}
       </tbody>
     </table>
+    </div>
 
     <!-- ページネーション -->
     <div class="pagination">
