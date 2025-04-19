@@ -56,7 +56,7 @@
         <p>家族が登録されていません。</p>
       {% endif %}
       <div class="link-container">
-      {% if not user.family %}
+      {% comment %} {% if not user.family %}
         <a href="#" id="open-family-modal">家族を作成する</a>
       {% endif %}
         <a href="{% url 'families:leave_family' %}" id="leave-family-button" class="btn"
@@ -70,7 +70,18 @@
       </div>
       {% if not user.family %}
         <p class="notice">※ 家族を作成することで、招待や抜けるボタンが有効になります</p>
-      {% endif %}
+      {% endif %} {% endcomment %}
+        {% if user.family %}
+          <a href="{% url 'families:leave_family' %}" id="leave-family-button" class="btn">
+            家族を抜ける
+          </a>
+          <a href="{% url 'families:invite_family' %}" id="family-invite-link">
+            家族を招待する
+          </a>
+        {% else %}
+          <a href="#" id="open-family-modal">家族を作成する</a>
+        {% endif %}
+      </div>
     </div>
   </div>
   
