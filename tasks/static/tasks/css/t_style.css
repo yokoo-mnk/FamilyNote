@@ -89,7 +89,7 @@ button.filter{
     padding: 10px 30px;
     margin-left: auto;
     text-align: center;
-    z-index: 1000;
+    z-index: 1000 !important;
 }
 /* ナビゲーションリンクのスタイル */
 .custom-navbar a {
