@@ -9,9 +9,9 @@ tokens
 user_data.json
 profile_pictures
 admin.py
-media/
-images
-**/static/
+# media/
+# images
+# **/static/
 env/
 venv/
 ENV/
