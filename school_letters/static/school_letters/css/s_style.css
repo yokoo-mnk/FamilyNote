@@ -115,8 +115,15 @@ main {
     margin-top: 40px;
     padding: 20px;
 }
-h2 {
-    padding: 0px 30px;
+div.title-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+div.title-header h2,
+div.title-header h4 {
+    margin: 0;
 }
 
 /* おたよりフォームのスタイル */

@@ -1,8 +1,10 @@
 {% extends 'school_letters/s_base.html' %}
 {% block title %}おたより閲覧・変更 - FamilyNote{% endblock %}
 {% block content %}
-<h2>おたより閲覧・変更</h2><h4>～園や学校のおたよりを変更してください～</h4>
-
+<div class="title-header">
+  <h2>おたより閲覧・変更</h2>
+  <h4>～園や学校のおたよりを変更してください～</h4>
+</div>
 <div class="edit-container">
   <div class="letter-image">
     {% if form.instance.image and form.instance.image.name %}
