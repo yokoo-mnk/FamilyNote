@@ -7,7 +7,7 @@ class TaskForm(forms.ModelForm):
         widget=forms.DateInput(attrs={'type': 'date'})
     )
     start_time = forms.TimeField(
-        label='時間（任意）',
+        label='予定開始時間（任意）',
         required=False,
         widget=forms.TimeInput(attrs={'type': 'time'})
     )
