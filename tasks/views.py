@@ -44,11 +44,11 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
         sort_order = self.request.GET.get('sort_order', 'oldest')
         
         if sort_order == 'newest':
-            queryset = queryset.order_by('-due_date')
+            queryset = queryset.order_by('-due_date', '-start_time')
         elif sort_order == 'oldest':
-            queryset = queryset.order_by('due_date')
+            queryset = queryset.order_by('due_date', 'start_time')
         else:
-            queryset = queryset.order_by('due_date')
+            queryset = queryset.order_by('due_date', 'start_time')
         
         for task in queryset:
             if task.due_date:

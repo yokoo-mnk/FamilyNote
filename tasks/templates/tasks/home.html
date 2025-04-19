@@ -31,8 +31,8 @@
   <div class="filter-item">
     <label for="sort-order">並び順:</label>
     <select class="sort-order" name="sort_order" onchange="this.form.submit()">
-      <option value="oldest" {% if request.GET.sort_order == 'oldest' %}selected{% endif %}>古い順</option>
-      <option value="newest" {% if request.GET.sort_order == 'newest' %}selected{% endif %}>新しい順</option>
+      <option value="oldest" {% if request.GET.sort_order == 'oldest' %}selected{% endif %}>期限の近い順</option>
+      <option value="newest" {% if request.GET.sort_order == 'newest' %}selected{% endif %}>期限の遠い順</option>
     </select>
   </div>
 </form>
