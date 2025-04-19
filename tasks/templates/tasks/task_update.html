@@ -1,7 +1,10 @@
 {% extends 'tasks/t_base.html' %}
 {% block title %}Note変更 - FamilyNote{% endblock %}
 {% block content %}
-<h2>Note変更</h2>
+<div class="title-header">
+  <h2>Note変更</h2>
+  <h4>～家事やスケジュール、ToDoなどを変更してください～</h4>
+</div>
 <form method="post" enctype="multipart/form-data" class="notesakusei">
   {% csrf_token %}
   {{ form.as_p }}

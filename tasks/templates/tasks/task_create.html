@@ -1,7 +1,10 @@
 {% extends 'tasks/t_base.html' %}
 {% block title %}Note登録 - FamilyNote{% endblock %}
 {% block content %}
-<h2>Note登録</h2><h5>～家庭で発生する家事やスケジュール、ToDoなどを登録しましょう～</h5>
+<div class="title-header">
+  <h2>Note登録</h2>
+  <h4>～家事やスケジュール、ToDoなどを登録してください～</h4>
+</div>
 <form id="task-form" method="post" enctype="multipart/form-data" class="notesakusei">
   {% csrf_token %}
   {{ form.as_p }}

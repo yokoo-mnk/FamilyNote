@@ -168,8 +168,15 @@ main {
     margin-top: 40px;
     padding: 20px;
 }
-h2 {
-    padding: 0px 30px;
+.note-header {
+    display: flex;
+    align-items: baseline; /* h2 と h4 の文字のベースラインを揃える */
+    gap: 1rem; /* 要素間のスペース */
+}
+
+.note-header h2,
+.note-header h4 {
+    margin: 0; /* デフォルトの余白をリセット */
 }
 
 /* Noteフォームのスタイル */
