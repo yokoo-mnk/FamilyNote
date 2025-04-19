@@ -386,23 +386,21 @@ td.edit {
 td.copy {
     text-align: center !important;
 }
+/* .table-scroll-wrapper {
+    max-height: 500px;
+    overflow-y: auto;
+    overflow-x: auto;
+} */
 th {
     background-color: #f2f2f2;
     font-weight: bold;
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center !important;
-}
-thead th {
     position: sticky;
     top: 0;
-    background-color: #fff;  /* ヘッダーが隠れないように背景を設定 */
-    z-index: 2;              /* 他の要素より上に表示されるように */
-    border-bottom: 1px solid #ccc;
-}
-.table-wrapper {
-    max-height: 600px; /* 表の高さを制限してスクロールを有効に */
-    overflow-y: auto;
+    z-index: 10;
+    background-color: #f2f2f2;
 }
 tr:nth-child(even) {
     background-color: #f9f9f9;

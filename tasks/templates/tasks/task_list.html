@@ -76,79 +76,79 @@
     <input type="hidden" id="home-task-remove-endpoint" value="/tasks/task_list_toggle_completion/">
     {% csrf_token %}
     <div class="table-wrapper">
-    <table>
-      <colgroup>
-        <col style="width: 30px;">  <!-- チェックボックス -->
-        <col style="width: 60px;"> <!-- 日付 -->
-        <col style="width: 60px;"> <!-- 時間 -->
-        <col style="width: 30px;">  <!-- お気に入り -->
-        <col style="width: 150px;"> <!-- タイトル -->
-        <col style="width: 300px;"> <!-- メモ -->
-        <col style="width: 120px;"> <!-- 画像 -->
-        <col style="width: 50px;">  <!-- 編集 -->
-        <col style="width: 50px;">  <!-- コピー -->
-      </colgroup>
-      <thead>
-        <tr>
-          <th></th>
-          <th>日付</th>
-          <th>時間</th>
-          <th></th>
-          <th>タイトル</th>
-          <th>メモ</th>
-          <th>画像</th>
-          <th>編集</th>
-          <th>コピー</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for task in tasks %}
+      <table>
+        <colgroup>
+          <col style="width: 30px;">  <!-- チェックボックス -->
+          <col style="width: 60px;"> <!-- 日付 -->
+          <col style="width: 60px;"> <!-- 時間 -->
+          <col style="width: 30px;">  <!-- お気に入り -->
+          <col style="width: 150px;"> <!-- タイトル -->
+          <col style="width: 300px;"> <!-- メモ -->
+          <col style="width: 120px;"> <!-- 画像 -->
+          <col style="width: 50px;">  <!-- 編集 -->
+          <col style="width: 50px;">  <!-- コピー -->
+        </colgroup>
+        <thead>
           <tr>
-            <td class="check">
-              <input type="checkbox" class="task-checkbox" name="tasks" value="{{ task.id }}" data-title="{{ task.title }}">
-            </td>
-            <td>{{ task.formatted_due_date }}</td>
-            <td>
-              {% if task.start_time %}
-                {{ task.start_time }}
-              {% else %}
-                -
-              {% endif %}
-            </td>
-            <td>
-              {% if task.is_favorite %}
-                  ⭐
-              {% endif %}
-            </td>
-            <td>{{ task.title }}</td>
-            <td class=memo>
-              {% if task.memo %}
-                {{ task.memo|linebreaksbr }}
-              {% else %}
-                -
-              {% endif %}
-            </td>
-            <td>
-              {% if task.image %}
-                <img src="{{ task.image.url }}" alt="Task image" width="100">
-              {% else %}
-                -
-              {% endif %}
-            </td>
-            <td class="edit">
-              <a href="{% url 'tasks:task_edit' task.pk %}">📝</a>
-            </td>
-            <td class="copy">
-              <a href="{% url 'tasks:task_copy_confirm' task.id %}">📄</a>
-            </td>
+            <th></th>
+            <th>日付</th>
+            <th>時間</th>
+            <th></th>
+            <th>タイトル</th>
+            <th>メモ</th>
+            <th>画像</th>
+            <th>編集</th>
+            <th>コピー</th>
           </tr>
-        {% empty %}
-          <tr>
-            <td colspan="9">Noteがありません。</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+            <tr>
+              <td class="check">
+                <input type="checkbox" class="task-checkbox" name="tasks" value="{{ task.id }}" data-title="{{ task.title }}">
+              </td>
+              <td>{{ task.formatted_due_date }}</td>
+              <td>
+                {% if task.start_time %}
+                  {{ task.start_time }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if task.is_favorite %}
+                    ⭐
+                {% endif %}
+              </td>
+              <td>{{ task.title }}</td>
+              <td class=memo>
+                {% if task.memo %}
+                  {{ task.memo|linebreaksbr }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if task.image %}
+                  <img src="{{ task.image.url }}" alt="Task image" width="100">
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td class="edit">
+                <a href="{% url 'tasks:task_edit' task.pk %}">📝</a>
+              </td>
+              <td class="copy">
+                <a href="{% url 'tasks:task_copy_confirm' task.id %}">📄</a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="9">Noteがありません。</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
     <!-- ページネーション -->
