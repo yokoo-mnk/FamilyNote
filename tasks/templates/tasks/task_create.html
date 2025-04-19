@@ -2,7 +2,7 @@
 {% block title %}Note登録 - FamilyNote{% endblock %}
 {% block content %}
 <h2>～タスク・ログ・スケジュールを登録してください～</h2>
-<form method="post" enctype="multipart/form-data" class="notesakusei">
+<form id="task-form" method="post" enctype="multipart/form-data" class="notesakusei">
   {% csrf_token %}
   {{ form.as_p }}
   <div class="checkbox-wrapper">
@@ -16,6 +16,18 @@
       お気に入りに登録
     </label>
   </div>
-  <button type="submit">登録</button>
+  <button type="submit" id="submit-btn">登録</button>
 </form>
 {% endblock %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("task-form");
+    const submitBtn = document.getElementById("submit-btn");
+
+    form.addEventListener("submit", function () {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "登録中...";
+    });
+  });
+</script>
