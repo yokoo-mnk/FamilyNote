@@ -81,7 +81,7 @@
           </td>
           <td>
             {% if task.due_date %}
-              {{ task.due_date|date:"m/d" }}
+              {{ task.formatted_due_date }}
             {% endif %}
           </td>
           <td>
@@ -94,7 +94,7 @@
           <td>{{ task.title }}</td>
           <td class=memo>
             {% if task.memo %}
-              {{ task.memo }}
+              {{ task.memo|linebreaksbr }}
             {% else %}
               -
             {% endif %}

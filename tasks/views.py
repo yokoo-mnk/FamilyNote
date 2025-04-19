@@ -54,9 +54,11 @@ class HomeTaskListView(LoginRequiredMixin, ListView):
             if task.due_date:
                 task.is_today = task.due_date == date.today()
                 task.is_overdue = task.due_date < date.today()
+                task.formatted_due_date = task.due_date.strftime('%y/%m/%d')
             else:
                 task.is_today = False
                 task.is_overdue = False
+                task.formatted_due_date = ""
         
             if task.assigned_to is None:
                 if task.is_all_assigned:
