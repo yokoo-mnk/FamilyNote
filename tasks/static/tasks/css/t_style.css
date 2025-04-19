@@ -261,6 +261,15 @@ select#category {
     box-sizing: border-box;
     background-color: #fff;
 }
+select#is_favorite {
+    width: 50%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+}
 select#assignee {
     width: 80%;
     padding: 10px;
