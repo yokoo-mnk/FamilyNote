@@ -64,9 +64,11 @@
     </div>
 
     <div class="filter-item">
-      <label for="is_favorite">お気に入りのみ表示:</label>
-      <input type="checkbox" name="is_favorite" id="id_is_favorite" {% if request.GET.is_favorite == 'on' %}checked{% endif %}>
-      <button type="submit" class="filter">フィルタ</button>
+      <label for="is_favorite">お気に入り:</label>
+      <select name="is_favorite" id="is_favorite" onchange="this.form.submit()">
+        <option value="">すべて</option>
+        <option value="only" {% if selected_is_favorite == 'only' %}selected{% endif %}>お気に入り</option>
+      </select>
     </div>
   </form>
 

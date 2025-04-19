@@ -177,6 +177,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         queryset = Task.objects.filter(family=self.request.user.family)
         category = self.request.GET.get("category")
         search_query = self.request.GET.get("search")
+        is_favorite = self.request.GET.get("is_favorite")
         
         if category:
             queryset = queryset.filter(category=category)
@@ -186,7 +187,7 @@ class TaskListView(LoginRequiredMixin, ListView):
                 Q(title__icontains=search_query) | Q(memo__icontains=search_query)
             )
             
-        if self.request.GET.get('is_favorite') == 'on':
+        if is_favorite == "only":
             queryset = queryset.filter(is_favorite=True)
             
         return queryset.order_by('-created_at')   
@@ -214,7 +215,7 @@ class TaskListView(LoginRequiredMixin, ListView):
         context["categories"] = Task.CATEGORY_CHOICES
         context["selected_category"] = self.request.GET.get("category", "")
         context["search_query"] = self.request.GET.get("search", "")
-        context["is_favorite_filter"] = self.request.GET.get('is_favorite', '')
+        context["selected_is_favorite"] = self.request.GET.get("is_favorite", "")
         
         for task in context['tasks']:
             task.formatted_due_date = task.due_date.strftime('%m/%d')
