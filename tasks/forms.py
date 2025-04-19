@@ -30,7 +30,7 @@ class TaskForm(forms.ModelForm):
         labels = {
             'category': 'カテゴリ（必須）',
             'due_date': '日付（必須）',
-            'start_time': '時間（任意）',
+            'start_time': '予定開始時間（任意）',
             'title': 'タイトル（必須）',
             'memo': 'メモ（任意）',
             'image': '写真（任意）',
