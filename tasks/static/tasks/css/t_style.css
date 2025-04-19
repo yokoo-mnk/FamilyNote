@@ -89,6 +89,7 @@ button.filter{
     padding: 10px 30px;
     margin-left: auto;
     text-align: center;
+    z-index: 1000;
 }
 /* ナビゲーションリンクのスタイル */
 .custom-navbar a {
@@ -127,7 +128,7 @@ a:-webkit-any-link {
     position: absolute;
     background-color: #add9f6;
     min-width: 160px;
-    z-index: 1;
+    z-index: 1001;
 }
 .custom-navbar .dropdown .dropdown-content a {
     color: gray;
