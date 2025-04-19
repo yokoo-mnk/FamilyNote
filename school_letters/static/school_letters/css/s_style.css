@@ -126,7 +126,9 @@ div.title-header h2,
 div.title-header h4 {
     margin: 19.92px 0px;
 }
-
+h4 {
+    margin-bottom: 0px;
+}
 /* おたよりフォームのスタイル */
 form.otayori {
     background-color: white;
