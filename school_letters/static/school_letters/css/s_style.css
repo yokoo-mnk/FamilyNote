@@ -1,0 +1,350 @@
+ /* 全体のスタイル */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+/* ヘッダーのスタイル */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #add9f6;
+    color: gray;
+    width: 100%;
+    padding: 10px 30px;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    flex: 1;
+}
+
+/* ナビゲーションバーのスタイル */
+.custom-navbar {
+    background-color: #add9f6;
+    padding: 10px 30px;
+    margin-left: auto;
+    text-align: center;
+}
+/* ナビゲーションリンクのスタイル */
+.custom-navbar a {
+    color: gray;
+    padding: 0 10px;
+    font-size: 1em;
+    text-decoration: none;
+}
+.custom-navbar a:hover {
+    text-decoration: underline !important;
+}
+a:-webkit-any-link {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+/* ドロップダウンメニューのスタイル */
+.custom-navbar li {
+    display: inline-block;
+    position: relative;
+}
+.custom-navbar .dropdown .dropbtn {
+    color: gray;
+    padding: 10px 15px;
+    font-size: 1em;
+    text-decoration: none;
+    background-color: #add9f6;
+    border: none;
+    cursor: pointer;
+}
+.custom-navbar .dropdown:hover .dropdown-content {
+    display: block;
+}
+.custom-navbar .dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #add9f6;
+    min-width: 160px;
+    z-index: 1;
+}
+.custom-navbar .dropdown .dropdown-content a {
+    color: gray;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+.custom-navbar .dropdown .dropdown-content a:hover {
+    background-color: #a4c8e0;
+    text-decoration: underline;
+}
+/* ログアウトボタン */
+.logout-form {
+    display: inline;
+    background-color: #add9f6;
+    border: 1px solid #add9f6;
+    box-shadow: none;
+    padding: 0px 0px;
+    border-radius: 5px;
+}
+.logout-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+.logout-btn:hover {
+    background-color: rgb(5, 5, 106);
+}
+
+/* メイン部分のタイトルのスタイル */
+main {
+    margin-top: 40px;
+    padding: 20px;
+}
+div.title-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 0px 30px;
+}
+
+div.title-header h2,
+div.title-header h4 {
+    margin: 19.92px 0px;
+}
+h4 {
+    margin-bottom: 0px;
+}
+/* おたよりフォームのスタイル */
+form.otayori {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin: 0 auto;
+}
+form.otayori p {
+    margin-bottom: 15px;
+}
+form.otayori label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+form.otayori input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+select#child_filter {
+    width: 15%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+    margin-bottom: 15px
+}
+select#id_child {
+    width: 30%;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+form.otayori button {
+    width: 30%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+
+}
+form.otayori button:hover {
+    background-color: #0056b3;
+}
+.no-box-form {
+    display: contents;
+}
+.letter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.letter-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    width: calc((100% - 60px) / 4);
+    max-width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    text-align: center;
+}
+.letter-card:hover {
+    transform: scale(1.05);
+}
+
+.letter-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.letter-card h3 {
+    margin: 10px 0;
+}
+
+.letter-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+form.child_filter {
+    padding: 5px;
+    font-size: 16px;
+}
+
+.edit-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.letter-image img {
+    max-width: 700px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.letter-form {
+    flex: 1;
+    max-width: 500px;
+}
+.letter-checkbox{
+    float: left;
+    margin-left: 10px;
+}
+
+/* 削除ボタン */
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+}
+#delete-btn {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    padding: 8px 15px;
+    background-color: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+    border-radius: 5px;
+}
+
+/* ページ移動のスタイル */
+div.pagination {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+span.step-links a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007bff;
+} 
+span.step-links a:hover {
+    text-decoration: underline;
+}
+span.current {
+    margin: 0 10px;
+    font-weight: bold;
+}
+
+/* モーダル */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    max-width: 80%;
+    text-align: center;
+    position: relative;
+}
+#selected-letters-list {
+    list-style-type: none;
+    padding: 0;
+}
+button#confirm-delete {
+    padding: 4px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+/* 閉じるボタン */
+#close-modal {
+    cursor: pointer;
+    float: right;
+    font-size: 25px;
+}
