@@ -214,10 +214,10 @@ def portfolio(request):
             'accounts/images/mypage-image.png',
         ],
         'documents': [
-            {'name': '企画書', 'path': '/media/portfolio_docs/FamilyNote-企画書.pdf'},
-            {'name': '画面設計図', 'path': '/media/portfolio_docs/FamilyNote-画面設計図1.pdf'},
-            {'name': '画面遷移図', 'path': '/media/portfolio_docs/FamilyNote-画面遷移図.svg'},
-            {'name': 'ER図', 'path': '/media/portfolio_docs/FamilyNote-ER図.svg'},
+            {'name': '企画書', 'path': '/media/portfolio_docs/0420-FamilyNote-企画書.pdf'},
+            {'name': '画面設計図', 'path': '/media/portfolio_docs/0420-FamilyNote-画面設計図.pdf'},
+            {'name': '画面遷移図', 'path': '/media/portfolio_docs/0420-FamilyNote-画面遷移図.svg'},
+            {'name': 'ER図', 'path': '/media/portfolio_docs/0420-FamilyNote-ER図.svg'},
         ],
         'login_link': '/login/',
     })
